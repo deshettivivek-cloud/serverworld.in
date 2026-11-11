@@ -604,7 +604,7 @@ function saveProfile(){
   alert('Profile saved!');
 }
 
-function logout(){localStorage.removeItem('sw_active_profile'); location.href='student_login.html';}
+function logout(){localStorage.removeItem('sw_active_profile'); location.href='index.html';}
 
 function filterByCategory(cat){ switchTab('mocks',document.querySelectorAll('.nav button')[1]); setTimeout(()=>{let filtered=exams.filter(e=>e.category===cat); if(filtered.length===0) alert('No '+cat+' exams found');},100);}
 

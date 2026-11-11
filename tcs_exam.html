@@ -824,7 +824,7 @@ function submitExam(){
   localStorage.setItem('sw_results',JSON.stringify(all));
   fetch('save_result.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(res)}).catch(()=>{});
   alert('Submitted! Score: '+score+'/'+questions.length);
-  location.href='index.html';
+  location.href='candidate_portal.html';
 }
 </script>
 </body></html>

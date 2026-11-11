@@ -1196,8 +1196,8 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:#1565D8;box-sh
   </div>
   <div>
     <?php if($isAuth): ?>
-      <a href="home.html" target="_blank" style="color:#fdba74;text-decoration:none;font-weight:700;margin-right:16px" title="Visit Company Homepage">🏢 Company Website</a>
-      <a href="index.html" target="_blank" style="color:#fff;text-decoration:none;font-weight:600;margin-right:16px">Candidate Portal</a>
+      <a href="index.html" target="_blank" style="color:#fdba74;text-decoration:none;font-weight:700;margin-right:16px" title="Visit Company Homepage">🏢 Main Website</a>
+      <a href="candidate_portal.html" target="_blank" style="color:#fff;text-decoration:none;font-weight:600;margin-right:16px">Candidate Portal</a>
       <a href="sample_questions.csv" download style="color:#fde047;text-decoration:none;font-weight:700;margin-right:16px">Download Sample CSV</a>
       <a href="?logout=1" style="color:#fecaca;text-decoration:none;font-weight:700">Sign Out</a>
     <?php endif; ?>
@@ -1450,7 +1450,7 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:#1565D8;box-sh
         </p>
       </div>
       <div>
-        <a href="index.html" target="_blank" class="btn btn-blue" style="font-size:12px;text-decoration:none;background:#0284c7">👁️ View on Candidate Portal</a>
+        <a href="candidate_portal.html" target="_blank" class="btn btn-blue" style="font-size:12px;text-decoration:none;background:#0284c7">👁️ View on Candidate Portal</a>
       </div>
     </div>
 

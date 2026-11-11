@@ -179,6 +179,27 @@
       background: #065f46;
     }
 
+    .btn-login-nav {
+      background: #eff6ff;
+      color: var(--primary);
+      border: 1.5px solid #93c5fd;
+      padding: 9px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .btn-login-nav:hover {
+      background: #dbeafe;
+      color: var(--primary-dark);
+      border-color: var(--primary);
+      transform: translateY(-1px);
+    }
+
     /* TOP ANNOUNCEMENT BAR */
     .top-bar {
       background: #0c1c38;
@@ -1365,8 +1386,8 @@
     }
     .mobile-bar-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr 1.3fr;
-      gap: 8px;
+      grid-template-columns: 1fr 1fr 1fr 1.2fr;
+      gap: 6px;
     }
 
     /* RESPONSIVE BREAKPOINTS */
@@ -1524,7 +1545,10 @@
           <span>✉️</span> <a href="mailto:ramu@serverworld.in">ramu@serverworld.in</a>
         </div>
         <div class="top-bar-item">
-          <a href="index.html" class="btn-demo-badge" title="Launch the CBT Candidate Exam Portal">💻 Online Exam Demo ↗</a>
+          <a href="student_login.html" style="color:#ffffff;font-weight:700;display:inline-flex;align-items:center;gap:4px">🔑 Login</a>
+        </div>
+        <div class="top-bar-item">
+          <a href="candidate_portal.html" class="btn-demo-badge" title="Launch the CBT Candidate Exam Portal">💻 Book Free Demo / Test Online ↗</a>
         </div>
       </div>
     </div>
@@ -1558,7 +1582,8 @@
       </nav>
 
       <div class="nav-actions">
-        <a href="#contact" class="btn btn-orange" style="padding:10px 20px">Book Center</a>
+        <a href="student_login.html" class="btn btn-login-nav" title="Candidate Sign In">🔑 Login</a>
+        <a href="#contact" class="btn btn-orange" style="padding:10px 18px">📅 Book a Free Demo</a>
         <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Toggle menu">☰</button>
       </div>
     </div>
@@ -1583,9 +1608,9 @@
           </p>
 
           <div class="hero-cta-group">
-            <a href="#contact" class="btn btn-orange">📅 Book a Test Center</a>
-            <a href="#services" class="btn btn-outline">Explore Our Services</a>
-            <a href="index.html" class="btn btn-blue" title="Click to test the online exam platform">💻 Online Exam Demo ↗</a>
+            <a href="#contact" class="btn btn-orange">📅 Book a Free Demo</a>
+            <a href="candidate_portal.html" class="btn btn-blue" title="Click to test the online exam platform">💻 Online Exam Demo ↗</a>
+            <a href="student_login.html" class="btn btn-outline" style="border-color:#93c5fd;color:#1e40af;font-weight:700">🔑 Candidate Login</a>
           </div>
 
           <div class="hero-trust-bullets">
@@ -2318,11 +2343,14 @@
             Want to see how our student examination portal functions? Test our live candidate portal demo complete with countdown timers, multi-subject palettes, instant answer reviews, and verified scorecard generation.
           </p>
           <div style="display:flex;gap:14px;flex-wrap:wrap">
-            <a href="index.html" class="btn btn-orange" style="font-size:15px;padding:13px 28px" title="Launch the CBT Exam Portal in a separate window">
+            <a href="candidate_portal.html" class="btn btn-orange" style="font-size:15px;padding:13px 28px" title="Launch the CBT Exam Portal in a separate window">
               💻 Launch Online Exam Demo ↗
             </a>
+            <a href="student_login.html" class="btn btn-blue" style="font-size:15px;padding:13px 24px" title="Candidate Sign In">
+              🔑 Candidate Login
+            </a>
             <a href="#contact" class="btn btn-outline" style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.4)">
-              Schedule Admin Walkthrough
+              📅 Book a Free Demo
             </a>
           </div>
         </div>
@@ -2673,8 +2701,11 @@
           <p style="font-size:13px;color:#94a3b8;line-height:1.6;margin-bottom:14px">
             Experience our candidate Computer-Based Test portal with real question papers, timer, and scorecards.
           </p>
-          <a href="index.html" class="btn btn-blue" style="width:100%;font-size:13px;padding:10px 16px" title="Open the Online Exam Portal">
+          <a href="candidate_portal.html" class="btn btn-blue" style="width:100%;font-size:13px;padding:10px 16px;margin-bottom:8px" title="Open the Online Exam Portal">
             💻 Launch Exam Demo ↗
+          </a>
+          <a href="student_login.html" class="btn btn-outline" style="width:100%;font-size:13px;padding:8px 16px;background:rgba(255,255,255,0.08);color:#fff;border-color:rgba(255,255,255,0.25)" title="Candidate Sign In">
+            🔑 Candidate Login
           </a>
           <div style="margin-top:16px;font-size:12px;color:#64748b">
             Subdomain: <code>demo.yourdomain.com</code>
@@ -2699,14 +2730,17 @@
   <!-- MOBILE FLOATING ACTION BAR -->
   <div class="mobile-bottom-bar">
     <div class="mobile-bar-grid">
-      <a href="tel:+918106884422" class="btn btn-outline" style="padding:8px 10px;font-size:12px">
-        📞 Call Us
+      <a href="tel:+918106884422" class="btn btn-outline" style="padding:8px 8px;font-size:12px">
+        📞 Call
       </a>
-      <a href="https://wa.me/918106884422?text=Hello%20ServerWorld%2C%20I%20want%20to%20book%20a%20test%20center" target="_blank" class="btn btn-orange" style="padding:8px 10px;font-size:12px">
-        💬 WhatsApp
+      <a href="https://wa.me/918106884422?text=Hello%20ServerWorld%2C%20I%20want%20to%20book%20a%20test%20center" target="_blank" class="btn btn-orange" style="padding:8px 8px;font-size:12px">
+        💬 Chat
       </a>
-      <a href="#contact" class="btn btn-blue" style="padding:8px 10px;font-size:12px">
-        📅 Book Center
+      <a href="student_login.html" class="btn btn-outline" style="padding:8px 8px;font-size:12px;color:var(--primary);border-color:#93c5fd">
+        🔑 Login
+      </a>
+      <a href="#contact" class="btn btn-blue" style="padding:8px 8px;font-size:12px">
+        📅 Book Demo
       </a>
     </div>
   </div>

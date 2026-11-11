@@ -291,6 +291,7 @@ body{
     </div>
   </div>
   <div class="portal-topbar-right">
+    <a href="index.html" style="background:#f8fafc;border:1px solid #cbd5e1;padding:6px 14px;border-radius:6px;font-size:12.5px;font-weight:700;color:#1e40af;text-decoration:none;display:inline-flex;align-items:center;gap:6px;margin-right:10px">← Back to Main Website</a>
     <span id="currentDateStr">Computer Based Test</span>
     <span class="terminal-badge" id="terminalNode">Node: LAB-01</span>
   </div>
@@ -424,7 +425,7 @@ async function login(){
     localStorage.setItem('sw_active_profile', JSON.stringify(found));
     localStorage.setItem('sw_logged_in', 'student');
     showAlert('Credentials verified. Redirecting to examination portal...', 'success');
-    setTimeout(() => location.href = 'index.html', 500);
+    setTimeout(() => location.href = 'candidate_portal.html', 500);
   } else {
     showAlert('Invalid Roll Number or Password. Only administrator-registered candidates are authorized.', 'error');
   }
