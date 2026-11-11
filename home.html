@@ -406,6 +406,50 @@
     .hero-image-wrapper {
       position: relative;
     }
+    .hero-dual-card-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .hero-dual-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 8px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+      overflow: hidden;
+      position: relative;
+      transition: all 0.25s ease;
+    }
+    .hero-dual-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
+    }
+    .hero-dual-card img {
+      border-radius: calc(var(--radius-lg) - 6px);
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+    .hero-dual-badge {
+      position: absolute;
+      bottom: 14px;
+      left: 14px;
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(8px);
+      color: #ffffff;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12.5px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    }
+
     .hero-main-card {
       background: var(--white);
       border: 1px solid var(--border);
@@ -1398,6 +1442,9 @@
       .hero-floating-chip {
         display: none;
       }
+      .hero-dual-card img {
+        height: 175px;
+      }
       .about-grid {
         grid-template-columns: 1fr;
       }
@@ -1455,7 +1502,7 @@
           <span>📍</span> <span>Hyderabad, Telangana</span>
         </div>
         <div class="top-bar-item">
-          <span>🇮🇳</span> <span>Test Center Booking Support Pan India</span>
+          <span>🇮🇳</span> <span>Pan India Test Center Support: CBT (Online) &amp; PBT (Pen &amp; Paper) Exams</span>
         </div>
       </div>
       <div class="top-bar-links">
@@ -1513,7 +1560,7 @@
         <div>
           <div class="hero-badge-row">
             <span class="hero-badge" style="background:#eff6ff;border-color:#93c5fd;color:#1e40af">🌐 Pan India Test Center Booking Support</span>
-            <span class="hero-badge">⚡ Advanced CBT Examination Infrastructure</span>
+            <span class="hero-badge" style="background:#fef3c7;border-color:#fde68a;color:#92400e">📝 Pen &amp; Paper (PBT) + 💻 Computer-Based (CBT)</span>
           </div>
 
           <h1 class="hero-title">
@@ -1521,7 +1568,7 @@
           </h1>
 
           <p class="hero-desc">
-            Server World is a trusted online examination center based in Hyderabad, providing professional test center booking, Computer-Based Test (CBT) halls, high-speed dual fiber connectivity, zero-second power backup, and trained operational manpower across India.
+            Server World is a trusted examination infrastructure partner providing comprehensive test-center facilities for both <b>Computer-Based Tests (CBT)</b> and <b>Offline Pen &amp; Paper-Based Tests (PBT / OMR)</b> across India. From spacious hall seating and invigilation manpower to dual-fiber networking and zero-cut power backup, we deliver seamless, cheat-free exam operations.
           </p>
 
           <div class="hero-cta-group">
@@ -1533,26 +1580,40 @@
           <div class="hero-trust-bullets">
             <div class="trust-bullet-item">
               <span class="icon">✓</span>
-              <span>Fully Equipped CBT Computer Labs</span>
+              <span>Spacious Offline Pen &amp; Paper (PBT) Exam Halls</span>
             </div>
             <div class="trust-bullet-item">
               <span class="icon">✓</span>
-              <span>24-Port Gigabit Manageable Network</span>
+              <span>High-Performance Computer-Based Test (CBT) Labs</span>
             </div>
             <div class="trust-bullet-item">
               <span class="icon">✓</span>
-              <span>20kVA Online UPS + 30kVA Silent DG</span>
+              <span>20kVA Online UPS + 30kVA Silent DG Power Backup</span>
             </div>
             <div class="trust-bullet-item">
               <span class="icon">✓</span>
-              <span>Certified 3rd-Party Audited Infrastructure</span>
+              <span>100% CCTV Surveillance &amp; Certified 3rd-Party Audited</span>
             </div>
           </div>
         </div>
 
         <div class="hero-image-wrapper">
-          <div class="hero-main-card">
-            <img src="images/image1.png" alt="Server World CBT Examination Lab in Hyderabad">
+          <div class="hero-dual-card-stack">
+            <!-- 1. Offline Pen & Paper (PBT) Exam Hall (Placed Above CBT) -->
+            <div class="hero-dual-card">
+              <img src="images/pen_paper_exam_hall.jpg" alt="Offline Pen and Paper Based Test (PBT) Examination Hall with Candidates and Invigilators">
+              <div class="hero-dual-badge">
+                <span style="color:#f59e0b">📝</span> Offline Pen &amp; Paper (PBT) Exam Hall
+              </div>
+            </div>
+
+            <!-- 2. Online Computer-Based Test (CBT) Exam Lab -->
+            <div class="hero-dual-card">
+              <img src="images/image1.png" alt="Online Computer-Based Test (CBT) Examination Lab with Partitioned Workstations">
+              <div class="hero-dual-badge">
+                <span style="color:#38bdf8">💻</span> Online Computer-Based Test (CBT) Lab
+              </div>
+            </div>
           </div>
 
           <!-- Floating Stat Chips -->
@@ -1700,20 +1761,20 @@
         <!-- Service 4 -->
         <div class="service-card">
           <div class="service-card-media">
-            <img src="images/image8.jpeg" alt="Exam Hall and CCTV Surveillance">
+            <img src="images/pen_paper_exam_hall.jpg" alt="Offline Pen and Paper Based Test (PBT) Examination Hall">
             <span class="service-badge-pill">Service 04</span>
           </div>
           <div class="service-card-body">
-            <h3 class="service-card-title">Exam Hall &amp; Infrastructure</h3>
+            <h3 class="service-card-title">Pen &amp; Paper (PBT) Exam Halls</h3>
             <p class="service-card-text">
-              Spacious, silent, and CCTV-monitored examination halls equipped with proper lighting, air conditioning, and sanitized facilities.
+              Spacious, well-ventilated, and CCTV-monitored examination halls arranged for offline pen-and-paper examinations, OMR answer sheets, and descriptive tests.
             </p>
             <ul class="service-points">
-              <li>Continuous 360-degree CCTV hall surveillance</li>
-              <li>Fire safety equipment &amp; emergency exits</li>
-              <li>Clean, hygienic environment with 100% discipline</li>
+              <li>Individual spaced desks &amp; sanitized hall seating</li>
+              <li>Continuous 360° CCTV &amp; synchronized wall clocks</li>
+              <li>Strict invigilation &amp; OMR sheet chain of custody</li>
             </ul>
-            <a href="#contact" class="btn btn-outline" style="width:100%">View Hall Specs</a>
+            <a href="#contact" class="btn btn-outline" style="width:100%">Book PBT Exam Hall</a>
           </div>
         </div>
 
@@ -2287,6 +2348,11 @@
       </div>
 
       <div class="gallery-grid" id="galleryGrid">
+        <div class="gallery-item" data-cat="labs" onclick="openLightbox('images/pen_paper_exam_hall.jpg', 'Offline Pen &amp; Paper (PBT) Examination Hall with Strict Invigilation')">
+          <img src="images/pen_paper_exam_hall.jpg" alt="Offline Pen and Paper Based Test (PBT) Examination Hall">
+          <div class="gallery-overlay"><div class="gallery-overlay-text">Pen &amp; Paper (PBT) Exam Hall</div></div>
+        </div>
+
         <div class="gallery-item" data-cat="labs" onclick="openLightbox('images/image1.png', 'CBT Computer Lab with Partition Desks & AC')">
           <img src="images/image1.png" alt="CBT Computer Lab">
           <div class="gallery-overlay"><div class="gallery-overlay-text">CBT Computer Lab with Partitions</div></div>
@@ -2489,8 +2555,9 @@
                 <label class="form-label" for="serviceNeeded">Service Required *</label>
                 <select id="serviceNeeded" class="form-control" required>
                   <option value="">Select Service...</option>
-                  <option value="Test Center Booking">Test Center Booking (Pan India)</option>
-                  <option value="CBT Lab Facility Rental">CBT Lab Facility Rental</option>
+                  <option value="Pan India Test Center Booking">Test Center Booking (Pan India)</option>
+                  <option value="Pen & Paper (PBT) Exam Hall Booking">Pen &amp; Paper (PBT) / Offline Exam Hall</option>
+                  <option value="Computer-Based Test (CBT) Lab Rental">Computer-Based Test (CBT) Lab Rental</option>
                   <option value="Operational Manpower Support">Examination Manpower (Invigilators, Tech, Security)</option>
                   <option value="CCTV Installation & Surveillance">CCTV Installation &amp; Surveillance</option>
                   <option value="Power & Generator Backup">Power Backup &amp; Mobile DG</option>
