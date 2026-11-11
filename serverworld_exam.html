@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Server World - Online Examination</title>
+<link rel="icon" type="image/jpeg" href="logo.jpg">
+<style>
+:root{--blue:#1565D8;--orange:#E11D48;--dark:#0A2F6B;--light:#E8F0FE;--green:#059669}
+*{box-sizing:border-box;font-family:Inter,system-ui,sans-serif}
+body{margin:0;background:#f0f4f8;display:flex;justify-content:center;padding:0;min-height:100vh}
+.phone{width:100%;max-width:100vw;min-height:100vh;background:#fff;overflow:hidden;display:flex;flex-direction:column;position:relative;margin:0;border:none;border-radius:0;box-shadow:none}
+@media(min-width:641px){
+  .phone{width:390px;max-width:92vw;border:8px solid #111;border-radius:36px;box-shadow:0 20px 60px rgba(0,0,0,.2);margin:auto}
+}
+.header{background:var(--blue);color:#fff;padding:14px 16px;display:flex;align-items:center;gap:10px;}
+.card{background:#fff;border-radius:14px;padding:14px;margin:10px;box-shadow:0 4px 12px rgba(0,0,0,.06);border:1px solid #eef2ff}
+.blue-card{background:var(--light);border-left:4px solid var(--blue)}
+.orange-card{background:#FFE4E6;border-left:4px solid var(--orange)}
+.nav{display:flex;justify-content:space-around;padding:8px 0;background:#fff;border-top:1px solid #e5e7eb;position:absolute;bottom:0;width:100%;z-index:20}
+.nav button{border:0;background:none;padding:8px 16px;border-radius:12px;cursor:pointer;font-size:12px} .nav button.active{background:var(--blue);color:#fff}
+.content{flex:1;overflow-y:auto;padding-bottom:80px}
+.btn{background:var(--blue);color:#fff;border:0;padding:12px 16px;border-radius:10px;font-weight:700;cursor:pointer;width:100%;margin-top:8px} .btn-orange{background:var(--orange)} .btn-outline{background:#fff;color:var(--blue);border:1px solid var(--blue)}
+input,textarea,select{width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin:6px 0}
+.alert-exam{background:linear-gradient(135deg,#E11D48,#BE123C);color:#fff;padding:12px;border-radius:12px;margin:10px;display:flex;justify-content:space-between;align-items:center;animation:pulse 2s infinite}
+@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.02)}100%{transform:scale(1)}}
+.modal{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:99;padding:16px} .modal .inner{background:#fff;border-radius:16px;padding:20px;width:100%;max-height:80%;overflow-y:auto}
+.q-opt{display:flex;gap:10px;padding:10px;border:1px solid #e5e7eb;border-radius:10px;margin:8px 0;cursor:pointer} .q-opt.selected{background:var(--light);border-color:var(--blue)}
+.progress{height:6px;background:#e5e7eb;border-radius:10px;overflow:hidden} .progress div{height:100%;background:var(--blue)}
+@media (min-width: 1024px){
+  body{padding:0;background:#f0f4f8;align-items:flex-start}
+  .phone{width:100%;max-width:100%;height:auto;min-height:100vh;border-radius:0;border:none;box-shadow:none;flex-direction:row;background:#f0f4f8}
+  .phone .header{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 32px;height:64px}
+  .phone .content{margin-top:64px;width:100%;display:flex;flex-direction:column;padding-bottom:20px;background:#f0f4f8}
+  .phone .content > div{max-width:1300px;margin:0 auto;width:100%;padding:24px !important}
+  .phone .nav{position:fixed;left:0;top:64px;bottom:0;width:240px;height:calc(100vh - 64px);flex-direction:column;justify-content:flex-start;padding:20px 0;background:#fff;border-right:1px solid #e5e7eb;border-top:none;gap:8px;z-index:90}
+  .phone .nav button{width:90%;margin:4px auto;text-align:left;padding:14px 20px;display:flex;align-items:center;gap:12px;border-radius:12px;font-size:14px;font-weight:600}
+  .phone .nav button.active{background:var(--blue);color:#fff}
+  .phone .content{margin-left:240px;margin-top:64px;width:calc(100% - 240px)}
+  #examCategoriesGrid{grid-template-columns:repeat(4,1fr) !important;gap:20px !important}
+  #mocksList{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  #resultsList{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+  .modal{position:fixed} .modal .inner{max-width:600px}
+}
+@media (min-width: 768px) and (max-width: 1023px){
+  body{padding:0;background:#e8ecf3}
+  .phone{width:100%;max-width:100%;height:auto;min-height:100vh;border-radius:0;border:none;box-shadow:none}
+  #examCategoriesGrid{grid-template-columns:repeat(3,1fr) !important;gap:16px !important}
+  #mocksList{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+}
+@media (max-width: 767px){
+  body{padding:0;background:#f0f4f8}
+  .phone{width:100%;height:100vh;max-height:100vh;border-radius:0;border:none;box-shadow:none}
+}
+
+/* ===== ServerWorld FULLSCREEN OVERLAY - CBT ENVIRONMENT ===== */
+#ServerWorldOverlay{
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:#fff;
+  z-index:9999;
+  flex-direction:column;
+  user-select:none !important;
+  -webkit-user-select:none !important;
+  -moz-user-select:none !important;
+  -ms-user-select:none !important;
+  -webkit-touch-callout:none !important;
+}
+.ServerWorld-top-blue{background:#2c4a7a;height:26px;width:100%}
+.ServerWorld-inst-title{background:#a8d8ea;padding:9px 14px;font-weight:700;font-size:15px;color:#000;font-family:Arial}
+.ServerWorld-inst-main{display:flex;flex:1;overflow:hidden}
+.ServerWorld-inst-left{flex:1;padding:14px 18px;overflow-y:auto;font-size:13px;line-height:1.6;background:#fff;font-family:Arial}
+.ServerWorld-inst-right{width:285px;border-left:2px solid #000;background:#fff;display:flex;flex-direction:column;align-items:center;padding:20px 10px}
+.ServerWorld-inst-footer{padding:12px;border-top:1px solid #ccc;background:#fff}
+.ServerWorld-check{display:flex;gap:8px;font-size:12px;line-height:1.4;margin-bottom:14px;font-family:Arial}
+.ServerWorld-actions{display:flex;justify-content:space-between}
+.ServerWorld-actions button{padding:7px 14px;border:1px solid #999;background:#fff;border-radius:3px;cursor:pointer}
+.ServerWorld-actions .ready{background:#0080c0;color:#fff;border-color:#0080c0;font-weight:700;padding:8px 22px}
+
+/* ServerWorld Exam Page */
+.ServerWorld-exam{display:none;flex-direction:column;height:100vh;width:100%}
+.ServerWorld-black-bar{background:#000;color:#f1c40f;padding:6px 12px;display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:12px;font-family:Arial}
+.ServerWorld-sub-bar{background:#e7e7e7;padding:6px 12px;display:flex;align-items:center}
+.ServerWorld-paper-btn{background:#0080c0;color:#fff;padding:5px 14px;border-radius:3px;font-weight:700;font-size:12px;display:flex;align-items:center;gap:6px;cursor:pointer;font-family:Arial}
+.ServerWorld-sections-bar{background:#f5f5f5;padding:7px 12px;display:flex;justify-content:space-between;border-bottom:1px solid #ccc;align-items:center}
+.ServerWorld-secs{display:flex;gap:5px}
+.ServerWorld-secs button{padding:5px 14px;border:1px solid #0080c0;background:#fff;color:#0080c0;border-radius:3px;cursor:pointer;font-size:12px;font-family:Arial;display:flex;align-items:center;gap:4px}
+.ServerWorld-secs button.active{background:#0080c0;color:#fff}
+.ServerWorld-main{display:flex;flex:1;overflow:hidden}
+/* ==================== MOCKTESTZONE-STYLE MODERN CBT INTERFACE (IMAGE 2) ==================== */
+.ServerWorld-exam{display:none;flex-direction:column;height:100vh;width:100%;background:#ffffff}
+
+/* Top Header Bar */
+.mtz-topbar{background:#ffffff;border-bottom:1px solid #e2e8f0;padding:12px 24px;display:flex;justify-content:space-between;align-items:center}
+.mtz-topbar-left{display:flex;flex-direction:column;gap:2px}
+.mtz-exam-title{font-size:20px;font-weight:800;color:#0f172a;font-family:Inter,system-ui,sans-serif}
+.mtz-exam-subtitle{font-size:14px;color:#64748b;font-weight:500}
+.mtz-topbar-right{display:flex;align-items:center;gap:16px}
+.mtz-timer-pill{background:#0f172a;color:#ffffff;padding:6px 18px;border-radius:8px;font-size:16px;font-weight:700;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;letter-spacing:1px;box-shadow:0 2px 4px rgba(0,0,0,0.15)}
+.mtz-btn-link{font-size:14px;color:#475569;text-decoration:none;display:inline-flex;align-items:center;gap:5px;cursor:pointer;padding:5px 10px;border-radius:6px;border:1px solid #e2e8f0;background:#f8fafc;font-weight:600}
+.mtz-btn-link:hover{background:#f1f5f9;color:#0f172a}
+
+/* Main Split View */
+.mtz-main-split{display:flex;flex:1;overflow:hidden;background:#ffffff}
+
+/* Left Column: Question Area */
+.mtz-q-column{flex:1;display:flex;flex-direction:column;overflow-y:auto;padding:28px 36px 36px;position:relative;background:#ffffff}
+.mtz-watermark{position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;opacity:0.08;z-index:0}
+.mtz-watermark span{position:absolute;font-size:14px;transform:rotate(-35deg);white-space:nowrap;color:#000}
+
+.mtz-q-text{position:relative;z-index:1;font-size:18px;font-weight:600;line-height:1.65;color:#1e293b;margin-bottom:20px;font-family:Inter,system-ui,sans-serif}
+
+/* Question Image / Diagram Display */
+.mtz-q-image-wrap{margin:14px 0 20px;text-align:center;background:#f8fafc;padding:14px;border-radius:10px;border:1px solid #e2e8f0}
+.mtz-q-img{max-width:100%;max-height:360px;border-radius:8px;border:1px solid #cbd5e1;box-shadow:0 3px 10px rgba(0,0,0,0.06);cursor:zoom-in;transition:transform 0.2s ease;background:#ffffff}
+.mtz-q-img:hover{transform:scale(1.01)}
+
+/* Fill-in-the-Blank Keyboard Entry Console */
+.mtz-blank-keyboard-box{background:#f8fafc;border:1.5px solid #3b82f6;border-radius:10px;padding:18px 20px;margin-bottom:20px;box-shadow:0 3px 12px rgba(59,130,246,0.07)}
+.mtz-blank-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+.mtz-blank-badge{background:#2563eb;color:#ffffff;font-size:13px;font-weight:700;padding:4px 10px;border-radius:4px;display:inline-flex;align-items:center;gap:6px;letter-spacing:0.3px}
+.mtz-blank-input-row{display:flex;gap:10px;align-items:center}
+.mtz-blank-input{flex:1;padding:12px 16px;font-size:16px;font-weight:600;border:2px solid #cbd5e1;border-radius:8px;outline:none;background:#ffffff;color:#0f172a;transition:border-color 0.15s, box-shadow 0.15s}
+.mtz-blank-input:focus{border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,0.12)}
+.mtz-blank-clear-btn{padding:12px 18px;background:#ffffff;border:1px solid #cbd5e1;border-radius:8px;font-weight:700;font-size:15px;color:#475569;cursor:pointer;transition:all 0.15s}
+.mtz-blank-clear-btn:hover{background:#fee2e2;border-color:#fca5a5;color:#b91c1c}
+.mtz-blank-footer{margin-top:10px;display:flex;justify-content:space-between;font-size:14px;color:#64748b;align-items:center}
+
+/* Options Stack matching Image 2 */
+.mtz-options-stack{position:relative;z-index:1;display:flex;flex-direction:column;gap:12px;width:100%;margin-bottom:24px}
+.mtz-opt-card{display:flex;align-items:center;gap:16px;padding:14px 20px;border:1.5px solid #e2e8f0;border-radius:8px;background:#ffffff;cursor:pointer;transition:all 0.15s ease;user-select:none}
+.mtz-opt-card:hover{border-color:#3b82f6;background:#f8fafc}
+.mtz-opt-card.selected{border-color:#2563eb;background:#eff6ff;box-shadow:0 0 0 1px #2563eb}
+.mtz-opt-badge{font-weight:700;font-size:16px;color:#475569;width:22px;flex-shrink:0}
+.mtz-opt-card.selected .mtz-opt-badge{color:#1d4ed8}
+.mtz-opt-radio{width:18px;height:18px;accent-color:#2563eb;cursor:pointer;flex-shrink:0;margin:0}
+.mtz-opt-text{flex:1;font-size:16px;color:#1e293b;line-height:1.45;font-family:Inter,system-ui,sans-serif}
+
+/* Bottom Navigation of Left Column */
+.mtz-q-nav{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:24px;border-top:1px solid #f1f5f9}
+.mtz-btn-prev{background:#ffffff;color:#475569;border:1px solid #cbd5e1;padding:11px 22px;border-radius:6px;font-size:15px;font-weight:600;cursor:pointer;transition:all 0.15s ease;font-family:Inter,system-ui,sans-serif}
+.mtz-btn-prev:hover{background:#f8fafc;border-color:#94a3b8;color:#0f172a}
+.mtz-btn-next{background:#2563eb;color:#ffffff;border:1px solid #2563eb;padding:11px 26px;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;transition:background 0.15s ease;font-family:Inter,system-ui,sans-serif;box-shadow:0 1px 3px rgba(37,99,235,0.3)}
+.mtz-btn-next:hover{background:#1d4ed8}
+.mtz-nav-actions-right{display:flex;gap:10px;align-items:center}
+.mtz-btn-mark{background:#ffffff;color:#6d28d9;border:1.5px solid #8b5cf6;padding:11px 22px;border-radius:6px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.15s ease;font-family:Inter,system-ui,sans-serif;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.mtz-btn-mark:hover{background:#f5f3ff;color:#5b21b6;border-color:#7c3aed}
+.mtz-cand-card{display:flex;align-items:center;gap:12px;background:#f8fafc;border-top:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0;padding:10px 14px}
+.mtz-cand-photo-box{width:50px;height:58px;border-radius:4px;border:1.5px solid #0284c7;background:#ffffff;overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.mtz-cand-photo{width:100%;height:100%;object-fit:cover;display:block}
+.mtz-cand-photo-fallback{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:26px;background:#e0f2fe;color:#0369a1}
+.mtz-cand-meta{flex:1;min-width:0}
+.mtz-cand-name{font-weight:700;font-size:13px;color:#0f172a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mtz-cand-roll{font-size:12px;color:#64748b;margin-top:2px}
+.mtz-cand-roll b{color:#0284c7;font-family:monospace}
+.mtz-cand-verified{font-size:12px;color:#15803d;font-weight:600;display:flex;align-items:center;gap:5px;margin-top:3px}
+.mtz-cand-dot{width:6px;height:6px;border-radius:50%;background:#16a34a;display:inline-block}
+
+/* Right Sidebar: Palette & Meta (Width 320px) */
+.mtz-palette-column{width:320px;min-width:320px;border-left:1px solid #e2e8f0;background:#ffffff;display:flex;flex-direction:column;overflow:hidden;position:relative;transition:width 0.25s ease,min-width 0.25s ease,opacity 0.2s ease}
+.mtz-palette-column.collapsed{width:0 !important;min-width:0 !important;border-left:none !important;opacity:0 !important;pointer-events:none !important}
+
+/* Palette Top Meta Row */
+.mtz-pal-meta{padding:12px 16px;border-bottom:1px solid #f1f5f9;display:flex;justify-content:space-between;align-items:center}
+.mtz-pal-qcount{font-size:14px;font-weight:700;color:#0f172a}
+.mtz-pal-mcq{background:#f1f5f9;color:#475569;padding:2px 8px;border-radius:4px;font-size:13px;font-weight:700}
+.mtz-pal-marks{background:#ecfdf5;color:#059669;border:1px solid #a7f3d0;padding:2px 10px;border-radius:12px;font-size:13px;font-weight:700}
+
+/* Action Buttons (Mark for review & Clear answer) side-by-side */
+.mtz-pal-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px 16px}
+.mtz-pal-act-btn{background:#ffffff;color:#475569;border:1px solid #cbd5e1;padding:9px 10px;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.15s ease;text-align:center;font-family:Inter,system-ui,sans-serif}
+.mtz-pal-act-btn:hover{background:#f8fafc;border-color:#94a3b8;color:#0f172a}
+
+/* Stats Progress Row */
+.mtz-pal-stats-row{padding:6px 16px 10px;display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#64748b;border-bottom:1px solid #f1f5f9}
+.mtz-stat-pill{display:inline-flex;align-items:center;gap:4px;font-weight:600}
+.mtz-stat-pill.green{color:#16a34a}
+.mtz-stat-pill.red{color:#dc2626}
+.mtz-stat-pill.purple{color:#9333ea}
+
+/* Number Grid */
+.mtz-grid-area{padding:14px 16px;flex:1;overflow-y:auto}
+.mtz-pal-grid{display:grid;grid-template-columns:repeat(5, 1fr);gap:6px}
+.mtz-pal-grid button{height:38px;border-radius:6px;border:1px solid #e2e8f0;background:#f8fafc;color:#475569;font-weight:700;font-size:14px;cursor:pointer;transition:all 0.15s ease;font-family:Inter,system-ui,sans-serif}
+.mtz-pal-grid button:hover{filter:brightness(0.95)}
+.mtz-pal-grid button.answered{background:#16a34a !important;color:#ffffff !important;border-color:#16a34a !important}
+.mtz-pal-grid button.not-answered{background:#dc2626 !important;color:#ffffff !important;border-color:#dc2626 !important}
+.mtz-pal-grid button.marked{background:#9333ea !important;color:#ffffff !important;border-color:#9333ea !important;border-radius:50% !important}
+.mtz-pal-grid button.ans-marked{background:#9333ea !important;color:#ffffff !important;border-color:#9333ea !important;position:relative}
+.mtz-pal-grid button.ans-marked::after{content:'●';color:#16a34a;position:absolute;bottom:1px;right:3px;font-size:12px}
+.mtz-pal-grid button.current{box-shadow:0 0 0 2px #2563eb !important;outline:none}
+
+/* Legend */
+.mtz-legend{padding:10px 16px;border-top:1px solid #f1f5f9;display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:12.5px;color:#64748b;background:#fafafa}
+.mtz-leg-item{display:flex;align-items:center;gap:6px}
+.mtz-leg-dot{width:10px;height:10px;border-radius:2px;display:inline-block}
+
+/* Submit Exam Button at Bottom */
+.mtz-submit-bar{padding:12px 16px;border-top:1px solid #e2e8f0;background:#ffffff}
+.mtz-btn-submit{width:100%;background:#b91c1c;color:#ffffff;border:none;padding:13px;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;transition:background 0.15s ease;text-align:center;font-family:Inter,system-ui,sans-serif;box-shadow:0 1px 3px rgba(185,28,28,0.3)}
+.mtz-btn-submit:hover{background:#991b1b}
+
+/* Collapse Toggle Button */
+.mtz-collapse-toggle{position:absolute;right:0;top:50%;transform:translateY(-50%);background:#0f172a;color:#ffffff;width:20px;height:42px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:20;font-size:13px;border-radius:4px 0 0 4px;user-select:none;box-shadow:-2px 0 6px rgba(0,0,0,0.15);transition:background 0.15s ease}
+.mtz-collapse-toggle:hover{background:#2563eb}
+.ServerWorld-collapse:hover{background:#0080c0}
+@media(max-width:900px){
+  .ServerWorld-palette{position:absolute;right:0;top:0;bottom:0;z-index:20;transform:translateX(100%);transition:transform 0.3s}
+  .ServerWorld-palette.open{transform:translateX(0)}
+  .ServerWorld-collapse{right:0}
+  .ServerWorld-inst-right{width:100px}
+  .ServerWorld-inst-left{font-size:12.5px}
+}
+/* FINAL v13 - CHECKBOX LEFT SIDE - YOUR SCREENSHOT FIX */
+.sw-footer{
+  background:#f9fafb !important;
+  border-top:1px solid #e5e7eb !important;
+  padding:12px !important;
+  width:100% !important;
+}
+.sw-check{
+  display:flex !important;
+  flex-direction:row !important;
+  justify-content:flex-start !important;
+  align-items:flex-start !important;
+  gap:12px !important;
+  padding:10px !important;
+  background:#fff !important;
+  border:1px solid #e5e7eb !important;
+  border-radius:6px !important;
+  margin-bottom:12px !important;
+  width:100% !important;
+  max-width:100% !important;
+}
+.sw-check input[type="checkbox"]{
+  width:18px !important;
+  height:18px !important;
+  min-width:18px !important;
+  min-height:18px !important;
+  flex-shrink:0 !important;
+  order:1 !important;
+  margin:0 !important;
+  margin-top:2px !important;
+  accent-color:#1e40af !important;
+  cursor:pointer !important;
+  display:block !important;
+}
+.sw-check label{
+  flex:1 !important;
+  order:2 !important;
+  font-size:12px !important;
+  line-height:1.6 !important;
+  color:#374151 !important;
+  text-align:left !important;
+  cursor:pointer !important;
+  margin:0 !important;
+  padding:0 !important;
+  display:block !important;
+}
+.sw-actions{
+  display:flex !important;
+  justify-content:space-between !important;
+  padding:0 !important;
+}
+.sw-actions button{
+  padding:6px 14px !important;
+  border:1px solid #d1d5db !important;
+  background:#fff !important;
+  border-radius:4px !important;
+  font-size:14px !important;
+  cursor:pointer !important;
+}
+.sw-actions button.ready{
+  background:#1e40af !important;
+  color:#fff !important;
+  border-color:#1e40af !important;
+  font-weight:700 !important;
+}
+.sw-version{
+  background:#1e40af !important;
+  color:#fff !important;
+  text-align:center !important;
+  padding:4px !important;
+  font-size:12px !important;
+}
+</style>
+</head>
+<body>
+
+<!-- MAIN APP (ServerWorld) -->
+<div class="phone" id="mainPhone">
+<div class="header">
+<img src="logo.jpg" alt="Server World" style="height:36px;width:auto;object-fit:contain;background:#fff;border-radius:4px;padding:2px">
+<div><div style="font-weight:900;font-size:16px;letter-spacing:-0.2px">Server World</div><div style="font-size:12px;color:#f97316;font-weight:700">Online Exam System</div></div>
+<div style="margin-left:auto;display:flex;gap:8px"><span style="background:rgba(255,255,255,.2);padding:4px 8px;border-radius:20px;font-size:13px" id="userNameDisplay">Candidate</span></div>
+</div>
+
+<div class="content" id="mainContent">
+<!-- HOME TAB -->
+<div id="homeTab">
+<div class="alert-exam" id="alertExamBanner" style="display:none"><div><b id="alertTitle">🔴 Live Mock Test</b><div style="font-size:12px" id="alertDesc">MakeCode Challenge - Starts now!</div></div><button class="btn-orange" style="padding:8px 16px;border-radius:20px;border:0;color:#fff;font-weight:700;cursor:pointer;width:auto;margin:0" onclick="launchServerWorld()">Join Now</button></div>
+<div class="card blue-card"><div style="font-weight:700;color:var(--blue)">Welcome, <span id="welcomeName">Candidate</span>!</div><div style="font-size:12px;margin-top:6px">Roll: <span id="rollDisplay">--</span> | Get ready for your exam</div></div>
+<div style="padding:10px;font-weight:700">Exam Categories</div>
+<div id="examCategoriesGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 10px">
+<div class="card" style="text-align:center;cursor:pointer" onclick="filterByCategory('TSPSC')"><div style="font-size:24px">📚</div><div style="font-weight:700;margin-top:6px">TSPSC</div><div style="font-size:12.5px;color:#666">12 Exams</div></div>
+<div class="card" style="text-align:center;cursor:pointer" onclick="filterByCategory('Police')"><div style="font-size:24px">👮</div><div style="font-weight:700;margin-top:6px">Police</div><div style="font-size:12.5px;color:#666">8 Exams</div></div>
+<div class="card" style="text-align:center;cursor:pointer" onclick="filterByCategory('TET')"><div style="font-size:24px">🎓</div><div style="font-weight:700;margin-top:6px">TET</div><div style="font-size:12.5px;color:#666">15 Exams</div></div>
+<div class="card" style="text-align:center;cursor:pointer;border:2px solid var(--orange)" onclick="filterByCategory('MakeCode')"><div style="font-size:24px">💻</div><div style="font-weight:700;margin-top:6px;color:var(--orange)">MakeCode</div><div style="font-size:12.5px;color:#666">5 Exams • ServerWorld Style</div></div>
+</div>
+<div class="card"><div style="font-weight:700">Quick Stats</div><div style="display:flex;justify-content:space-around;margin-top:12px;text-align:center"><div><div style="font-size:20px;font-weight:800;color:var(--blue)" id="statTotal">0</div><div style="font-size:13px">Tests Taken</div></div><div><div style="font-size:20px;font-weight:800;color:var(--orange)" id="statAvg">0%</div><div style="font-size:13px">Avg Score</div></div><div><div style="font-size:20px;font-weight:800;color:var(--green)" id="statRank">-</div><div style="font-size:13px">Best Rank</div></div></div></div>
+</div>
+
+<!-- MOCKS TAB -->
+<div id="mocksTab" style="display:none">
+<div style="padding:14px;font-weight:700;display:flex;justify-content:space-between;align-items:center"><span>Available Mocks - ServerWorld Style</span><button class="btn-outline" style="width:auto;padding:6px 12px;margin:0;font-size:13px" onclick="syncExams()">🔄 Sync</button></div>
+<div id="mocksList"></div>
+</div>
+
+<!-- RESULTS TAB -->
+<div id="resultsTab" style="display:none">
+<div style="padding:14px;font-weight:700">My Results</div>
+<div id="resultsList"></div>
+</div>
+
+<!-- PROFILE TAB -->
+<div id="profileTab" style="display:none">
+<div style="padding:14px;font-weight:700">Profile</div>
+<div class="card"><div style="text-align:center"><div style="width:80px;height:80px;background:var(--light);border-radius:50%;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:32px">👤</div><div style="font-weight:700;margin-top:10px" id="profileName">Candidate</div><div style="font-size:12px;color:#666" id="profileRoll">--</div></div>
+<input id="pName" placeholder="Name"><input id="pRoll" placeholder="Roll No"><input id="pPhone" placeholder="Phone"><button class="btn" onclick="saveProfile()">Save Profile</button>
+<button class="btn-outline" style="margin-top:10px" onclick="logout()">Logout</button>
+</div>
+</div>
+
+</div>
+
+<div class="nav">
+<button class="active" onclick="switchTab('home',this)">🏠<br>Home</button>
+<button onclick="switchTab('mocks',this)">📝<br>Mocks</button>
+<button onclick="switchTab('results',this)">📊<br>Results</button>
+<button onclick="switchTab('profile',this)">👤<br>Profile</button>
+</div>
+</div>
+
+<!-- ==================== SECURITY: ANTI-SCREENSHOT & SCREEN-CAPTURE PRIVACY SHIELD ==================== -->
+<div id="swAntiScreenshotShield" style="display:none;position:fixed;inset:0;background:#090d16;z-index:999999;flex-direction:column;align-items:center;justify-content:center;color:#ffffff;text-align:center;padding:24px">
+  <div style="width:72px;height:72px;border-radius:50%;background:#fee2e2;color:#b91c1c;display:inline-flex;align-items:center;justify-content:center;font-size:38px;margin-bottom:16px">
+    🛡️
+  </div>
+  <h3 style="margin:0 0 10px 0;color:#ef4444;font-size:22px;font-weight:900;letter-spacing:0.5px">SCREEN CAPTURE / WINDOW BLUR BLOCKED</h3>
+  <p style="font-size:14px;line-height:1.6;color:#cbd5e1;max-width:540px;margin-bottom:20px">
+    Examination questions are protected under Server World security protocols. Content is automatically hidden while the exam window is not actively focused or when screen capture tools are detected.
+  </p>
+  <button type="button" class="ready" style="padding:12px 28px;font-size:14px;background:#2563eb;color:#fff;border-radius:8px;font-weight:700;border:none;cursor:pointer" onclick="resumeExamFromShield()">
+    Click to Return to Active Exam &rarr;
+  </button>
+</div>
+
+<!-- ServerWorld OVERLAY - INSTRUCTIONS + EXAM (Exactly like your screenshots) -->
+<div id="ServerWorldOverlay">
+  <!-- INSTRUCTIONS PAGE -->
+  <div id="ServerWorldInstrPage" style="display:flex;flex-direction:column;height:100%;width:100%">
+    <div class="ServerWorld-top-blue"></div>
+    <div class="ServerWorld-inst-title">Other Important Instructions</div>
+    <div class="ServerWorld-inst-main">
+      <div class="ServerWorld-inst-left">
+        <div style="background:#d3d3d3;border:1px solid #999;padding:3px 6px;display:inline-block;margin-bottom:10px;font-size:12px">The instructions are not available in the chosen language.</div>
+        <br><br>
+<b>Please read the instructions carefully</b><br><br>
+<b>General Instructions:</b><br><br>
+1. Total duration of examination is 120 minutes.<br>
+2. The clock will be set at the server. The countdown timer in the top right corner of screen will display the remaining time available for you to complete the examination. When the timer reaches zero, the examination will end by itself. You will not be required to end or submit your examination.<br>
+3. The Question Palette displayed on the right side of screen will show the status of each question using one of the following symbols:<br>
+&nbsp;&nbsp;1 ☐ You have not visited the question yet.<br>
+&nbsp;&nbsp;2 ■ You have not answered the question.<br>
+&nbsp;&nbsp;3 ■ You have answered the question.<br>
+&nbsp;&nbsp;4 ● You have NOT answered the question, but have marked the question for review.<br>
+&nbsp;&nbsp;5 The question(s) "Answered and Marked for Review" will be considered for evaluation.<br>
+&nbsp;&nbsp;6 The question(s) "Marked for Review" will be not be considered for evaluation. Hence, no marks will be allocated for the same.<br>
+4. The Marked for Review status for a question simply indicates that you would like to look at that question again.<br>
+5. You can click on the ">" arrow which appears to the left of question palette to collapse the question palette thereby maximizing the question window. To view the question palette again, you can click on "< " which appears on the right side of question window.<br>
+6. You can click on your "Profile" image on top right corner of your screen to change the language during the exam for entire question paper. On clicking of Profile image you will get a drop-down to change the question content to the desired language.<br>
+7. You can click on Scroll Down to navigate to the bottom and Scroll Up to navigate to the top of the question area, without scrolling.<br><br>
+<b>Navigating to a Question:</b><br>
+To answer a question, do the following:<br>
+• Click on the question number in the Question Palette at the right of your screen to go to that numbered question directly. Note that using this option does NOT save your answer to the current question.<br>
+• Click on Save & Next to save your answer for the current question and then go to the next question.<br>
+• Click on Mark for Review & Next to save your answer for the current question, mark it for review, and then go to the next question.<br><br>
+<b>Answering a Question :</b><br><br>
+<b>Procedure for answering a multiple choice type question:</b><br>
+• To select your answer, click on the button of one of the options<br>
+• To deselect your chosen answer, click on the button of the chosen option again or click on the Clear Response button<br>
+• To change your chosen answer, click on the button of another option<br>
+• To save your answer, you MUST click on the Save & Next button<br>
+• To mark the question for review, click on the Mark for Review & Next button.<br>
+• To change your answer to a question that has already been answered, first select that question for answering and then follow the procedure for answering that type of question.<br><br>
+<b>Navigating through sections:</b><br><br>
+• Sections in this question paper are displayed on the top bar of the screen. Questions in a section can be viewed by clicking on the section name. The section you are currently viewing is highlighted.<br>
+• After clicking the Save & Next button on the last question for a section, you will automatically be taken to the first question of the next section.<br>
+• You can shuffle between sections and questions anytime during the examination as per your convenience only during the time stipulated.<br>
+• Candidate can view the corresponding section summary as part of the legend that appears in every section above the question palette.<br>
+      </div>
+      <div class="ServerWorld-inst-left">
+        <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg" style="border:1px solid #94a3b8;border-radius:4px;background:#e2e8f0;display:block;margin-bottom:8px">
+          <rect width="72" height="72" fill="#cbd5e1"/>
+          <circle cx="36" cy="27" r="14" fill="#64748b"/>
+          <path d="M14 65C14 53 24 43 36 43C48 43 58 53 58 65" fill="#64748b"/>
+        </svg>
+        <div style="color:#0080c0;font-weight:700;font-size:13px;font-family:Arial" id="ServerWorldInstrName">John Smith</div>
+      </div>
+        </div>
+    <div class="sw-footer">
+      <div class="sw-check">
+        <input type="checkbox" id="swAgree">
+        <label for="swAgree">I have read and understood the instructions. All computer hardware allotted to me are in proper working condition. I declare that I am not in possession of / not wearing / not carrying any prohibited gadget like mobile phone, bluetooth devices etc. /any prohibited material with me into the Examination Hall. I agree that in case of not adhering to the instructions, I shall be liable to be debarred from this Test and/or to disciplinary action, which may include ban from future Tests / Examinations</label>
+      </div>
+      <div class="sw-actions">
+        <button onclick="closeSW()">&lt; Previous</button>
+        <button class="ready" onclick="startSWExam()">I am ready to begin</button>
+      </div>
+    </div>
+    <div class="sw-version">Version : 17.07.00 - FINAL v13</div>
+  </div>
+
+  <!-- EXAM PAGE - MODERN CBT INTERFACE MATCHING IMAGE 2 (MockTestZone) -->
+  <div id="ServerWorldExamPage" class="ServerWorld-exam">
+    <!-- MOCKTESTZONE-STYLE TOP BAR (IMAGE 2) -->
+    <div class="mtz-topbar">
+      <div class="mtz-topbar-left">
+        <div class="mtz-exam-title" id="ServerWorldPaperTitle">Server World Mock Assessment</div>
+        <div class="mtz-exam-subtitle" id="ServerWorldQProgress">Question 1 of 30</div>
+      </div>
+      <div class="mtz-topbar-right">
+        <div class="mtz-timer-pill" id="ServerWorldTimeLeft">119:53</div>
+        <button type="button" class="mtz-btn-link" onclick="alert('Viewing instructions');">Instructions</button>
+      </div>
+    </div>
+
+    <!-- MOCKTESTZONE MAIN SPLIT -->
+    <div class="mtz-main-split">
+      <!-- LEFT COLUMN: QUESTION STATEMENT + OPTIONS + BOTTOM PREV/NEXT (IMAGE 2) -->
+      <div class="mtz-q-column" id="ServerWorldQArea">
+        <div class="mtz-watermark" id="ServerWorldWatermark"></div>
+        
+        <!-- Question Text (Image 2 style) -->
+        <div class="mtz-q-text" id="ServerWorldQText">Loading Question...</div>
+        
+        <!-- Options List (A, B, C, D) -->
+        <div class="mtz-options-stack" id="ServerWorldQOptions"></div>
+
+        <!-- Bottom Left Navigation (← Previous, Mark for Review, and Save & Next →) -->
+        <div class="mtz-q-nav">
+          <button type="button" class="mtz-btn-prev" onclick="ServerWorldPrev()">← Previous</button>
+          <div class="mtz-nav-actions-right">
+            <button type="button" class="mtz-btn-mark" onclick="ServerWorldMarkReview()">Mark for Review</button>
+            <button type="button" class="mtz-btn-next" onclick="ServerWorldSaveNext()">Save &amp; Next →</button>
+          </div>
+        </div>
+
+        <div class="mtz-collapse-toggle" id="ServerWorldCollapseBtn" onclick="ServerWorldTogglePal()" title="Collapse Question Palette">❯</div>
+      </div>
+
+      <!-- RIGHT COLUMN: PALETTE & ACTIONS SIDEBAR (IMAGE 2) -->
+      <div class="mtz-palette-column" id="ServerWorldPalette">
+        <!-- Meta Row: Q1 / 30 | MCQ | Marks Pill -->
+        <div class="mtz-pal-meta">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="mtz-pal-qcount" id="mtzPalQCount">Q1 / 30</span>
+            <span class="mtz-pal-mcq" id="mtzPalQType">MCQ</span>
+          </div>
+          <span class="mtz-pal-marks">+1.00 / 0.00</span>
+        </div>
+
+        <!-- Candidate Photo & Profile Box (Directly Above Question Palette / Numbers) -->
+        <div class="mtz-cand-card" id="mtzPalCandidateCard">
+          <div class="mtz-cand-photo-box">
+            <img id="ServerWorldPalPhoto" src="" alt="Candidate Photo" class="mtz-cand-photo" onerror="this.style.display='none'; document.getElementById('ServerWorldPalPhotoFallback').style.display='flex';">
+            <div id="ServerWorldPalPhotoFallback" class="mtz-cand-photo-fallback">👤</div>
+          </div>
+          <div class="mtz-cand-meta">
+            <div class="mtz-cand-name" id="ServerWorldPalNameDisplay">Candidate</div>
+            <div class="mtz-cand-roll">URN: <b id="ServerWorldPalRollDisplay">SW001</b></div>
+            <div class="mtz-cand-verified"><span class="mtz-cand-dot"></span> Candidate Verified</div>
+          </div>
+        </div>
+
+        <!-- Side-by-side Actions: Mark for Review & Clear Answer -->
+        <div class="mtz-pal-actions">
+          <button type="button" class="mtz-pal-act-btn" onclick="ServerWorldMarkReview()">Mark for review</button>
+          <button type="button" class="mtz-pal-act-btn" onclick="ServerWorldClear()">Clear answer</button>
+        </div>
+
+        <!-- Stats Progress Row -->
+        <div class="mtz-pal-stats-row">
+          <div style="display:flex;gap:12px;align-items:center">
+            <span class="mtz-stat-pill green" title="Answered">✓ <span id="ServerWorldSAns">0</span></span>
+            <span class="mtz-stat-pill red" title="Not Answered">✕ <span id="ServerWorldSNotAns">0</span></span>
+            <span class="mtz-stat-pill purple" title="Marked for Review">⚑ <span id="ServerWorldSMark">0</span></span>
+          </div>
+          <span id="mtzStatProgress" style="font-weight:700;color:#0f172a">0/30 • 0%</span>
+        </div>
+
+        <!-- Hidden elements for backward compatibility -->
+        <div style="display:none">
+          <span id="ServerWorldSAnsMark">0</span>
+          <span id="ServerWorldSNotVis">0</span>
+          <span id="ServerWorldPalName">Candidate</span>
+          <span id="ServerWorldPalRoll">SW001</span>
+          <span id="ServerWorldSecTitle">General</span>
+        </div>
+
+        <!-- Question Grid -->
+        <div class="mtz-grid-area">
+          <div class="mtz-pal-grid" id="ServerWorldQGrid"></div>
+        </div>
+
+        <!-- Legend (Image 2) -->
+        <div class="mtz-legend">
+          <div class="mtz-leg-item"><span class="mtz-leg-dot" style="background:#f1f5f9;border:1px solid #cbd5e1"></span> Not Visited</div>
+          <div class="mtz-leg-item"><span class="mtz-leg-dot" style="background:#dc2626"></span> Not Answered</div>
+          <div class="mtz-leg-item"><span class="mtz-leg-dot" style="background:#16a34a"></span> Answered</div>
+          <div class="mtz-leg-item"><span class="mtz-leg-dot" style="background:#9333ea;border-radius:50%"></span> Marked</div>
+          <div class="mtz-leg-item" style="grid-column:1 / -1"><span class="mtz-leg-dot" style="background:#fff;border:2px solid #2563eb"></span> Current Question</div>
+        </div>
+
+        <!-- Bottom Submit Button (Full Width Red Button - Image 2) -->
+        <div class="mtz-submit-bar">
+          <button type="button" class="mtz-btn-submit" onclick="ServerWorldSubmit()">Submit exam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let activeProfile = JSON.parse(localStorage.getItem('sw_active_profile')||'{"name":"Candidate","roll":"--","phone":""}');
+let exams = JSON.parse(localStorage.getItem('sw_exams')||'[]');
+let results = JSON.parse(localStorage.getItem('sw_results')||'[]');
+
+function $(id){return document.getElementById(id)}
+
+function switchTab(tab,el){
+  document.querySelectorAll('.content > div').forEach(d=>d.style.display='none');
+  $(tab+'Tab').style.display='block';
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  if(el) el.classList.add('active');
+  if(tab==='mocks') loadMocks();
+  if(tab==='results') loadResults();
+  if(tab==='profile') loadProfile();
+}
+
+function loadMocks(){
+  let list=$('mocksList');
+  if(exams.length===0){
+    list.innerHTML='<div class="card" style="text-align:center;padding:40px;color:#666">No exams found. Click Sync button.<br><button class="btn" style="width:auto;margin-top:12px" onclick="syncExams()">🔄 Sync Exams</button></div>';
+    return;
+  }
+  let html='';
+  exams.forEach((ex,i)=>{
+    html+=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div><div style="font-weight:700">${ex.title}</div><div style="font-size:12.5px;color:#666;margin-top:4px">${ex.category} • ${ex.questions?ex.questions.length:0} Questions • 120 mins • ServerWorld CBT Mode</div><div style="font-size:12.5px;margin-top:6px"><span style="background:#e8f0fe;padding:2px 8px;border-radius:10px">Marks: ${ex.marks||1} | Negative: ${ex.negative||0}</span></div></div><div style="text-align:right"><button class="btn" style="width:auto;padding:8px 20px;margin:0;background:#000;color:#f1c40f;border:1px solid #000" onclick="launchServerWorld(${i})">Start Exam</button><div style="font-size:12px;margin-top:4px;color:#666">ServerWorld Style</div></div></div></div>`;
+  });
+  list.innerHTML=html;
+}
+
+function loadResults(){
+  let list=$('resultsList');
+  let currentRoll = (activeProfile && (activeProfile.roll || activeProfile.username) ? (activeProfile.roll || activeProfile.username) : '').toLowerCase().trim();
+  let currentName = (activeProfile && activeProfile.name ? activeProfile.name : '').toLowerCase().trim();
+  let candResults = results.filter(r => {
+    let rRoll = String(r.roll || r.urn || '').toLowerCase().trim();
+    let rName = String(r.name || '').toLowerCase().trim();
+    if(currentRoll && rRoll === currentRoll) return true;
+    if(currentName && rName === currentName && currentName !== 'candidate') return true;
+    return false;
+  });
+  if(candResults.length===0){list.innerHTML='<div class="card" style="text-align:center;padding:30px;color:#666">No results yet for this account. Take a test!</div>'; return;}
+  let html='';
+  candResults.forEach(r=>{
+    html+=`<div class="card"><div style="display:flex;justify-content:space-between"><div><div style="font-weight:700">Score: ${r.score}/${r.total||r.totalMarks||20}</div><div style="font-size:12.5px;color:#666">${r.timestamp||r.date||''} • ${r.roll||''}</div></div><div style="text-align:right"><div style="font-size:18px;font-weight:800;color:var(--blue)">${r.accuracy||Math.round((r.score/(r.total||20))*100)}%</div><div style="font-size:12.5px">Accuracy</div></div></div></div>`;
+  });
+  list.innerHTML=html;
+  let total=candResults.length;
+  let avg=total?Math.round(candResults.reduce((a,b)=>a+(b.accuracy||0),0)/total):0;
+  let best=total?Math.min(...candResults.map(r=>r.rank||999)): '-';
+  $('statTotal').innerText=total; $('statAvg').innerText=avg+'%'; $('statRank').innerText=best;
+}
+
+function loadProfile(){
+  $('profileName').innerText=activeProfile.name;
+  $('profileRoll').innerText=activeProfile.roll;
+  $('pName').value=activeProfile.name;
+  $('pRoll').value=activeProfile.roll;
+  $('pPhone').value=activeProfile.phone||'';
+}
+
+function saveProfile(){
+  activeProfile.name=$('pName').value||'Candidate';
+  activeProfile.roll=$('pRoll').value||'--';
+  activeProfile.phone=$('pPhone').value||'';
+  localStorage.setItem('sw_active_profile',JSON.stringify(activeProfile));
+  $('userNameDisplay').innerText=activeProfile.name;
+  $('welcomeName').innerText=activeProfile.name;
+  $('rollDisplay').innerText=activeProfile.roll;
+  alert('Profile saved!');
+}
+
+function logout(){localStorage.removeItem('sw_active_profile'); location.href='student_login.html';}
+
+function filterByCategory(cat){ switchTab('mocks',document.querySelectorAll('.nav button')[1]); setTimeout(()=>{let filtered=exams.filter(e=>e.category===cat); if(filtered.length===0) alert('No '+cat+' exams found');},100);}
+
+async function syncExams(){
+  try{
+    let r=await fetch('exams.json?t='+Date.now());
+    if(r.ok){ let data=await r.json(); localStorage.setItem('sw_exams',JSON.stringify(data)); exams=data; alert('Synced '+data.length+' exams!'); loadMocks(); return; }
+  }catch(e){}
+  alert('Sync failed. Check exams.json exists in exam folder');
+}
+
+// INIT
+(function(){
+  $('userNameDisplay').innerText=activeProfile.name;
+  $('welcomeName').innerText=activeProfile.name;
+  $('rollDisplay').innerText=activeProfile.roll;
+  $('ServerWorldInstrName').innerText=activeProfile.name;
+  $('ServerWorldPalName').innerText=activeProfile.name;
+  $('ServerWorldPalRoll').innerText=activeProfile.roll;
+  loadResults();
+  // Auto load exams if empty
+  if(exams.length===0) syncExams();
+  // Show alert if exists
+  try{ let alertData=JSON.parse(localStorage.getItem('sw_alert')||'null'); if(alertData && alertData.title){ $('alertExamBanner').style.display='flex'; $('alertTitle').innerText=alertData.title; $('alertDesc').innerText=alertData.desc||''; } }catch(e){}
+})();
+
+// ===== ServerWorld CBT LOGIC =====
+let ServerWorldQuestions=[], ServerWorldCurrentQ=0, ServerWorldAnswers={}, ServerWorldMarked={}, ServerWorldVisited={0:true}, ServerWorldTimeLeft=120*60, ServerWorldTimer=null, ServerWorldCurrentExam=null;
+
+function launchServerWorld(idx){
+  if(idx===undefined) idx=0;
+  if(exams.length>0) ServerWorldCurrentExam=exams[idx]||exams[0];
+  $('ServerWorldInstrName').innerText=activeProfile.name;
+  $('ServerWorldPalName').innerText=activeProfile.name;
+  $('ServerWorldPalRoll').innerText=activeProfile.roll;
+  document.getElementById('ServerWorldOverlay').style.display='flex';
+  document.getElementById('ServerWorldInstrPage').style.display='flex';
+  document.getElementById('ServerWorldExamPage').style.display='none';
+  $('ServerWorldAgree').checked=false;
+  document.getElementById('mainPhone').style.display='none';
+}
+
+function resumeExamFromShield(){
+  let shield = $('swAntiScreenshotShield');
+  if(shield) shield.style.display = 'none';
+  window.focus();
+}
+
+function handleScreenshotKeys(e){
+  let examPage = $('ServerWorldExamPage');
+  if(!examPage || examPage.style.display !== 'flex') return;
+  if(e.key === 'PrintScreen' || e.code === 'PrintScreen' || e.keyCode === 44){
+    e.preventDefault();
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      try { navigator.clipboard.writeText('⚠️ Screenshots are disabled during examination.'); } catch(err){}
+    }
+    let shield = $('swAntiScreenshotShield');
+    if(shield){
+      shield.style.display = 'flex';
+      setTimeout(() => { if(document.hasFocus()) shield.style.display = 'none'; }, 2000);
+    }
+  }
+  if(e.shiftKey && (e.metaKey || e.ctrlKey) && (e.key === 'S' || e.key === 's' || e.key === '3' || e.key === '4' || e.key === '5')){
+    e.preventDefault();
+    let shield = $('swAntiScreenshotShield');
+    if(shield) shield.style.display = 'flex';
+  }
+  if(e.key === 'F12' || ((e.ctrlKey || e.metaKey) && (e.key === 'u' || e.key === 'U')) || ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j'))){
+    e.preventDefault();
+    return false;
+  }
+}
+
+function preventExamContextMenu(e){
+  let examPage = $('ServerWorldExamPage');
+  if(examPage && examPage.style.display === 'flex'){ e.preventDefault(); return false; }
+}
+
+function preventExamCopy(e){
+  let examPage = $('ServerWorldExamPage');
+  if(examPage && examPage.style.display === 'flex'){
+    e.preventDefault();
+    if(e.clipboardData) e.clipboardData.setData('text/plain', 'Copying examination content is prohibited.');
+    return false;
+  }
+}
+
+function preventExamDrag(e){
+  let examPage = $('ServerWorldExamPage');
+  if(examPage && examPage.style.display === 'flex'){ e.preventDefault(); return false; }
+}
+
+window.addEventListener('blur', function(){
+  let examPage = $('ServerWorldExamPage');
+  if(examPage && examPage.style.display === 'flex'){
+    let shield = $('swAntiScreenshotShield');
+    if(shield) shield.style.display = 'flex';
+  }
+});
+window.addEventListener('focus', function(){
+  let shield = $('swAntiScreenshotShield');
+  if(shield) shield.style.display = 'none';
+});
+window.addEventListener('keyup', handleScreenshotKeys);
+window.addEventListener('keydown', handleScreenshotKeys);
+document.addEventListener('contextmenu', preventExamContextMenu);
+document.addEventListener('copy', preventExamCopy);
+document.addEventListener('cut', preventExamCopy);
+document.addEventListener('dragstart', preventExamDrag);
+
+function closeServerWorld(){
+  let shield = $('swAntiScreenshotShield');
+  if(shield) shield.style.display = 'none';
+  document.getElementById('ServerWorldOverlay').style.display='none';
+  document.getElementById('mainPhone').style.display='flex';
+  if(ServerWorldTimer) clearInterval(ServerWorldTimer);
+}
+
+function startServerWorldExam(){
+  if(!$('ServerWorldAgree').checked){ alert('Please tick: I have read and understood the instructions'); return; }
+  $('ServerWorldInstrPage').style.display='none';
+  $('ServerWorldExamPage').style.display='flex';
+  loadServerWorldQuestions();
+  startServerWorldTimer();
+}
+
+function updateCandidatePaletteDisplay(){
+  let cName = activeProfile.name || 'Candidate';
+  let cRoll = activeProfile.roll || activeProfile.username || 'SW001';
+  let cPhoto = activeProfile.photo || activeProfile.image || '';
+
+  if($('ServerWorldPalNameDisplay')) $('ServerWorldPalNameDisplay').innerText = cName;
+  if($('ServerWorldPalRollDisplay')) $('ServerWorldPalRollDisplay').innerText = cRoll;
+  if($('ServerWorldPalName')) $('ServerWorldPalName').innerText = cName;
+  if($('ServerWorldPalRoll')) $('ServerWorldPalRoll').innerText = cRoll;
+
+  let imgEl = $('ServerWorldPalPhoto');
+  let fallbackEl = $('ServerWorldPalPhotoFallback');
+  if(imgEl && fallbackEl){
+    if(cPhoto && cPhoto.trim() !== ''){
+      imgEl.src = cPhoto;
+      imgEl.style.display = 'block';
+      fallbackEl.style.display = 'none';
+    } else {
+      imgEl.style.display = 'none';
+      fallbackEl.style.display = 'flex';
+    }
+  }
+}
+
+function loadServerWorldQuestions(){
+  if(ServerWorldCurrentExam && ServerWorldCurrentExam.questions && ServerWorldCurrentExam.questions.length>0){
+    ServerWorldQuestions=ServerWorldCurrentExam.questions;
+    $('ServerWorldPaperTitle').innerText=ServerWorldCurrentExam.title+' - ServerWorld';
+  }else{
+    ServerWorldQuestions=[];
+    alert('This exam does not have interactive questions configured.');
+    closeServerWorld();
+    return;
+  }
+  ServerWorldCurrentQ=0; ServerWorldAnswers={}; ServerWorldMarked={}; ServerWorldVisited={0:true};
+  updateCandidatePaletteDisplay();
+  renderServerWorldQ(); renderServerWorldPal(); makeServerWorldWM();
+}
+
+function makeServerWorldWM(){
+  let wm=$('ServerWorldWatermark');
+  let roll=activeProfile.roll||'403003757126';
+  let h='';
+  for(let i=0;i<50;i++){ let t=Math.random()*100,l=Math.random()*100; h+=`<span style="top:${t}%;left:${l}%">${roll}</span>`; }
+  wm.innerHTML=h;
+}
+
+function formatQuestionStatement(q){
+  let html = '';
+  let passage = q.passage || q.paragraph || '';
+  if(passage && passage.trim()){
+    let escPassage = passage.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    html += `
+      <div class="sw-passage-box" style="background:#f8fafc;border-left:4px solid #0284c7;border-radius:6px;padding:12px 16px;margin-bottom:14px;box-shadow:none;">
+        <div style="font-weight:700;color:#0369a1;font-size:13px;margin-bottom:6px;display:flex;align-items:center;gap:6px">
+          <span>📖 Reference Passage / Comprehension Paragraph</span>
+        </div>
+        <div style="font-size:13px;line-height:1.6;color:#1e293b;white-space:pre-wrap;">${escPassage}</div>
+      </div>
+    `;
+  }
+
+  let text = q.q || q.question || '';
+  if(/<img\s+[^>]*>/i.test(text)){
+    html += text;
+  } else {
+    html += text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g, '<br>');
+  }
+
+  let img = q.image || q.img || q.image_url;
+  if(img){
+    let src = img;
+    if(!src.startsWith('http') && !src.startsWith('data:') && !src.startsWith('/')){
+      src = (src.startsWith('uploads/') ? '' : 'uploads/') + src;
+    }
+    html += `
+      <div class="mtz-q-image-wrap">
+        <img src="${src}" alt="Question Diagram / Image" class="mtz-q-img" onclick="window.open(this.src, '_blank')" title="Click to view full image in a new tab">
+        <div style="font-size:12.5px;color:#64748b;margin-top:6px">🔍 Click image to enlarge</div>
+      </div>
+    `;
+  }
+  return html;
+}
+
+function renderServerWorldQ(){
+  let q=ServerWorldQuestions[ServerWorldCurrentQ];
+  if(!q) return;
+  ServerWorldVisited[ServerWorldCurrentQ]=true;
+  let totalQ = ServerWorldQuestions.length;
+  let qNum = ServerWorldCurrentQ + 1;
+
+  $('ServerWorldQText').innerHTML = formatQuestionStatement(q);
+  if($('ServerWorldQProgress')) $('ServerWorldQProgress').innerText = `Question ${qNum} of ${totalQ}`;
+  if($('mtzPalQCount')) $('mtzPalQCount').innerText = `Q${qNum} / ${totalQ}`;
+
+  let isBlankQ = (q.type === 'blank' || q.topic === 'Fill in the Blanks' || (q.q && q.q.includes('__________')));
+  if($('mtzPalQType')) $('mtzPalQType').innerText = isBlankQ ? 'Fill in Blank' : 'MCQ';
+
+  let currentVal = ServerWorldAnswers[ServerWorldCurrentQ];
+  let letters = ['A', 'B', 'C', 'D', 'E', 'F'];
+  let opts=q.opts||q.options||[];
+  let html='';
+
+  if(isBlankQ){
+    // STRICT DIRECT KEYBOARD TYPING ONLY - NO MULTIPLE CHOICE OPTIONS
+    let typedText = (typeof currentVal === 'string') ? currentVal : '';
+    let isAns = (typedText.trim() !== '');
+
+    html += `
+      <div class="mtz-blank-keyboard-box">
+        <div class="mtz-blank-header">
+          <span class="mtz-blank-badge">⌨️ Fill in the Blank &bull; Direct Typing</span>
+          <span style="font-size:12px;color:#475569;font-weight:600">Type your answer directly using your keyboard:</span>
+        </div>
+        <div class="mtz-blank-input-row">
+          <input type="text" id="mtzBlankTypedInput" class="mtz-blank-input" placeholder="Type your answer here..." value="${typedText}" oninput="ServerWorldTypeInput(this.value)" autocomplete="off">
+          <button type="button" class="mtz-blank-clear-btn" onclick="ServerWorldClear()">Clear</button>
+        </div>
+        <div class="mtz-blank-footer">
+          <span>💡 Press <kbd style="background:#e2e8f0;padding:2px 6px;border-radius:4px;font-family:monospace;border:1px solid #cbd5e1">Enter</kbd> or click <b>Save &amp; Next &rarr;</b> to proceed.</span>
+          <span id="blankStatusHint" style="font-weight:700;color:${isAns ? '#16a34a' : '#64748b'}">${isAns ? '✓ Answered' : '⚪ Not Answered'}</span>
+        </div>
+      </div>
+      <div style="font-size:12px;color:#64748b;font-style:italic;margin-top:6px;display:flex;align-items:center;gap:6px">
+        <span>📝</span> <span>No multiple choice options are provided for this question. Candidates must type their answer.</span>
+      </div>
+    `;
+  } else {
+    opts.forEach((o,i)=>{
+      let isChecked = (ServerWorldAnswers[ServerWorldCurrentQ] === i);
+      let chk = isChecked ? 'checked' : '';
+      let selCls = isChecked ? ' selected' : '';
+      let letBadge = letters[i] || (i + 1);
+      html+=`
+        <label class="mtz-opt-card${selCls}" onclick="ServerWorldSel(${i})">
+          <span class="mtz-opt-badge">${letBadge}</span>
+          <input type="radio" class="mtz-opt-radio" name="ServerWorldq${ServerWorldCurrentQ}" value="${i}" ${chk} onchange="ServerWorldSel(${i})">
+          <span class="mtz-opt-text">${o}</span>
+        </label>
+      `;
+    });
+  }
+
+  $('ServerWorldQOptions').innerHTML=html;
+
+  if(isBlankQ){
+    setTimeout(() => {
+      let inp = $('mtzBlankTypedInput');
+      if(inp){
+        inp.focus();
+        inp.onkeydown = function(e){
+          if(e.key === 'Enter'){
+            e.preventDefault();
+            ServerWorldSaveNext();
+          }
+        };
+      }
+    }, 50);
+  }
+
+  updServerWorldStats(); renderServerWorldPal();
+}
+
+function ServerWorldTypeInput(val){
+  let trimmed = val.trim();
+  if(trimmed !== ''){
+    ServerWorldAnswers[ServerWorldCurrentQ] = trimmed;
+    ServerWorldVisited[ServerWorldCurrentQ] = true;
+    delete ServerWorldMarked[ServerWorldCurrentQ];
+    if($('blankStatusHint')){
+      $('blankStatusHint').innerText = '✓ Answered';
+      $('blankStatusHint').style.color = '#16a34a';
+    }
+  } else {
+    delete ServerWorldAnswers[ServerWorldCurrentQ];
+    if($('blankStatusHint')){
+      $('blankStatusHint').innerText = '⚪ Not Answered';
+      $('blankStatusHint').style.color = '#64748b';
+    }
+  }
+  updServerWorldStats();
+  renderServerWorldPal();
+}
+
+function ServerWorldSelBlank(idx, optText){
+  ServerWorldAnswers[ServerWorldCurrentQ] = optText;
+  ServerWorldVisited[ServerWorldCurrentQ] = true;
+  delete ServerWorldMarked[ServerWorldCurrentQ];
+  let inp = $('mtzBlankTypedInput');
+  if(inp) inp.value = optText;
+  if($('blankStatusHint')){
+    $('blankStatusHint').innerText = '✓ Answered';
+    $('blankStatusHint').style.color = '#16a34a';
+  }
+  document.querySelectorAll('.mtz-opt-card').forEach((lbl, i) => {
+    if(i === idx){
+      lbl.classList.add('selected');
+      let r = lbl.querySelector('input[type="radio"]');
+      if(r) r.checked = true;
+    } else {
+      lbl.classList.remove('selected');
+      let r = lbl.querySelector('input[type="radio"]');
+      if(r) r.checked = false;
+    }
+  });
+  updServerWorldStats();
+  renderServerWorldPal();
+}
+
+function ServerWorldSel(i){
+  ServerWorldAnswers[ServerWorldCurrentQ]=i;
+  ServerWorldVisited[ServerWorldCurrentQ] = true;
+  delete ServerWorldMarked[ServerWorldCurrentQ];
+  document.querySelectorAll('.mtz-opt-card').forEach((lbl, idx) => {
+    if(idx === i){
+      lbl.classList.add('selected');
+      let r = lbl.querySelector('input[type="radio"]');
+      if(r) r.checked = true;
+    } else {
+      lbl.classList.remove('selected');
+      let r = lbl.querySelector('input[type="radio"]');
+      if(r) r.checked = false;
+    }
+  });
+  updServerWorldStats(); renderServerWorldPal();
+}
+
+function ServerWorldClear(){
+  delete ServerWorldAnswers[ServerWorldCurrentQ];
+  let inp = $('mtzBlankTypedInput');
+  if(inp){
+    inp.value = '';
+    inp.focus();
+  }
+  if($('blankStatusHint')){
+    $('blankStatusHint').innerText = '⚪ Not Answered';
+    $('blankStatusHint').style.color = '#64748b';
+  }
+  document.querySelectorAll('.mtz-opt-card').forEach(lbl => {
+    lbl.classList.remove('selected');
+    let r = lbl.querySelector('input[type="radio"]');
+    if(r) r.checked = false;
+  });
+  updServerWorldStats(); renderServerWorldPal();
+}
+function ServerWorldMarkReview(){
+  if(ServerWorldMarked[ServerWorldCurrentQ]){
+    delete ServerWorldMarked[ServerWorldCurrentQ];
+  } else {
+    ServerWorldMarked[ServerWorldCurrentQ]=true;
+  }
+  ServerWorldVisited[ServerWorldCurrentQ]=true;
+  updServerWorldStats();
+  renderServerWorldPal();
+  ServerWorldSaveNext();
+}
+function ServerWorldPrev(){ if(ServerWorldCurrentQ > 0){ ServerWorldCurrentQ--; renderServerWorldQ(); } }
+function ServerWorldSaveNext(){
+  ServerWorldVisited[ServerWorldCurrentQ] = true;
+  if(ServerWorldAnswers[ServerWorldCurrentQ] !== undefined && ServerWorldAnswers[ServerWorldCurrentQ] !== null && ServerWorldAnswers[ServerWorldCurrentQ] !== ''){
+    delete ServerWorldMarked[ServerWorldCurrentQ];
+  }
+  if(ServerWorldCurrentQ<ServerWorldQuestions.length-1){
+    ServerWorldCurrentQ++;
+    renderServerWorldQ();
+  } else {
+    renderServerWorldQ();
+  }
+}
+function renderServerWorldPal(){
+  let g=$('ServerWorldQGrid'); let h='';
+  ServerWorldQuestions.forEach((_,i)=>{
+    let cls='not-visited';
+    if(ServerWorldVisited[i]){
+      if(ServerWorldAnswers[i]!==undefined && ServerWorldMarked[i]) cls='ans-marked';
+      else if(ServerWorldAnswers[i]!==undefined) cls='answered';
+      else if(ServerWorldMarked[i]) cls='marked';
+      else cls='not-answered';
+    }
+    if(i===ServerWorldCurrentQ) cls+=' current';
+    h+=`<button class="${cls}" onclick="ServerWorldJump(${i})">${i+1}</button>`;
+  });
+  g.innerHTML=h;
+}
+function ServerWorldJump(i){ ServerWorldCurrentQ=i; renderServerWorldQ(); }
+function updServerWorldStats(){
+  let ans=Object.keys(ServerWorldAnswers).length;
+  let notAns=Object.keys(ServerWorldVisited).filter(k=>ServerWorldAnswers[k]===undefined).length;
+  let notVis=ServerWorldQuestions.length - Object.keys(ServerWorldVisited).length;
+  let m=Object.keys(ServerWorldMarked).filter(k=>ServerWorldAnswers[k]===undefined).length;
+  let totalQ = ServerWorldQuestions.length;
+  let pct = totalQ > 0 ? Math.round((ans / totalQ) * 100) : 0;
+  if($('ServerWorldSAns')) $('ServerWorldSAns').innerText=ans;
+  if($('ServerWorldSNotAns')) $('ServerWorldSNotAns').innerText=notAns;
+  if($('ServerWorldSNotVis')) $('ServerWorldSNotVis').innerText=notVis;
+  if($('ServerWorldSMark')) $('ServerWorldSMark').innerText=m;
+  if($('mtzStatProgress')) $('mtzStatProgress').innerText=`${ans}/${totalQ} • ${pct}%`;
+}
+function ServerWorldSwitchSec(s,el){
+  document.querySelectorAll('.ServerWorld-secs button').forEach(b=>b.classList.remove('active'));
+  if(el) el.classList.add('active');
+  $('ServerWorldSecTitle').innerText=s;
+  $('ServerWorldPaperTitle').innerText=s+' - '+(ServerWorldCurrentExam?ServerWorldCurrentExam.title:'UPUMS 2021 Mock PAPER I - PCB');
+  ServerWorldCurrentQ=0; renderServerWorldQ();
+}
+function ServerWorldTogglePal(){
+  let p = $('ServerWorldPalette');
+  let btn = $('ServerWorldCollapseBtn');
+  if(!p) return;
+  p.classList.toggle('collapsed');
+  let isCollapsed = p.classList.contains('collapsed');
+  if(btn){
+    btn.innerText = isCollapsed ? '❮' : '❯';
+    btn.title = isCollapsed ? 'Expand Question Palette' : 'Collapse Question Palette';
+  }
+}
+function startServerWorldTimer(){
+  if(ServerWorldTimer) clearInterval(ServerWorldTimer);
+  ServerWorldTimeLeft=120*60;
+  ServerWorldTimer=setInterval(()=>{
+    ServerWorldTimeLeft--;
+    if(ServerWorldTimeLeft<=0){ alert('Time up! Submitting'); ServerWorldSubmit(); return; }
+    let m=Math.floor(ServerWorldTimeLeft/60), s=ServerWorldTimeLeft%60;
+    $('ServerWorldTimeLeft').innerText=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+  },1000);
+}
+function ServerWorldSubmit(){
+  if(!confirm('Are you sure you want to submit?')) return;
+  let score=0;
+  ServerWorldQuestions.forEach((q,i)=>{ if(ServerWorldAnswers[i]!==undefined && ServerWorldAnswers[i]===(q.ans||0)) score++; });
+  let res={name:activeProfile.name,roll:activeProfile.roll,score:score,total:ServerWorldQuestions.length,accuracy:Math.round(score/ServerWorldQuestions.length*100),timestamp:new Date().toLocaleString(),examTitle:ServerWorldCurrentExam?ServerWorldCurrentExam.title:'ServerWorld Mock'};
+  let all=JSON.parse(localStorage.getItem('sw_results')||'[]');
+  all.unshift(res);
+  localStorage.setItem('sw_results',JSON.stringify(all));
+  fetch('save_result.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(res)}).catch(()=>{});
+  alert('Submitted! Score: '+score+'/'+ServerWorldQuestions.length);
+  closeServerWorld();
+  switchTab('results',document.querySelectorAll('.nav button')[2]);
+  loadResults();
+}
+</script>
+</body></html>

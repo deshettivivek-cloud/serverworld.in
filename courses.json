@@ -1,0 +1,51 @@
+[
+    {
+        "id": "course_tspsc",
+        "name": "TSPSC Groups",
+        "stream": "Group 1, 2, 3 & 4",
+        "color": "blue",
+        "icon": "building"
+    },
+    {
+        "id": "course_police",
+        "name": "Telangana Police",
+        "stream": "Constable • SI • ASI",
+        "color": "orange",
+        "icon": "shield"
+    },
+    {
+        "id": "course_tet",
+        "name": "TET DSC",
+        "stream": "Paper 1 • Paper 2",
+        "color": "green",
+        "icon": "academic"
+    },
+    {
+        "id": "course_ssc",
+        "name": "SSC RRB",
+        "stream": "SSC • Railway Exams",
+        "color": "purple",
+        "icon": "train"
+    },
+    {
+        "id": "course_cs",
+        "name": "Computer Science",
+        "stream": "IT • Coding • CS Concepts",
+        "color": "cyan",
+        "icon": "code"
+    },
+    {
+        "id": "course_neet",
+        "name": "NEET",
+        "stream": "Physics • Chemistry • Biology",
+        "color": "rose",
+        "icon": "academic"
+    },
+    {
+        "id": "course_banking_c573",
+        "name": "Banking",
+        "stream": "ibps",
+        "color": "blue",
+        "icon": "building"
+    }
+]

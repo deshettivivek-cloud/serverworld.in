@@ -1,0 +1,1952 @@
+[
+    {
+        "id": 1793958326,
+        "title": "TSPSC Groups Live Test",
+        "category": "TSPSC Groups",
+        "accessCode": "TSPSC-7821",
+        "duration": 20,
+        "maxMarks": 30,
+        "certificateThreshold": 85,
+        "result_visibility": "immediate",
+        "single_attempt": true,
+        "file": "1793958326_Questions_30.txt",
+        "paperType": "interactive",
+        "testType": "live",
+        "status": "LIVE",
+        "questions": [
+            {
+                "num": 1,
+                "q": "Which dynasty ruled much of the Deccan from its capital at Kalyani? A. Kakatiya B. Western Chalukya C. Satavahana D. Qutb Shahi",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 2,
+                "q": "Who was the founder of the Kakatiya dynasty? A. Prola II B. Rudradeva C. Beta I D. Ganapati Deva",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 2,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 3,
+                "q": "The famous Ramappa Temple is located in which Telangana district? A. Warangal B. Mulugu C. Karimnagar D. Nizamabad",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 1,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 4,
+                "q": "Who built the Charminar in Hyderabad? A. Ibrahim Quli Qutb Shah B. Muhammad Quli Qutb Shah C. Abul Hasan Tana Shah D. Mir Osman Ali Khan",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 3,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 5,
+                "q": "The Thousand Pillar Temple is associated with which Kakatiya ruler? A. Rudradeva B. Prataparudra C. Ganapati Deva D. Rani Rudrama Devi",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 1,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 6,
+                "q": "Which language received major patronage under the Kakatiyas? A. Tamil B. Kannada C. Telugu D. Marathi",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 7,
+                "q": "The Telangana state was officially formed on which date? A. 1 November 1956 B. 2 June 2014 C. 1 May 2014 D. 15 August 2014",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 3,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 8,
+                "q": "Who was the first Chief Minister of Telangana? A. K. Chandrashekar Rao B. A. Revanth Reddy C. N. Chandrababu Naidu D. T. Harish Rao",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 1,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 9,
+                "q": "The 1969 Telangana agitation is commonly associated with which demand? A. Separate Andhra state B. Separate Telangana state C. Merger with Maharashtra D. Creation of a linguistic state",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 10,
+                "q": "The Gentlemen's Agreement related to safeguards for which region? A. Rayalaseema B. Coastal Andhra C. Telangana D. Vidarbha",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 1,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 11,
+                "q": "Which is the largest district of Telangana by area (among the current districts)? A. Bhadradri Kothagudem B. Nalgonda C. Mulugu D. Rangareddy",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 12,
+                "q": "Which major river flows through Telangana and joins the Krishna? A. Godavari B. Musi C. Manjira D. Pranahita",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 13,
+                "q": "The Kaleshwaram Lift Irrigation Project is built on which river? A. Krishna B. Godavari C. Musi D. Manjira",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 14,
+                "q": "Which soil type is widely found in parts of the Deccan Plateau, including Telangana? A. Laterite B. Black cotton soil C. Peaty soil D. Tundra soil",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 15,
+                "q": "Who appoints the Governor of an Indian state? A. Prime Minister B. Chief Minister C. President of India D. Chief Justice of India",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 16,
+                "q": "Fundamental Rights are included in which part of the Indian Constitution? A. Part II B. Part III C. Part IV D. Part IVA",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 17,
+                "q": "A Money Bill can be introduced only in which House of Parliament? A. Rajya Sabha B. Lok Sabha C. Either House D. Joint sitting",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 18,
+                "q": "Who is the constitutional head of the Union executive? A. Prime Minister B. President C. Chief Justice D. Speaker of Lok Sabha",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 19,
+                "q": "Which Article of the Constitution provides for the Finance Commission? A. Article 110 B. Article 148 C. Article 280 D. Article 324",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 20,
+                "q": "Who founded the Indian National Congress in 1885? A. Dadabhai Naoroji B. A. O. Hume C. Bal Gangadhar Tilak D. Surendranath Banerjee",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 21,
+                "q": "The Non-Cooperation Movement was launched in which year? A. 1919 B. 1920 C. 1930 D. 1942",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 22,
+                "q": "Who was the first Governor-General of independent India? A. Lord Mountbatten B. C. Rajagopalachari C. Warren Hastings D. Lord Wavell",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 23,
+                "q": "Which institution is responsible for formulating monetary policy in India? A. NITI Aayog B. Reserve Bank of India C. Finance Commission D. SEBI",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 24,
+                "q": "Gross Domestic Product (GDP) measures the value of: A. Only agricultural output B. All final goods and services produced within a country C. Only exports D. Government tax revenue",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 25,
+                "q": "Which tax is an example of an indirect tax in India? A. Income tax B. Corporate tax C. Goods and Services Tax D. Wealth tax",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 26,
+                "q": "Which gas is most abundant in Earth's atmosphere? A. Oxygen B. Carbon dioxide C. Nitrogen D. Argon",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 27,
+                "q": "Which part of a plant mainly absorbs water and minerals from the soil? A. Stem B. Leaf C. Root D. Flower",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 28,
+                "q": "What is the SI unit of electric current? A. Volt B. Ohm C. Ampere D. Watt",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 29,
+                "q": "Which vitamin is primarily produced in the skin on exposure to sunlight? A. Vitamin A B. Vitamin B12 C. Vitamin C D. Vitamin D",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 30,
+                "q": "What is the main function of haemoglobin in human blood? A. Fight infections B. Transport oxygen C. Digest fats D. Regulate body temperature",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            }
+        ],
+        "qCount": 30,
+        "created": "2026-11-06 15:15:26"
+    },
+    {
+        "id": 1793958327,
+        "title": "TSPSC Groups Practice Mock Test",
+        "category": "TSPSC Groups",
+        "accessCode": "OPEN",
+        "duration": 20,
+        "maxMarks": 30,
+        "certificateThreshold": 85,
+        "result_visibility": "immediate",
+        "single_attempt": false,
+        "file": "1793958326_Questions_30.txt",
+        "paperType": "interactive",
+        "testType": "mock",
+        "status": "LIVE",
+        "questions": [
+            {
+                "num": 1,
+                "q": "Which dynasty ruled much of the Deccan from its capital at Kalyani? A. Kakatiya B. Western Chalukya C. Satavahana D. Qutb Shahi",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 2,
+                "q": "Who was the founder of the Kakatiya dynasty? A. Prola II B. Rudradeva C. Beta I D. Ganapati Deva",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 2,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 3,
+                "q": "The famous Ramappa Temple is located in which Telangana district? A. Warangal B. Mulugu C. Karimnagar D. Nizamabad",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 1,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 4,
+                "q": "Who built the Charminar in Hyderabad? A. Ibrahim Quli Qutb Shah B. Muhammad Quli Qutb Shah C. Abul Hasan Tana Shah D. Mir Osman Ali Khan",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 3,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 5,
+                "q": "The Thousand Pillar Temple is associated with which Kakatiya ruler? A. Rudradeva B. Prataparudra C. Ganapati Deva D. Rani Rudrama Devi",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 1,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 6,
+                "q": "Which language received major patronage under the Kakatiyas? A. Tamil B. Kannada C. Telugu D. Marathi",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 7,
+                "q": "The Telangana state was officially formed on which date? A. 1 November 1956 B. 2 June 2014 C. 1 May 2014 D. 15 August 2014",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 3,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 8,
+                "q": "Who was the first Chief Minister of Telangana? A. K. Chandrashekar Rao B. A. Revanth Reddy C. N. Chandrababu Naidu D. T. Harish Rao",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 1,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 9,
+                "q": "The 1969 Telangana agitation is commonly associated with which demand? A. Separate Andhra state B. Separate Telangana state C. Merger with Maharashtra D. Creation of a linguistic state",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 10,
+                "q": "The Gentlemen's Agreement related to safeguards for which region? A. Rayalaseema B. Coastal Andhra C. Telangana D. Vidarbha",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 1,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 11,
+                "q": "Which is the largest district of Telangana by area (among the current districts)? A. Bhadradri Kothagudem B. Nalgonda C. Mulugu D. Rangareddy",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 12,
+                "q": "Which major river flows through Telangana and joins the Krishna? A. Godavari B. Musi C. Manjira D. Pranahita",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 13,
+                "q": "The Kaleshwaram Lift Irrigation Project is built on which river? A. Krishna B. Godavari C. Musi D. Manjira",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 14,
+                "q": "Which soil type is widely found in parts of the Deccan Plateau, including Telangana? A. Laterite B. Black cotton soil C. Peaty soil D. Tundra soil",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 15,
+                "q": "Who appoints the Governor of an Indian state? A. Prime Minister B. Chief Minister C. President of India D. Chief Justice of India",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 16,
+                "q": "Fundamental Rights are included in which part of the Indian Constitution? A. Part II B. Part III C. Part IV D. Part IVA",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 17,
+                "q": "A Money Bill can be introduced only in which House of Parliament? A. Rajya Sabha B. Lok Sabha C. Either House D. Joint sitting",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 18,
+                "q": "Who is the constitutional head of the Union executive? A. Prime Minister B. President C. Chief Justice D. Speaker of Lok Sabha",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 19,
+                "q": "Which Article of the Constitution provides for the Finance Commission? A. Article 110 B. Article 148 C. Article 280 D. Article 324",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 20,
+                "q": "Who founded the Indian National Congress in 1885? A. Dadabhai Naoroji B. A. O. Hume C. Bal Gangadhar Tilak D. Surendranath Banerjee",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 21,
+                "q": "The Non-Cooperation Movement was launched in which year? A. 1919 B. 1920 C. 1930 D. 1942",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 22,
+                "q": "Who was the first Governor-General of independent India? A. Lord Mountbatten B. C. Rajagopalachari C. Warren Hastings D. Lord Wavell",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 23,
+                "q": "Which institution is responsible for formulating monetary policy in India? A. NITI Aayog B. Reserve Bank of India C. Finance Commission D. SEBI",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 24,
+                "q": "Gross Domestic Product (GDP) measures the value of: A. Only agricultural output B. All final goods and services produced within a country C. Only exports D. Government tax revenue",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 25,
+                "q": "Which tax is an example of an indirect tax in India? A. Income tax B. Corporate tax C. Goods and Services Tax D. Wealth tax",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 26,
+                "q": "Which gas is most abundant in Earth's atmosphere? A. Oxygen B. Carbon dioxide C. Nitrogen D. Argon",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 27,
+                "q": "Which part of a plant mainly absorbs water and minerals from the soil? A. Stem B. Leaf C. Root D. Flower",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 28,
+                "q": "What is the SI unit of electric current? A. Volt B. Ohm C. Ampere D. Watt",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 29,
+                "q": "Which vitamin is primarily produced in the skin on exposure to sunlight? A. Vitamin A B. Vitamin B12 C. Vitamin C D. Vitamin D",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 30,
+                "q": "What is the main function of haemoglobin in human blood? A. Fight infections B. Transport oxygen C. Digest fats D. Regulate body temperature",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            }
+        ],
+        "qCount": 30,
+        "created": "2026-11-06 15:15:27"
+    },
+    {
+        "id": 9901,
+        "title": "Telangana Police Sub-Inspector Full Mock Exam",
+        "category": "Telangana Police",
+        "accessCode": "OPEN",
+        "duration": 25,
+        "maxMarks": 30,
+        "certificateThreshold": 80,
+        "result_visibility": "immediate",
+        "single_attempt": false,
+        "file": null,
+        "paperType": "interactive",
+        "testType": "mock",
+        "status": "LIVE",
+        "questions": [
+            {
+                "num": 1,
+                "q": "Which dynasty ruled much of the Deccan from its capital at Kalyani? A. Kakatiya B. Western Chalukya C. Satavahana D. Qutb Shahi",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 2,
+                "q": "Who was the founder of the Kakatiya dynasty? A. Prola II B. Rudradeva C. Beta I D. Ganapati Deva",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 2,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 3,
+                "q": "The famous Ramappa Temple is located in which Telangana district? A. Warangal B. Mulugu C. Karimnagar D. Nizamabad",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 1,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 4,
+                "q": "Who built the Charminar in Hyderabad? A. Ibrahim Quli Qutb Shah B. Muhammad Quli Qutb Shah C. Abul Hasan Tana Shah D. Mir Osman Ali Khan",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 3,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 5,
+                "q": "The Thousand Pillar Temple is associated with which Kakatiya ruler? A. Rudradeva B. Prataparudra C. Ganapati Deva D. Rani Rudrama Devi",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 1,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 6,
+                "q": "Which language received major patronage under the Kakatiyas? A. Tamil B. Kannada C. Telugu D. Marathi",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 7,
+                "q": "The Telangana state was officially formed on which date? A. 1 November 1956 B. 2 June 2014 C. 1 May 2014 D. 15 August 2014",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 3,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 8,
+                "q": "Who was the first Chief Minister of Telangana? A. K. Chandrashekar Rao B. A. Revanth Reddy C. N. Chandrababu Naidu D. T. Harish Rao",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 1,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 9,
+                "q": "The 1969 Telangana agitation is commonly associated with which demand? A. Separate Andhra state B. Separate Telangana state C. Merger with Maharashtra D. Creation of a linguistic state",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 10,
+                "q": "The Gentlemen's Agreement related to safeguards for which region? A. Rayalaseema B. Coastal Andhra C. Telangana D. Vidarbha",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 1,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 11,
+                "q": "Which is the largest district of Telangana by area (among the current districts)? A. Bhadradri Kothagudem B. Nalgonda C. Mulugu D. Rangareddy",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 12,
+                "q": "Which major river flows through Telangana and joins the Krishna? A. Godavari B. Musi C. Manjira D. Pranahita",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 13,
+                "q": "The Kaleshwaram Lift Irrigation Project is built on which river? A. Krishna B. Godavari C. Musi D. Manjira",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 14,
+                "q": "Which soil type is widely found in parts of the Deccan Plateau, including Telangana? A. Laterite B. Black cotton soil C. Peaty soil D. Tundra soil",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 15,
+                "q": "Who appoints the Governor of an Indian state? A. Prime Minister B. Chief Minister C. President of India D. Chief Justice of India",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 16,
+                "q": "Fundamental Rights are included in which part of the Indian Constitution? A. Part II B. Part III C. Part IV D. Part IVA",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 17,
+                "q": "A Money Bill can be introduced only in which House of Parliament? A. Rajya Sabha B. Lok Sabha C. Either House D. Joint sitting",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 18,
+                "q": "Who is the constitutional head of the Union executive? A. Prime Minister B. President C. Chief Justice D. Speaker of Lok Sabha",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 19,
+                "q": "Which Article of the Constitution provides for the Finance Commission? A. Article 110 B. Article 148 C. Article 280 D. Article 324",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 20,
+                "q": "Who founded the Indian National Congress in 1885? A. Dadabhai Naoroji B. A. O. Hume C. Bal Gangadhar Tilak D. Surendranath Banerjee",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 21,
+                "q": "The Non-Cooperation Movement was launched in which year? A. 1919 B. 1920 C. 1930 D. 1942",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 22,
+                "q": "Who was the first Governor-General of independent India? A. Lord Mountbatten B. C. Rajagopalachari C. Warren Hastings D. Lord Wavell",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 23,
+                "q": "Which institution is responsible for formulating monetary policy in India? A. NITI Aayog B. Reserve Bank of India C. Finance Commission D. SEBI",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 24,
+                "q": "Gross Domestic Product (GDP) measures the value of: A. Only agricultural output B. All final goods and services produced within a country C. Only exports D. Government tax revenue",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 25,
+                "q": "Which tax is an example of an indirect tax in India? A. Income tax B. Corporate tax C. Goods and Services Tax D. Wealth tax",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 26,
+                "q": "Which gas is most abundant in Earth's atmosphere? A. Oxygen B. Carbon dioxide C. Nitrogen D. Argon",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 27,
+                "q": "Which part of a plant mainly absorbs water and minerals from the soil? A. Stem B. Leaf C. Root D. Flower",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 28,
+                "q": "What is the SI unit of electric current? A. Volt B. Ohm C. Ampere D. Watt",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 29,
+                "q": "Which vitamin is primarily produced in the skin on exposure to sunlight? A. Vitamin A B. Vitamin B12 C. Vitamin C D. Vitamin D",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            },
+            {
+                "num": 30,
+                "q": "What is the main function of haemoglobin in human blood? A. Fight infections B. Transport oxygen C. Digest fats D. Regulate body temperature",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "TSPSC Groups"
+            }
+        ],
+        "qCount": 30,
+        "created": "2026-11-06 12:00:00"
+    },
+    {
+        "id": 1794042476,
+        "title": "police1",
+        "category": "Telangana Police",
+        "accessCode": "POLICE-101",
+        "duration": 15,
+        "maxMarks": 15,
+        "certificateThreshold": 80,
+        "result_visibility": "immediate",
+        "single_attempt": true,
+        "file": "1794042476_police_exam_15_questions_with_answers.pdf",
+        "paperType": "interactive",
+        "testType": "live",
+        "status": "LIVE",
+        "questions": [
+            {
+                "num": 1,
+                "q": "The Constitution of India came into effect on which date? A. 15 August 1947 B. 26 January 1950 C. 26 November 1949 D. 2 October 1950",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 1,
+                "marks": 1,
+                "explanation": "",
+                "topic": "General Knowledge"
+            },
+            {
+                "num": 2,
+                "q": "Which body conducts recruitment examinations for many central government police forces such as the CAPFs? A. Union Public Service Commission B. Staff Selection Commission C. Election Commission of India D. Finance Commission",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 1,
+                "marks": 1,
+                "explanation": "",
+                "topic": "General Knowledge"
+            },
+            {
+                "num": 3,
+                "q": "What is the emergency telephone number for police assistance in India? A. 100 B. 101 C. 108 D. 112",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 3,
+                "marks": 1,
+                "explanation": "",
+                "topic": "General Knowledge"
+            },
+            {
+                "num": 4,
+                "q": "Which part of the Indian Constitution contains the Fundamental Rights? A. Part II B. Part III C. Part IV D. Part V",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 1,
+                "marks": 1,
+                "explanation": "",
+                "topic": "General Knowledge"
+            },
+            {
+                "num": 5,
+                "q": "The National Police Academy named after Sardar Vallabhbhai Patel is located in which city? A. Jaipur B. Hyderabad C. Lucknow D. Bhopal",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 1,
+                "marks": 1,
+                "explanation": "",
+                "topic": "General Knowledge"
+            },
+            {
+                "num": 6,
+                "q": "Find the next number in the series: 2, 6, 12, 20, 30, __ A. 36 B. 40 C. 42 D. 44",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 2,
+                "marks": 1,
+                "explanation": "",
+                "topic": "Reasoning"
+            },
+            {
+                "num": 7,
+                "q": "If POLICE is coded as QPMJDF by shifting each letter one step forward, how is CRIME coded? A. DSJNF B. DSJMF C. CQHLD D. DRJNF",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "Reasoning"
+            },
+            {
+                "num": 8,
+                "q": "Ravi is facing north. He turns right, then right again, then left. Which direction is he facing now? A. North B. South C. East D. West",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 2,
+                "marks": 1,
+                "explanation": "",
+                "topic": "Reasoning"
+            },
+            {
+                "num": 9,
+                "q": "Choose the odd one out. A. Circle B. Triangle C. Square D. Kilogram",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 3,
+                "marks": 1,
+                "explanation": "",
+                "topic": "Reasoning"
+            },
+            {
+                "num": 10,
+                "q": "A is taller than B. C is taller than A. Who is the tallest? A. A B. B C. C D. Cannot be determined",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 2,
+                "marks": 1,
+                "explanation": "",
+                "topic": "Reasoning"
+            },
+            {
+                "num": 11,
+                "q": "A team has 40 officers. If 25% are assigned to traffic duty, how many officers is that? A. 8 B. 10 C. 12 D. 15",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 1,
+                "marks": 1,
+                "explanation": "",
+                "topic": "Numerical Ability"
+            },
+            {
+                "num": 12,
+                "q": "A vehicle travels 150 km in 3 hours. What is its average speed? A. 45 km\/h B. 50 km\/h C. 55 km\/h D. 60 km\/h",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 1,
+                "marks": 1,
+                "explanation": "",
+                "topic": "Numerical Ability"
+            },
+            {
+                "num": 13,
+                "q": "What is 15% of 240? A. 24 B. 30 C. 36 D. 40",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 2,
+                "marks": 1,
+                "explanation": "",
+                "topic": "Numerical Ability"
+            },
+            {
+                "num": 14,
+                "q": "The ratio of male to female candidates is 3:2. If there are 50 candidates, how many are female? A. 15 B. 20 C. 25 D. 30",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 1,
+                "marks": 1,
+                "explanation": "",
+                "topic": "Numerical Ability"
+            },
+            {
+                "num": 15,
+                "q": "An item costs INR 800 and is sold at a 10% discount. What is the selling price? A. INR 700 B. INR 720 C. INR 740 D. INR 760",
+                "opts_raw": "",
+                "opts": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "ans": 1,
+                "marks": 1,
+                "explanation": "",
+                "topic": "Numerical Ability"
+            }
+        ],
+        "qCount": 15,
+        "created": "2026-11-07 14:37:56"
+    },
+    {
+        "id": 1794074224,
+        "title": "Computer Concepts & Technologies (10 MCQ + 5 Blanks + 5 True\/False)",
+        "category": "Computer Science",
+        "accessCode": "COMP-2024",
+        "duration": 20,
+        "maxMarks": 20,
+        "certificateThreshold": 80,
+        "result_visibility": "immediate",
+        "single_attempt": true,
+        "file": "1794074224_COMPUTER_QUESTION_PAPER.pdf",
+        "paperType": "interactive",
+        "testType": "live",
+        "status": "LIVE",
+        "questions": [
+            {
+                "num": 1,
+                "q": "__________ tools like charts and graphs makes patterns easier to understand",
+                "opts": [
+                    "Visual",
+                    "Observation",
+                    "Videos",
+                    "Informational"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "Computer Science"
+            },
+            {
+                "num": 2,
+                "q": "__________ is one of the features of AR",
+                "opts": [
+                    "Gestures",
+                    "Touch",
+                    "Motion tracking",
+                    "Videos"
+                ],
+                "ans": 2,
+                "marks": 1,
+                "explanation": "",
+                "topic": "Computer Science"
+            },
+            {
+                "num": 3,
+                "q": "This feature of VR mimics different intensities of sound to create realistic soundscape",
+                "opts": [
+                    "Mimics",
+                    "Stereoscopic Audio",
+                    "Head set",
+                    "SoundIt"
+                ],
+                "ans": 1,
+                "marks": 1,
+                "explanation": "",
+                "topic": "Computer Science"
+            },
+            {
+                "num": 4,
+                "q": "allows hand tracking, touch and grasp and moving mixed reality.",
+                "opts": [
+                    "Mixed",
+                    "Shared",
+                    "SOLO",
+                    "Holo lens"
+                ],
+                "ans": 3,
+                "marks": 1,
+                "explanation": "",
+                "topic": "Computer Science"
+            },
+            {
+                "num": 5,
+                "q": "Arranging data by its attributes to find similar groups is called:",
+                "opts": [
+                    "Machine learning",
+                    "Sorting and Filtering",
+                    "Entertainment",
+                    "Prediction"
+                ],
+                "ans": 1,
+                "marks": 1,
+                "explanation": "",
+                "topic": "Computer Science"
+            },
+            {
+                "num": 6,
+                "q": "Which of the following correctly explains the concept of Digital Responsibility?",
+                "opts": [
+                    "The record of a person's activities and information left online",
+                    "The physical marks left by a person's shoes",
+                    "A password used to access a website",
+                    "A device used to connect to the internet"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "Computer Science"
+            },
+            {
+                "num": 7,
+                "q": "Unauthorized access to computer systems or networks with the intention of stealing,",
+                "opts": [
+                    "Phishing",
+                    "Plagiarism",
+                    "Spamming",
+                    "Hacking"
+                ],
+                "ans": 3,
+                "marks": 1,
+                "explanation": "",
+                "topic": "Computer Science"
+            },
+            {
+                "num": 8,
+                "q": "Posting comments online unintentionally:",
+                "opts": [
+                    "Active footprint",
+                    "Passive footprint",
+                    "Hacker footprint",
+                    "Phishing footprint"
+                ],
+                "ans": 1,
+                "marks": 1,
+                "explanation": "",
+                "topic": "Computer Science"
+            },
+            {
+                "num": 9,
+                "q": "Which form of intellectual property protects your inventions?",
+                "opts": [
+                    "Patent",
+                    "Trademark",
+                    "Copyright",
+                    "Software Piracy"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "Computer Science"
+            },
+            {
+                "num": 10,
+                "q": "Making observations from data means:",
+                "opts": [
+                    "Changing the data",
+                    "Looking for patterns and key findings",
+                    "Making guesses",
+                    "Hiding results"
+                ],
+                "ans": 1,
+                "marks": 1,
+                "explanation": "",
+                "topic": "Computer Science"
+            },
+            {
+                "num": 11,
+                "q": "The device used to view VR content is known as __________.",
+                "opts_raw": "",
+                "opts": [
+                    "VR Headset \/ HMD",
+                    "Smart Glasses",
+                    "Smartphone",
+                    "Computer Monitor"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "Fill in the Blanks"
+            },
+            {
+                "num": 12,
+                "q": "PokPokémonmon GO is an example of __________ Reality.",
+                "opts_raw": "",
+                "opts": [
+                    "Augmented (AR)",
+                    "Virtual (VR)",
+                    "Mixed (MR)",
+                    "Simulated"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "Fill in the Blanks"
+            },
+            {
+                "num": 13,
+                "q": "Computer __________ is the set of rules that we must follow while using computers for various purposes.",
+                "opts_raw": "",
+                "opts": [
+                    "Ethics",
+                    "Hardware",
+                    "Security",
+                    "Network Protocol"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "Fill in the Blanks"
+            },
+            {
+                "num": 14,
+                "q": "The right to control access to and use of personal information is called __________.",
+                "opts_raw": "",
+                "opts": [
+                    "Data Privacy",
+                    "Public Access",
+                    "Plagiarism",
+                    "Phishing"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "Fill in the Blanks"
+            },
+            {
+                "num": 15,
+                "q": "__________ is the unauthorized copying or use of software and is a punishable offence.III.",
+                "opts_raw": "",
+                "opts": [
+                    "Software Piracy",
+                    "Open Source",
+                    "Freeware",
+                    "Shareware"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "Fill in the Blanks"
+            },
+            {
+                "num": 16,
+                "q": "Your avatar is like a virtual body in the metaverse.",
+                "opts_raw": "",
+                "opts": [
+                    "True",
+                    "False"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "True or False"
+            },
+            {
+                "num": 17,
+                "q": "No harm in clicking suspicious links.",
+                "opts_raw": "",
+                "opts": [
+                    "True",
+                    "False"
+                ],
+                "ans": 1,
+                "marks": 1,
+                "explanation": "",
+                "topic": "True or False"
+            },
+            {
+                "num": 18,
+                "q": "Myntra app lets customers try on dresses that appear in the app.",
+                "opts_raw": "",
+                "opts": [
+                    "True",
+                    "False"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "True or False"
+            },
+            {
+                "num": 19,
+                "q": "Do not share your personal information without parent's permission.",
+                "opts_raw": "",
+                "opts": [
+                    "True",
+                    "False"
+                ],
+                "ans": 0,
+                "marks": 1,
+                "explanation": "",
+                "topic": "True or False"
+            },
+            {
+                "num": 20,
+                "q": "Sharing personal information online is always safe or appropriate.",
+                "opts_raw": "",
+                "opts": [
+                    "True",
+                    "False"
+                ],
+                "ans": 1,
+                "marks": 1,
+                "explanation": "",
+                "topic": "True or False"
+            }
+        ],
+        "qCount": 20,
+        "created": "2026-11-07 23:27:04"
+    }
+]

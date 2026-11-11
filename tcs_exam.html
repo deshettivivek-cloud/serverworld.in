@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Server World - Examination Center</title>
+<link rel="icon" type="image/jpeg" href="logo.jpg">
+<style>
+*{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;margin:0;padding:0}
+body{background:#fff;color:#000;font-size:13px;min-height:100vh;display:flex;flex-direction:column}
+.top-blue{background:#2c4a7a;height:26px;width:100%}
+.exam-black-bar{background:#000;color:#f1c40f;padding:6px 12px;display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:12px}
+.exam-black-bar .right{display:flex;gap:18px;align-items:center}
+.icon-circle{width:18px;height:18px;background:#00a79d;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:12px}
+.sub-bar{background:#e7e7e7;padding:6px 12px;display:flex;align-items:center}
+.paper-btn{background:#0080c0;color:#fff;padding:6px 16px;border-radius:4px;font-weight:700;font-size:14px;display:flex;align-items:center;gap:6px;cursor:pointer}
+.sections-bar{background:#f5f5f5;padding:7px 12px;display:flex;justify-content:space-between;border-bottom:1px solid #ccc;align-items:center}
+.secs{display:flex;gap:5px}
+.secs button{padding:6px 14px;border:1px solid #0080c0;background:#fff;color:#0080c0;border-radius:4px;cursor:pointer;font-size:13px;display:flex;align-items:center;gap:4px}
+.secs button.active{background:#0080c0;color:#fff}
+.time{font-weight:700;font-size:14px}
+.main{display:flex;flex:1;overflow:hidden}
+/* ==================== MOCKTESTZONE-STYLE MODERN CBT INTERFACE (IMAGE 2) ==================== */
+.mtz-topbar{background:#ffffff;border-bottom:1px solid #e2e8f0;padding:12px 24px;display:flex;justify-content:space-between;align-items:center}
+.mtz-topbar-left{display:flex;flex-direction:column;gap:2px}
+.mtz-exam-title{font-size:20px;font-weight:800;color:#0f172a;font-family:Inter,system-ui,sans-serif}
+.mtz-exam-subtitle{font-size:14px;color:#64748b;font-weight:500}
+.mtz-topbar-right{display:flex;align-items:center;gap:16px}
+.mtz-timer-pill{background:#0f172a;color:#ffffff;padding:6px 18px;border-radius:8px;font-size:16px;font-weight:700;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;letter-spacing:1px;box-shadow:0 2px 4px rgba(0,0,0,0.15)}
+.mtz-btn-link{font-size:14px;color:#475569;text-decoration:none;display:inline-flex;align-items:center;gap:5px;cursor:pointer;padding:6px 12px;border-radius:6px;border:1px solid #e2e8f0;background:#f8fafc;font-weight:600}
+.mtz-btn-link:hover{background:#f1f5f9;color:#0f172a}
+
+.mtz-main-split{display:flex;flex:1;overflow:hidden;background:#ffffff}
+.mtz-q-column{flex:1;display:flex;flex-direction:column;overflow-y:auto;padding:28px 36px 36px;position:relative;background:#ffffff}
+.mtz-watermark{position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;opacity:0.08;z-index:0}
+.mtz-watermark span{position:absolute;font-size:14px;transform:rotate(-35deg);white-space:nowrap;color:#000}
+.mtz-q-text{position:relative;z-index:1;font-size:18px;font-weight:600;line-height:1.65;color:#1e293b;margin-bottom:26px;font-family:Inter,system-ui,sans-serif}
+.mtz-options-stack{position:relative;z-index:1;display:flex;flex-direction:column;gap:12px;width:100%;margin-bottom:24px}
+.mtz-opt-card{display:flex;align-items:center;gap:16px;padding:14px 20px;border:1.5px solid #e2e8f0;border-radius:8px;background:#ffffff;cursor:pointer;transition:all 0.15s ease;user-select:none}
+.mtz-opt-card:hover{border-color:#3b82f6;background:#f8fafc}
+.mtz-opt-card.selected{border-color:#2563eb;background:#eff6ff;box-shadow:0 0 0 1px #2563eb}
+.mtz-opt-badge{font-weight:700;font-size:16px;color:#475569;width:24px;flex-shrink:0}
+.mtz-opt-card.selected .mtz-opt-badge{color:#1d4ed8}
+.mtz-opt-radio{width:18px;height:18px;accent-color:#2563eb;cursor:pointer;flex-shrink:0;margin:0}
+.mtz-opt-text{flex:1;font-size:16px;color:#1e293b;line-height:1.5;font-family:Inter,system-ui,sans-serif}
+.mtz-q-nav{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:24px;border-top:1px solid #f1f5f9}
+.mtz-btn-prev{background:#ffffff;color:#475569;border:1px solid #cbd5e1;padding:11px 22px;border-radius:6px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.15s ease;font-family:Inter,system-ui,sans-serif}
+.mtz-btn-prev:hover{background:#f8fafc;border-color:#94a3b8;color:#0f172a}
+.mtz-btn-next{background:#2563eb;color:#ffffff;border:1px solid #2563eb;padding:11px 26px;border-radius:6px;font-size:16px;font-weight:800;cursor:pointer;transition:background 0.15s ease;font-family:Inter,system-ui,sans-serif;box-shadow:0 1px 3px rgba(37,99,235,0.3)}
+.mtz-btn-next:hover{background:#1d4ed8}
+
+.mtz-palette-column{width:320px;min-width:320px;border-left:1px solid #e2e8f0;background:#ffffff;display:flex;flex-direction:column;overflow:hidden;position:relative;transition:width 0.25s ease,min-width 0.25s ease,opacity 0.2s ease}
+.mtz-palette-column.collapsed{width:0 !important;min-width:0 !important;border-left:none !important;opacity:0 !important;pointer-events:none !important}
+.mtz-pal-meta{padding:12px 16px;border-bottom:1px solid #f1f5f9;display:flex;justify-content:space-between;align-items:center}
+.mtz-pal-qcount{font-size:14px;font-weight:700;color:#0f172a}
+.mtz-pal-mcq{background:#f1f5f9;color:#475569;padding:2px 8px;border-radius:4px;font-size:13px;font-weight:700}
+.mtz-pal-marks{background:#ecfdf5;color:#059669;border:1px solid #a7f3d0;padding:2px 10px;border-radius:12px;font-size:13px;font-weight:700}
+.mtz-pal-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px 16px}
+.mtz-pal-act-btn{background:#ffffff;color:#475569;border:1px solid #cbd5e1;padding:9px 10px;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.15s ease;text-align:center;font-family:Inter,system-ui,sans-serif}
+.mtz-pal-act-btn:hover{background:#f8fafc;border-color:#94a3b8;color:#0f172a}
+.mtz-pal-stats-row{padding:6px 16px 10px;display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#64748b;border-bottom:1px solid #f1f5f9}
+.mtz-stat-pill{display:inline-flex;align-items:center;gap:4px;font-weight:700}
+.mtz-stat-pill.green{color:#16a34a}
+.mtz-stat-pill.red{color:#dc2626}
+.mtz-stat-pill.purple{color:#9333ea}
+
+/* Question Image / Diagram Display */
+.mtz-q-image-wrap{
+  margin:14px 0 20px;
+  text-align:center;
+  background:#f8fafc;
+  padding:14px;
+  border-radius:10px;
+  border:1px solid #e2e8f0;
+}
+.mtz-q-img{
+  max-width:100%;
+  max-height:360px;
+  border-radius:8px;
+  border:1px solid #cbd5e1;
+  box-shadow:0 3px 10px rgba(0,0,0,0.06);
+  cursor:zoom-in;
+  transition:transform 0.2s ease;
+  background:#ffffff;
+}
+.mtz-q-img:hover{
+  transform:scale(1.01);
+}
+
+/* Fill-in-the-Blank Keyboard Entry Console */
+.mtz-blank-keyboard-box{
+  background:#f8fafc;
+  border:1.5px solid #3b82f6;
+  border-radius:10px;
+  padding:18px 20px;
+  margin-bottom:20px;
+  box-shadow:0 3px 12px rgba(59,130,246,0.07);
+}
+.mtz-blank-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:12px;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.mtz-blank-badge{
+  background:#2563eb;
+  color:#ffffff;
+  font-size:13px;
+  font-weight:700;
+  padding:4px 10px;
+  border-radius:4px;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  letter-spacing:0.3px;
+}
+.mtz-blank-input-row{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+.mtz-blank-input{
+  flex:1;
+  padding:12px 16px;
+  font-size:16px;
+  font-weight:600;
+  border:2px solid #cbd5e1;
+  border-radius:8px;
+  outline:none;
+  background:#ffffff;
+  color:#0f172a;
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.mtz-blank-input:focus{
+  border-color:#2563eb;
+  box-shadow:0 0 0 3px rgba(37,99,235,0.12);
+}
+.mtz-blank-clear-btn{
+  padding:12px 18px;
+  background:#ffffff;
+  border:1px solid #cbd5e1;
+  border-radius:8px;
+  font-weight:700;
+  font-size:15px;
+  color:#475569;
+  cursor:pointer;
+  transition:all 0.15s;
+}
+.mtz-blank-clear-btn:hover{
+  background:#fee2e2;
+  border-color:#fca5a5;
+  color:#b91c1c;
+}
+.mtz-blank-footer{
+  margin-top:10px;
+  display:flex;
+  justify-content:space-between;
+  font-size:14px;
+  color:#64748b;
+  align-items:center;
+}
+
+.mtz-grid-area{padding:14px 16px;flex:1;overflow-y:auto}
+.mtz-pal-grid{display:grid;grid-template-columns:repeat(5, 1fr);gap:6px}
+.mtz-pal-grid button{height:38px;border-radius:6px;border:1px solid #e2e8f0;background:#f8fafc;color:#475569;font-weight:700;font-size:14px;cursor:pointer;transition:all 0.15s ease;font-family:Inter,system-ui,sans-serif}
+.mtz-pal-grid button:hover{filter:brightness(0.95)}
+.mtz-pal-grid button.answered{background:#16a34a !important;color:#ffffff !important;border-color:#16a34a !important}
+.mtz-pal-grid button.not-answered{background:#dc2626 !important;color:#ffffff !important;border-color:#dc2626 !important}
+.mtz-pal-grid button.marked{background:#9333ea !important;color:#ffffff !important;border-color:#9333ea !important;border-radius:50% !important}
+.mtz-pal-grid button.ans-marked{background:#9333ea !important;color:#ffffff !important;border-color:#9333ea !important;position:relative}
+.mtz-pal-grid button.ans-marked::after{content:'●';color:#16a34a;position:absolute;bottom:1px;right:3px;font-size:12px}
+.mtz-pal-grid button.current{box-shadow:0 0 0 2px #2563eb !important;outline:none}
+
+.mtz-legend{padding:10px 16px;border-top:1px solid #f1f5f9;display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:12.5px;color:#64748b;background:#fafafa}
+.mtz-leg-item{display:flex;align-items:center;gap:6px}
+.mtz-leg-dot{width:10px;height:10px;border-radius:2px;display:inline-block}
+
+.mtz-submit-bar{padding:12px 16px;border-top:1px solid #e2e8f0;background:#ffffff}
+.mtz-btn-submit{width:100%;background:#b91c1c;color:#ffffff;border:none;padding:13px;border-radius:6px;font-size:16px;font-weight:800;cursor:pointer;transition:background 0.15s ease;text-align:center;font-family:Inter,system-ui,sans-serif;box-shadow:0 1px 3px rgba(185,28,28,0.3)}
+.mtz-btn-submit:hover{background:#991b1b}
+.mtz-collapse-toggle{position:absolute;right:0;top:50%;transform:translateY(-50%);background:#0f172a;color:#ffffff;width:20px;height:42px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:20;font-size:13px;border-radius:4px 0 0 4px;user-select:none;box-shadow:-2px 0 6px rgba(0,0,0,0.15);transition:background 0.15s ease}
+.palette{width:285px;min-width:240px;background:#e8f6f8;border-left:2px solid #000;display:flex;flex-direction:column;overflow:hidden;transition:width 0.25s ease,min-width 0.25s ease,opacity 0.2s ease}
+.palette.collapsed{width:0 !important;min-width:0 !important;border-left:none !important;opacity:0 !important;pointer-events:none !important}
+.p-top{padding:10px;display:flex;gap:10px;align-items:center;background:#fff;border-bottom:1px solid #ccc}
+.p-top img{width:64px;height:64px;background:#d0d8e2;border:1px solid #999;border-radius:4px}
+.p-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px;background:#fff;border-bottom:1px solid #ccc;font-size:12.5px}
+.stat{display:flex;gap:5px;align-items:center}
+.s-icon{width:22px;height:18px;border-radius:3px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px;flex-shrink:0}
+.s-green{background:#059669}.s-red{background:#ed5565}.s-white{background:#fff;border:1px solid #999;color:#000}.s-purple{background:#a64ca6}
+.sec-title{background:#0080c0;color:#fff;padding:7px 12px;font-weight:700;font-size:14px}
+.choose{padding:6px 12px;font-weight:700;font-size:13px;background:#fff}
+.q-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:8px;background:#fff;overflow-y:auto}
+.q-grid button{height:34px;border:1px solid #999;background:#fff;cursor:pointer;font-size:13px}
+.q-grid button.answered{background:#059669;color:#fff}
+.q-grid button.not-answered{background:#ed5565;color:#fff}
+.q-grid button.marked{background:#a64ca6;color:#fff;border-radius:50%}
+.q-grid button.ans-marked{background:#a64ca6;color:#fff;position:relative}
+.q-grid button.current{background:#ed5565;color:#fff;border:2px solid #000}
+.version{background:#2c4a7a;color:#fff;text-align:center;padding:4px;font-size:12px}
+/* Instructions */
+.inst-page{display:flex;flex-direction:column;height:100vh}
+.inst-title{background:#a8d8ea;padding:9px 14px;font-weight:700;font-size:15px;border-bottom:1px solid #7fc0d6}
+.inst-main{display:flex;flex:1;overflow:hidden}
+.inst-left{flex:1;padding:14px 18px;overflow-y:auto;font-size:13px;line-height:1.6;background:#fff}
+.inst-right{width:285px;border-left:2px solid #000;background:#fff;display:flex;flex-direction:column;align-items:center;padding:20px 10px}
+.inst-right img{width:90px;height:90px;background:#d0d8e2;border-radius:8px;margin-bottom:8px}
+.inst-footer{padding:12px;border-top:1px solid #ccc;background:#fff}
+.inst-check{display:flex;gap:8px;font-size:12px;line-height:1.4;margin-bottom:14px}
+.inst-actions{display:flex;justify-content:space-between}
+.inst-actions button{padding:8px 16px;border:1px solid #999;background:#fff;border-radius:4px;cursor:pointer;font-size:15px}
+.inst-actions .ready{background:#0080c0;color:#fff;border-color:#0080c0;font-weight:700;padding:10px 24px;font-size:16px}
+.collapse{position:absolute;right:0;top:50%;transform:translateY(-50%);background:#000;color:#fff;width:20px;height:42px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:20;font-size:13px;border-radius:4px 0 0 4px;user-select:none;box-shadow:-2px 0 6px rgba(0,0,0,0.15);transition:background 0.15s ease}
+.collapse:hover{background:#0080c0}
+
+/* Mobile & Tablet Responsiveness */
+.mtz-pal-backdrop{
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100vw;
+  height:100vh;
+  background:rgba(0,0,0,0.4);
+  backdrop-filter:blur(2px);
+  z-index:90;
+}
+
+@media(max-width:900px){
+  .inst-main{flex-direction:column-reverse}
+  .inst-right{width:100%;border-left:none;border-bottom:1px solid #e2e8f0;flex-direction:row;gap:12px;padding:10px 14px;align-items:center}
+  .inst-right svg{width:40px;height:40px}
+  .inst-left{padding:12px 14px}
+  .inst-actions{flex-direction:column;gap:10px}
+  .inst-actions button{width:100%;padding:12px;text-align:center}
+
+  .mtz-topbar{padding:8px 12px;flex-wrap:wrap;gap:8px}
+  .mtz-topbar-left{width:100%;display:flex;justify-content:space-between;align-items:center}
+  .mtz-exam-title{font-size:14px;max-width:65vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mtz-topbar-right{width:100%;justify-content:space-between}
+  .mtz-timer-pill{font-size:14px;padding:4px 12px}
+
+  .mtz-main-split{position:relative;flex:1;overflow:hidden}
+  .mtz-q-column{padding:14px 14px 20px;width:100%}
+  .mtz-q-text{font-size:14.5px;line-height:1.55}
+  .mtz-opt-card{padding:12px 14px;min-height:48px}
+  
+  .mtz-q-nav{padding-top:14px;gap:8px}
+  .mtz-btn-prev{padding:10px 14px;min-height:44px;flex:1;text-align:center}
+  .mtz-btn-next{padding:10px 18px;min-height:44px;flex:1.4;text-align:center}
+
+  .mtz-blank-keyboard-box{padding:12px 14px}
+  .mtz-blank-input-row{flex-direction:column;align-items:stretch;gap:8px}
+  .mtz-blank-input{min-height:44px;width:100%;box-sizing:border-box}
+  .mtz-blank-clear-btn{width:100%;padding:10px;text-align:center}
+
+  .mtz-palette-column, .palette{
+    position:fixed;
+    right:0;
+    top:0;
+    bottom:0;
+    width:85vw;
+    max-width:320px;
+    z-index:100;
+    background:#ffffff;
+    box-shadow:-6px 0 25px rgba(0,0,0,0.25);
+    transform:translateX(100%);
+    transition:transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity:1 !important;
+    pointer-events:auto !important;
+  }
+  .mtz-palette-column.open, .palette.open{transform:translateX(0)}
+  .collapse, .mtz-collapse-toggle{
+    position:fixed;
+    right:0;
+    top:45%;
+    width:28px;
+    height:50px;
+    font-size:13px;
+    border-radius:8px 0 0 8px;
+    background:#0080c0;
+    color:#fff;
+    box-shadow:-3px 0 10px rgba(0,0,0,0.2);
+    z-index:80;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- INSTRUCTIONS PAGE - Exactly like screenshot 1 -->
+<div id="instructionsPage" class="inst-page">
+<div class="top-blue"></div>
+<div class="inst-title">Other Important Instructions</div>
+<div class="inst-main">
+<div class="inst-left">
+<div style="background:#d3d3d3;border:1px solid #999;padding:4px 8px;display:inline-block;margin-bottom:10px;font-size:12px">The instructions are not available in the chosen language.</div>
+<br><br>
+<div id="generalInstr" style="white-space:pre-wrap;font-size:12px">
+<b>Please read the instructions carefully</b>
+
+<b>General Instructions:</b>
+
+1. Total duration of examination is 120 minutes.
+2. The clock will be set at the server. The countdown timer in the top right corner of screen will display the remaining time available for you to complete the examination. When the timer reaches zero, the examination will end by itself. You will not be required to end or submit your examination.
+3. The Question Palette displayed on the right side of screen will show the status of each question using one of the following symbols:
+   1 [ ] You have not visited the question yet.
+   2 [■] You have not answered the question.
+   3 [■] You have answered the question.
+   4 [●] You have NOT answered the question, but have marked the question for review.
+   5 The question(s) "Answered and Marked for Review" will be considered for evaluation.
+   6 The question(s) "Marked for Review" will be not be considered for evaluation. Hence, no marks will be allocated for the same.
+4. The Marked for Review status for a question simply indicates that you would like to look at that question again.
+5. You can click on the ">" arrow which appears to the left of question palette to collapse the question palette thereby maximizing the question window. To view the question palette again, you can click on "< " which appears on the right side of question window.
+6. You can click on your "Profile" image on top right corner of your screen to change the language during the exam for entire question paper. On clicking of Profile image you will get a drop-down to change the question content to the desired language.
+7. You can click on Scroll Down to navigate to the bottom and Scroll Up to navigate to the top of the question area, without scrolling.
+
+<b>Navigating to a Question:</b>
+To answer a question, do the following:
+• Click on the question number in the Question Palette at the right of your screen to go to that numbered question directly. Note that using this option does NOT save your answer to the current question.
+• Click on Save & Next to save your answer for the current question and then go to the next question.
+• Click on Mark for Review & Next to save your answer for the current question, mark it for review, and then go to the next question.
+
+<b>Answering a Question :</b>
+
+<b>Procedure for answering a multiple choice type question:</b>
+• To select your answer, click on the button of one of the options
+• To deselect your chosen answer, click on the button of the chosen option again or click on the Clear Response button
+• To change your chosen answer, click on the button of another option
+• To save your answer, you MUST click on the Save & Next button
+• To mark the question for review, click on the Mark for Review & Next button.
+• To change your answer to a question that has already been answered, first select that question for answering and then follow the procedure for answering that type of question.
+
+<b>Navigating through sections:</b>
+
+• Sections in this question paper are displayed on the top bar of the screen. Questions in a section can be viewed by clicking on the section name. The section you are currently viewing is highlighted.
+• After clicking the Save & Next button on the last question for a section, you will automatically be taken to the first question of the next section.
+• You can shuffle between sections and questions anytime during the examination as per your convenience only during the time stipulated.
+• Candidate can view the corresponding section summary as part of the legend that appears in every section above the question palette.
+</div>
+</div>
+<div class="inst-right">
+<svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg" style="border:1px solid #94a3b8;border-radius:4px;background:#e2e8f0;display:block">
+  <rect width="72" height="72" fill="#cbd5e1"/>
+  <circle cx="36" cy="27" r="14" fill="#64748b"/>
+  <path d="M14 65C14 53 24 43 36 43C48 43 58 53 58 65" fill="#64748b"/>
+</svg>
+<div style="color:#0080c0;font-weight:700;font-size:13px" id="instName">John Smith</div>
+</div>
+</div>
+<div class="inst-footer">
+<div class="inst-check">
+<input type="checkbox" id="agree">
+<label for="agree">I have read and understood the instructions. All computer hardware allotted to me are in proper working condition. I declare that I am not in possession of / not wearing / not carrying any prohibited gadget like mobile phone, bluetooth devices etc. /any prohibited material with me into the Examination Hall. I agree that in case of not adhering to the instructions, I shall be liable to be debarred from this Test and/or to disciplinary action, which may include ban from future Tests / Examinations</label>
+</div>
+<div class="inst-actions">
+<button onclick="window.history.back()">&lt; Previous</button>
+<button class="ready" onclick="startExam()">I am ready to begin</button>
+</div>
+</div>
+<div class="version">Version : 17.07.00</div>
+</div>
+
+<!-- EXAM PAGE - MODERN CBT INTERFACE MATCHING IMAGE 2 (MockTestZone) -->
+<div id="examPage" style="display:none;flex-direction:column;height:100vh;background:#ffffff">
+  <!-- MOCKTESTZONE-STYLE TOP BAR (IMAGE 2) -->
+  <div class="mtz-topbar">
+    <div class="mtz-topbar-left">
+      <div class="mtz-exam-title" id="paperTitle">UPUMS 2021 Mock PAPER I - PCB</div>
+      <div class="mtz-exam-subtitle" id="qProgress">Question 1 of 30</div>
+    </div>
+    <div class="mtz-topbar-right">
+      <div class="mtz-timer-pill" id="timeLeft">119:53</div>
+      <button type="button" class="mtz-btn-link" onclick="alert('Viewing instructions');">Instructions</button>
+    </div>
+  </div>
+
+  <!-- MOCKTESTZONE MAIN SPLIT -->
+  <div class="mtz-main-split">
+    <!-- LEFT COLUMN: QUESTION STATEMENT + OPTIONS + BOTTOM PREV/NEXT (IMAGE 2) -->
+    <div class="mtz-q-column" id="qArea">
+      <div class="mtz-watermark" id="watermark"></div>
+      
+      <!-- Question Text (Image 2 style) -->
+      <div class="mtz-q-text" id="qText">Loading Question...</div>
+      
+      <!-- Options List (A, B, C, D) -->
+      <div class="mtz-options-stack" id="qOptions"></div>
+
+      <!-- Bottom Left Navigation (← Previous, Mark for Review, and Save & Next →) -->
+      <div class="mtz-q-nav">
+        <button type="button" class="mtz-btn-prev" onclick="prevQ()">← Previous</button>
+        <div class="mtz-nav-actions-right" style="display:flex;gap:10px;align-items:center">
+          <button type="button" class="mtz-btn-mark" onclick="markReview()" style="background:#ffffff;color:#6d28d9;border:1.5px solid #8b5cf6;padding:11px 22px;border-radius:6px;font-size:15px;font-weight:700;cursor:pointer;font-family:Inter,system-ui,sans-serif;white-space:nowrap">Mark for Review</button>
+          <button type="button" class="mtz-btn-next" onclick="saveNext()">Save &amp; Next →</button>
+        </div>
+      </div>
+
+      <div class="mtz-collapse-toggle" id="collapseBtn" onclick="togglePal()" title="Toggle Question Palette">❯</div>
+    </div>
+
+    <!-- Backdrop overlay for mobile screen taps to dismiss palette -->
+    <div id="mtzPalBackdrop" class="mtz-pal-backdrop" onclick="togglePal()"></div>
+
+    <!-- RIGHT COLUMN: PALETTE & ACTIONS SIDEBAR (IMAGE 2) -->
+    <div class="mtz-palette-column" id="palette">
+      <!-- Meta Row: Q1 / 30 | MCQ | Marks Pill -->
+      <div class="mtz-pal-meta">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="mtz-pal-qcount" id="mtzPalQCount">Q1 / 30</span>
+          <span class="mtz-pal-mcq" id="mtzPalQType">MCQ</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="mtz-pal-marks">+1.00 / 0.00</span>
+          <button type="button" class="mtz-pal-close-btn" onclick="togglePal()" style="display:inline-flex;align-items:center;justify-content:center;background:#f1f5f9;border:1px solid #cbd5e1;border-radius:6px;width:26px;height:26px;font-size:15px;color:#475569;cursor:pointer" title="Close Question Palette">&times;</button>
+        </div>
+      </div>
+
+      <!-- Candidate Photo & Profile Box (Directly Above Question Palette / Numbers) -->
+      <div class="mtz-cand-card" id="mtzPalCandidateCard" style="display:flex;align-items:center;gap:12px;background:#f8fafc;border-top:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0;padding:10px 14px">
+        <div class="mtz-cand-photo-box" style="width:50px;height:58px;border-radius:4px;border:1.5px solid #0284c7;background:#ffffff;overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center">
+          <img id="palPhoto" src="" alt="Candidate Photo" class="mtz-cand-photo" style="width:100%;height:100%;object-fit:cover;display:none" onerror="this.style.display='none'; document.getElementById('palPhotoFallback').style.display='flex';">
+          <div id="palPhotoFallback" class="mtz-cand-photo-fallback" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:26px;background:#e0f2fe;color:#0369a1">👤</div>
+        </div>
+        <div class="mtz-cand-meta" style="flex:1;min-width:0">
+          <div class="mtz-cand-name" id="palNameDisplay" style="font-weight:700;font-size:13px;color:#0f172a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Candidate</div>
+          <div class="mtz-cand-roll" style="font-size:12px;color:#64748b;margin-top:2px">URN: <b id="palRollDisplay" style="color:#0284c7;font-family:monospace">SW001</b></div>
+          <div class="mtz-cand-verified" style="font-size:12px;color:#15803d;font-weight:600;display:flex;align-items:center;gap:5px;margin-top:3px"><span style="width:6px;height:6px;border-radius:50%;background:#16a34a;display:inline-block"></span> Candidate Verified</div>
+        </div>
+      </div>
+
+      <!-- Side-by-side Actions: Mark for Review & Clear Answer -->
+      <div class="mtz-pal-actions">
+        <button type="button" class="mtz-pal-act-btn" onclick="markReview()">Mark for review</button>
+        <button type="button" class="mtz-pal-act-btn" onclick="clearResp()">Clear answer</button>
+      </div>
+
+      <!-- Stats Progress Row -->
+      <div class="mtz-pal-stats-row">
+        <div style="display:flex;gap:12px;align-items:center">
+          <span class="mtz-stat-pill green" title="Answered">✓ <span id="sAns">0</span></span>
+          <span class="mtz-stat-pill red" title="Not Answered">✕ <span id="sNotAns">0</span></span>
+          <span class="mtz-stat-pill purple" title="Marked for Review">⚑ <span id="sMark">0</span></span>
+        </div>
+        <span id="mtzStatProgress" style="font-weight:700;color:#0f172a">0/30 • 0%</span>
+      </div>
+
+      <!-- Hidden elements for backward compatibility -->
+      <div style="display:none">
+        <span id="sNotVis">0</span>
+        <span id="palName">Candidate</span>
+        <span id="palRoll">SW001</span>
+        <span id="secTitle">General</span>
+      </div>
+
+      <!-- Question Grid -->
+      <div class="mtz-grid-area">
+        <div class="mtz-pal-grid" id="qGrid"></div>
+      </div>
+
+      <!-- Legend (Image 2) -->
+      <div class="mtz-legend">
+        <div class="mtz-leg-item"><span class="mtz-leg-dot" style="background:#f1f5f9;border:1px solid #cbd5e1"></span> Not Visited</div>
+        <div class="mtz-leg-item"><span class="mtz-leg-dot" style="background:#dc2626"></span> Not Answered</div>
+        <div class="mtz-leg-item"><span class="mtz-leg-dot" style="background:#16a34a"></span> Answered</div>
+        <div class="mtz-leg-item"><span class="mtz-leg-dot" style="background:#9333ea;border-radius:50%"></span> Marked</div>
+        <div class="mtz-leg-item" style="grid-column:1 / -1"><span class="mtz-leg-dot" style="background:#fff;border:2px solid #2563eb"></span> Current Question</div>
+      </div>
+
+      <!-- Bottom Submit Button (Full Width Red Button - Image 2) -->
+      <div class="mtz-submit-bar">
+        <button type="button" class="mtz-btn-submit" onclick="submitExam()">Submit exam</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<div class="version">Version : 17.07.00</div>
+</div>
+
+<script>
+let activeProfile = JSON.parse(localStorage.getItem('sw_active_profile')||'{"name":"John Smith","roll":"403003757126"}');
+document.getElementById('instName').innerText = activeProfile.name;
+document.getElementById('palName').innerText = activeProfile.name;
+document.getElementById('palRoll').innerText = activeProfile.roll;
+if(document.getElementById('palNameDisplay')) document.getElementById('palNameDisplay').innerText = activeProfile.name || 'Candidate';
+if(document.getElementById('palRollDisplay')) document.getElementById('palRollDisplay').innerText = activeProfile.roll || 'SW001';
+let tcImg = document.getElementById('palPhoto');
+let tcFall = document.getElementById('palPhotoFallback');
+if(tcImg && tcFall){
+  if(activeProfile.photo && activeProfile.photo.trim() !== ''){
+    tcImg.src = activeProfile.photo;
+    tcImg.style.display = 'block';
+    tcFall.style.display = 'none';
+  } else {
+    tcImg.style.display = 'none';
+    tcFall.style.display = 'flex';
+  }
+}
+
+let questions=[], currentQ=0, answers={}, marked={}, visited={0:true};
+
+async function loadQs(){
+  try{
+    let r=await fetch('exams.json?t='+Date.now());
+    if(r.ok){
+      let ex=await r.json();
+      let mc=ex.find(e=>e.category==='MakeCode' || (e.title && e.title.includes('MakeCode')));
+      if(mc && mc.questions && mc.questions.length>0) questions=mc.questions;
+    }
+  }catch(e){}
+  if(questions.length===0){
+    alert('No interactive questions available.');
+    return;
+  }
+  renderQ(); renderPal(); makeWM();
+}
+
+function makeWM(){
+  let wm=document.getElementById('watermark');
+  let roll=activeProfile.roll||'403003757126';
+  let h='';
+  for(let i=0;i<50;i++){
+    let t=Math.random()*100, l=Math.random()*100;
+    h+=`<span style="top:${t}%;left:${l}%">${roll}</span>`;
+  }
+  wm.innerHTML=h;
+}
+
+function escapeHtml(str){
+  if(str === null || str === undefined) return '';
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+}
+
+function formatQuestionStatement(q){
+  let text = q.q || q.question || '';
+  let html = '';
+  if(/<img\s+[^>]*>/i.test(text)){
+    html = text;
+  } else {
+    html = escapeHtml(text).replace(/\n/g, '<br>');
+  }
+
+  let img = q.image || q.img || q.image_url;
+  if(img){
+    let src = img;
+    if(!src.startsWith('http') && !src.startsWith('data:') && !src.startsWith('/')){
+      src = (src.startsWith('uploads/') ? '' : 'uploads/') + src;
+    }
+    html += `
+      <div class="mtz-q-image-wrap">
+        <img src="${escapeHtml(src)}" alt="Question Diagram / Image" class="mtz-q-img" onclick="window.open(this.src, '_blank')" title="Click to view full image in a new tab">
+        <div style="font-size:12.5px;color:#64748b;margin-top:6px">🔍 Click image to open in full resolution</div>
+      </div>
+    `;
+  }
+  return html;
+}
+
+function renderQ(){
+  let q=questions[currentQ];
+  if(!q) return;
+  visited[currentQ]=true;
+  let totalQ = questions.length;
+  let qNum = currentQ + 1;
+
+  document.getElementById('qText').innerHTML=formatQuestionStatement(q);
+  if(document.getElementById('qProgress')) document.getElementById('qProgress').innerText = `Question ${qNum} of ${totalQ}`;
+  if(document.getElementById('mtzPalQCount')) document.getElementById('mtzPalQCount').innerText = `Q${qNum} / ${totalQ}`;
+
+  let isBlankQ = (q.type === 'blank' || q.topic === 'Fill in the Blanks' || (q.q && q.q.includes('__________')));
+  if(document.getElementById('mtzPalQType')) document.getElementById('mtzPalQType').innerText = isBlankQ ? 'Fill in Blank' : 'MCQ';
+
+  let currentVal = answers[currentQ];
+  let letters = ['A', 'B', 'C', 'D', 'E', 'F'];
+  let opts=q.opts||q.options||[];
+  let html='';
+
+  if(isBlankQ){
+    // STRICT DIRECT KEYBOARD TYPING ONLY - NO MULTIPLE CHOICE OPTIONS
+    let typedText = (typeof currentVal === 'string') ? currentVal : '';
+    let isAns = (typedText.trim() !== '');
+
+    html += `
+      <div class="mtz-blank-keyboard-box">
+        <div class="mtz-blank-header">
+          <span class="mtz-blank-badge">⌨️ Fill in the Blank &bull; Direct Typing</span>
+          <span style="font-size:12px;color:#475569;font-weight:600">Type your answer directly using your keyboard:</span>
+        </div>
+        <div class="mtz-blank-input-row">
+          <input type="text" id="mtzBlankTypedInput" class="mtz-blank-input" placeholder="Type your answer here..." value="${escapeHtml(typedText)}" oninput="typeInput(this.value)" autocomplete="off">
+          <button type="button" class="mtz-blank-clear-btn" onclick="clearResp()">Clear</button>
+        </div>
+        <div class="mtz-blank-footer">
+          <span>💡 Press <kbd style="background:#e2e8f0;padding:2px 6px;border-radius:4px;font-family:monospace;border:1px solid #cbd5e1">Enter</kbd> or click <b>Save &amp; Next &rarr;</b> to proceed.</span>
+          <span id="blankStatusHint" style="font-weight:700;color:${isAns ? '#16a34a' : '#64748b'}">${isAns ? '✓ Answered' : '⚪ Not Answered'}</span>
+        </div>
+      </div>
+      <div style="font-size:12px;color:#64748b;font-style:italic;margin-top:6px;display:flex;align-items:center;gap:6px">
+        <span>📝</span> <span>No multiple choice options are provided for this question. Candidates must type their answer.</span>
+      </div>
+    `;
+  } else {
+    opts.forEach((o,i)=>{
+      let isChecked = (answers[currentQ] === i);
+      let chk = isChecked ? 'checked' : '';
+      let selCls = isChecked ? ' selected' : '';
+      let letBadge = letters[i] || (i + 1);
+      html+=`
+        <label class="mtz-opt-card${selCls}" onclick="sel(${i})">
+          <span class="mtz-opt-badge">${letBadge}</span>
+          <input type="radio" class="mtz-opt-radio" name="q${currentQ}" value="${i}" ${chk} onchange="sel(${i})">
+          <span class="mtz-opt-text">${escapeHtml(o)}</span>
+        </label>
+      `;
+    });
+  }
+  document.getElementById('qOptions').innerHTML=html;
+
+  if(isBlankQ){
+    let inputEl = document.getElementById('mtzBlankTypedInput');
+    if(inputEl){
+      setTimeout(() => { inputEl.focus(); }, 50);
+      inputEl.addEventListener('keydown', function(e){
+        if(e.key === 'Enter'){
+          e.preventDefault();
+          saveNext();
+        }
+      });
+    }
+  }
+
+  updStats(); renderPal();
+}
+
+function typeInput(val){
+  let trimmed = (val || '').trim();
+  if(trimmed !== ''){
+    answers[currentQ] = val;
+  } else {
+    delete answers[currentQ];
+  }
+  let hint = document.getElementById('blankStatusHint');
+  if(hint){
+    hint.innerText = (trimmed !== '') ? '✓ Answered' : '⚪ Not Answered';
+    hint.style.color = (trimmed !== '') ? '#16a34a' : '#64748b';
+  }
+  updStats();
+  renderPal();
+}
+
+function selBlank(idx, optText){
+  let input = document.getElementById('mtzBlankTypedInput');
+  if(input){
+    input.value = optText;
+    typeInput(optText);
+    input.focus();
+  } else {
+    answers[currentQ] = optText;
+    updStats();
+    renderPal();
+  }
+  document.querySelectorAll('.mtz-opt-card').forEach((lbl, i) => {
+    if(i === idx){
+      lbl.classList.add('selected');
+      let r = lbl.querySelector('input[type="radio"]');
+      if(r) r.checked = true;
+    } else {
+      lbl.classList.remove('selected');
+      let r = lbl.querySelector('input[type="radio"]');
+      if(r) r.checked = false;
+    }
+  });
+}
+
+function sel(i){
+  answers[currentQ]=i;
+  document.querySelectorAll('.mtz-opt-card').forEach((lbl, idx) => {
+    if(idx === i){
+      lbl.classList.add('selected');
+      let r = lbl.querySelector('input[type="radio"]');
+      if(r) r.checked = true;
+    } else {
+      lbl.classList.remove('selected');
+      let r = lbl.querySelector('input[type="radio"]');
+      if(r) r.checked = false;
+    }
+  });
+  updStats(); renderPal();
+}
+function clearResp(){
+  delete answers[currentQ];
+  let inp = document.getElementById('mtzBlankTypedInput');
+  if(inp){
+    inp.value = '';
+    let hint = document.getElementById('blankStatusHint');
+    if(hint){
+      hint.innerText = '⚪ Not Answered';
+      hint.style.color = '#64748b';
+    }
+  }
+  document.querySelectorAll('.mtz-opt-card').forEach(lbl => {
+    lbl.classList.remove('selected');
+    let r = lbl.querySelector('input[type="radio"]');
+    if(r) r.checked = false;
+  });
+  updStats(); renderPal();
+}
+function prevQ(){ if(currentQ > 0){ currentQ--; renderQ(); } }
+function markReview(){ marked[currentQ]=true; saveNext(); }
+function saveNext(){ if(currentQ<questions.length-1){ currentQ++; renderQ(); } }
+function renderPal(){
+  let g=document.getElementById('qGrid'); let h='';
+  questions.forEach((_,i)=>{
+    let cls='not-visited';
+    if(visited[i]){
+      if(answers[i]!==undefined && marked[i]) cls='ans-marked';
+      else if(answers[i]!==undefined) cls='answered';
+      else if(marked[i]) cls='marked';
+      else cls='not-answered';
+    }
+    if(i===currentQ) cls+=' current';
+    h+=`<button class="${cls}" onclick="jump(${i})">${i+1}</button>`;
+  });
+  g.innerHTML=h;
+}
+function jump(i){
+  currentQ=i;
+  renderQ();
+  if(window.innerWidth <= 900){
+    let p=document.getElementById('palette');
+    let btn=document.getElementById('collapseBtn');
+    let backdrop=document.getElementById('mtzPalBackdrop');
+    if(p && p.classList.contains('open')){
+      p.classList.remove('open');
+      if(btn) btn.innerText = '❮';
+      if(backdrop) backdrop.style.display = 'none';
+    }
+  }
+}
+function updStats(){
+  let ans=Object.keys(answers).length;
+  let notAns=Object.keys(visited).filter(k=>answers[k]===undefined).length;
+  let notVis=questions.length - Object.keys(visited).length;
+  let m=Object.keys(marked).filter(k=>answers[k]===undefined).length;
+  let totalQ = questions.length;
+  let pct = totalQ > 0 ? Math.round((ans / totalQ) * 100) : 0;
+  if(document.getElementById('sAns')) document.getElementById('sAns').innerText=ans;
+  if(document.getElementById('sNotAns')) document.getElementById('sNotAns').innerText=notAns;
+  if(document.getElementById('sNotVis')) document.getElementById('sNotVis').innerText=notVis;
+  if(document.getElementById('sMark')) document.getElementById('sMark').innerText=m;
+  if(document.getElementById('mtzStatProgress')) document.getElementById('mtzStatProgress').innerText=`${ans}/${totalQ} • ${pct}%`;
+}
+function switchSec(s,el){
+  document.querySelectorAll('.secs button').forEach(b=>b.classList.remove('active'));
+  if(el) el.classList.add('active');
+  document.getElementById('secTitle').innerText=s;
+  document.getElementById('paperTitle').innerText=s+' - '+ (s==='MakeCode' ? 'MakeCode with MakeCode' : 'UPUMS 2021 Mock PAPER I - PCB');
+  currentQ=0; renderQ();
+}
+function togglePal(){
+  let p=document.getElementById('palette');
+  let btn=document.getElementById('collapseBtn');
+  let backdrop=document.getElementById('mtzPalBackdrop');
+  if(!p) return;
+  if(window.innerWidth <= 900){
+    p.classList.toggle('open');
+    let isOpen = p.classList.contains('open');
+    if(btn){
+      btn.innerText = isOpen ? '❯' : '❮';
+      btn.title = isOpen ? 'Close Palette' : 'Open Palette';
+    }
+    if(backdrop) backdrop.style.display = isOpen ? 'block' : 'none';
+  } else {
+    p.classList.toggle('collapsed');
+    let isCollapsed = p.classList.contains('collapsed');
+    if(btn){
+      btn.innerText = isCollapsed ? '❮' : '❯';
+      btn.title = isCollapsed ? 'Expand Question Palette' : 'Collapse Question Palette';
+    }
+  }
+}
+function startExam(){
+  let chk=document.getElementById('agree');
+  if(!chk.checked){ alert('Please tick: I have read and understood the instructions'); return; }
+  document.getElementById('instructionsPage').style.display='none';
+  document.getElementById('examPage').style.display='flex';
+  loadQs();
+  startTimer();
+}
+let tLeft=120*60;
+function startTimer(){
+  setInterval(()=>{
+    tLeft--;
+    if(tLeft<=0){ alert('Time up! Submitting'); submitExam(); return; }
+    let m=Math.floor(tLeft/60), s=tLeft%60;
+    document.getElementById('timeLeft').innerText=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+  },1000);
+}
+function submitExam(){
+  if(!confirm('Are you sure you want to submit?')) return;
+  let score=0;
+  questions.forEach((q,i)=>{
+    if(answers[i]!==undefined){
+      let userAns = answers[i];
+      let isBlankQ = (q.type === 'blank' || q.topic === 'Fill in the Blanks');
+      if(isBlankQ && typeof userAns === 'string'){
+        let cleanUser = userAns.toLowerCase().replace(/[^a-z0-9]/g, '');
+        let cleanCorrect = '';
+        if(typeof q.ans === 'number' && q.opts && q.opts[q.ans]){
+          cleanCorrect = q.opts[q.ans].toLowerCase().replace(/[^a-z0-9]/g, '');
+        } else if(typeof q.ans === 'string'){
+          cleanCorrect = q.ans.toLowerCase().replace(/[^a-z0-9]/g, '');
+        }
+        if(cleanUser !== '' && (cleanUser === cleanCorrect || (q.opts && q.opts.some(o => o.toLowerCase().replace(/[^a-z0-9]/g, '') === cleanUser)))){
+          score++;
+        }
+      } else {
+        if(userAns === q.ans) score++;
+      }
+    }
+  });
+  let res={name:activeProfile.name,roll:activeProfile.roll,score:score,total:questions.length,accuracy:Math.round(score/questions.length*100),timestamp:new Date().toLocaleString()};
+  let all=JSON.parse(localStorage.getItem('sw_results')||'[]');
+  all.unshift(res);
+  localStorage.setItem('sw_results',JSON.stringify(all));
+  fetch('save_result.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(res)}).catch(()=>{});
+  alert('Submitted! Score: '+score+'/'+questions.length);
+  location.href='index.html';
+}
+</script>
+</body></html>

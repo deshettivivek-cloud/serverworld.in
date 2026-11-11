@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Server World - Candidate Sign In</title>
+<link rel="icon" type="image/jpeg" href="logo.jpg">
+<style>
+:root{
+  --primary:#1e40af;
+  --primary-hover:#1d4ed8;
+  --text-dark:#0f172a;
+  --text-slate:#334155;
+  --text-muted:#64748b;
+  --bg-page:#f1f5f9;
+  --bg-card:#ffffff;
+  --border:#cbd5e1;
+}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+body{
+  margin:0;
+  background:var(--bg-page);
+  color:var(--text-dark);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+
+/* TOP INSTITUTIONAL BAR */
+.portal-topbar{
+  background:#ffffff;
+  border-bottom:1px solid #e2e8f0;
+  padding:14px 28px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 1px 3px rgba(0,0,0,0.03);
+}
+.portal-topbar-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.brand-mark{
+  width:40px;
+  height:40px;
+  background:#1e40af;
+  color:#ffffff;
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:800;
+  font-size:16px;
+  letter-spacing:-0.5px;
+}
+.portal-title-block h1{
+  font-size:18px;
+  font-weight:800;
+  color:#0f172a;
+  letter-spacing:-0.2px;
+}
+.portal-title-block p{
+  font-size:12.5px;
+  color:var(--text-muted);
+}
+.portal-topbar-right{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  font-size:13px;
+  color:var(--text-muted);
+}
+.terminal-badge{
+  background:#e2e8f0;
+  color:#334155;
+  padding:4px 10px;
+  border-radius:4px;
+  font-weight:700;
+  font-family:monospace;
+  font-size:12px;
+  border:1px solid #cbd5e1;
+}
+
+/* MAIN CONTENT AREA */
+.main-wrapper{
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:36px 20px;
+}
+.login-box{
+  background:#ffffff;
+  border:1px solid #d8e0ea;
+  border-radius:14px;
+  width:100%;
+  max-width:480px;
+  box-shadow:0 6px 20px rgba(15,23,42,0.06);
+  overflow:hidden;
+}
+.login-box-header{
+  padding:24px 28px 18px;
+  border-bottom:1px solid #eef2f6;
+  background:#f8fafc;
+}
+.login-box-header h2{
+  font-size:22px;
+  font-weight:800;
+  color:#0f172a;
+  letter-spacing:-0.3px;
+}
+.login-box-header p{
+  font-size:14px;
+  color:var(--text-muted);
+  margin-top:5px;
+  line-height:1.45;
+}
+.login-box-body{
+  padding:28px;
+}
+.form-group{
+  margin-bottom:18px;
+}
+.form-label{
+  display:block;
+  font-size:15px;
+  font-weight:700;
+  color:#334155;
+  margin-bottom:8px;
+}
+.input-wrap{
+  position:relative;
+  display:flex;
+  align-items:center;
+}
+.form-input{
+  width:100%;
+  padding:12px 14px;
+  border:1.5px solid var(--border);
+  border-radius:8px;
+  font-size:15px;
+  background:#ffffff;
+  color:#0f172a;
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.form-input:focus{
+  outline:none;
+  border-color:#2563eb;
+  box-shadow:0 0 0 3px rgba(37,99,235,0.12);
+}
+.toggle-pass-btn{
+  position:absolute;
+  right:12px;
+  background:none;
+  border:none;
+  cursor:pointer;
+  font-size:13px;
+  color:#64748b;
+  font-weight:700;
+  padding:4px 6px;
+}
+.toggle-pass-btn:hover{
+  color:#0f172a;
+}
+.btn-submit{
+  width:100%;
+  background:#1e40af;
+  color:#ffffff;
+  border:none;
+  padding:13px;
+  border-radius:8px;
+  font-weight:800;
+  font-size:16px;
+  cursor:pointer;
+  transition:background 0.15s;
+  margin-top:8px;
+}
+.btn-submit:hover{
+  background:#1d4ed8;
+}
+.notice-box{
+  background:#f8fafc;
+  border:1px solid #e2e8f0;
+  border-radius:8px;
+  padding:14px 16px;
+  margin-top:20px;
+  font-size:12.5px;
+  color:#64748b;
+  line-height:1.55;
+}
+.alert-notice{
+  padding:12px 16px;
+  border-radius:8px;
+  margin-bottom:18px;
+  font-size:14px;
+  display:none;
+}
+.alert-error{background:#fee2e2;color:#b91c1c;border:1px solid #fca5a5}
+.alert-success{background:#dcfce7;color:#15803d;border:1px solid #86efac}
+
+/* FOOTER */
+.portal-footer{
+  text-align:center;
+  padding:16px 20px;
+  font-size:12.5px;
+  color:#64748b;
+  border-top:1px solid #e2e8f0;
+  background:#ffffff;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.portal-footer a{
+  color:#1e40af;
+  text-decoration:none;
+  font-weight:700;
+}
+.portal-footer a:hover{
+  text-decoration:underline;
+}
+
+@media(max-width:640px){
+  .portal-topbar{
+    padding:12px 16px;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .portal-title-block h1{
+    font-size:16px;
+  }
+  .portal-title-block p{
+    font-size:12px;
+  }
+  .portal-topbar-right{
+    width:100%;
+    justify-content:space-between;
+    font-size:12px;
+    border-top:1px solid #f1f5f9;
+    padding-top:8px;
+    margin-top:2px;
+  }
+  .main-wrapper{
+    padding:20px 14px;
+  }
+  .login-box{
+    border-radius:12px;
+    box-shadow:0 2px 8px rgba(15,23,42,0.06);
+  }
+  .login-box-header{
+    padding:18px 20px 14px;
+  }
+  .login-box-header h2{
+    font-size:20px;
+  }
+  .login-box-header p{
+    font-size:13px;
+  }
+  .login-box-body{
+    padding:20px 18px;
+  }
+  .form-label{
+    font-size:15px;
+  }
+  .form-input{
+    padding:11px 12px;
+    font-size:15px;
+  }
+  .btn-submit{
+    padding:13px;
+    font-size:16px;
+  }
+  .portal-footer{
+    flex-direction:column;
+    gap:10px;
+    padding:14px 16px;
+    font-size:12px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- TOP INSTITUTIONAL HEADER BAR -->
+<header class="portal-topbar">
+  <div class="portal-topbar-left">
+    <img src="logo.jpg" alt="Server World Logo" style="height:44px;object-fit:contain;margin-right:12px;border-radius:4px">
+    <div class="portal-title-block">
+      <h1 style="color:#104085">Server World</h1>
+      <p style="color:#ea580c;font-weight:700">Online Exam Portal</p>
+    </div>
+  </div>
+  <div class="portal-topbar-right">
+    <span id="currentDateStr">Computer Based Test</span>
+    <span class="terminal-badge" id="terminalNode">Node: LAB-01</span>
+  </div>
+</header>
+
+<!-- MAIN LOGIN CONTAINER -->
+<main class="main-wrapper">
+  <div class="login-box">
+    <div style="text-align:center;padding:18px 0 6px 0">
+      <img src="logo.jpg" alt="Server World Logo" style="height:70px;object-fit:contain">
+    </div>
+    <div class="login-box-header">
+      <h2>Candidate Sign In</h2>
+      <p>Enter your examination roll number and authorization password</p>
+    </div>
+
+    <div class="login-box-body">
+      <div id="alertBox" class="alert-notice"></div>
+
+      <div class="form-group">
+        <label class="form-label" for="username">Candidate Roll Number / Registration ID</label>
+        <div class="input-wrap">
+          <input class="form-input" id="username" placeholder="e.g. SW101 or POLICE-001" autocomplete="username" autofocus>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="password">Candidate Password / PIN</label>
+        <div class="input-wrap">
+          <input class="form-input" id="password" type="password" placeholder="Enter assigned password" autocomplete="current-password">
+          <button type="button" class="toggle-pass-btn" id="togglePassBtn" onclick="togglePasswordVisibility()">Show</button>
+        </div>
+      </div>
+
+      <button type="button" class="btn-submit" id="submitBtn" onclick="login()">Sign In</button>
+
+      <div class="notice-box">
+        <b>Notice for Candidates:</b><br>
+        • Candidate credentials are generated and assigned by the test administrator.<br>
+        • Ensure you have your assigned Roll Number and Password ready before signing in.<br>
+        • Do not refresh or close the browser window while the exam is in progress.
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- CLEAN OFFICIAL FOOTER -->
+<footer class="portal-footer">
+  <div>&copy; Online Examination Assessment Console • All Rights Reserved</div>
+  <div>
+    <a href="admin.php">Administrator Login &rarr;</a>
+  </div>
+</footer>
+
+<script>
+let profiles = JSON.parse(localStorage.getItem('sw_profiles') || '[]');
+
+// Set current date in top bar
+try {
+  const now = new Date();
+  const dStr = now.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+  document.getElementById('currentDateStr').innerText = dStr + ' • Computer Based Test';
+} catch(e){}
+
+// Toggle password visibility
+function togglePasswordVisibility(){
+  const passInp = document.getElementById('password');
+  const btn = document.getElementById('togglePassBtn');
+  if(passInp.type === 'password'){
+    passInp.type = 'text';
+    btn.innerText = 'Hide';
+  } else {
+    passInp.type = 'password';
+    btn.innerText = 'Show';
+  }
+}
+
+// Enter key submit listener
+document.getElementById('username').addEventListener('keydown', function(e){
+  if(e.key === 'Enter'){
+    document.getElementById('password').focus();
+  }
+});
+document.getElementById('password').addEventListener('keydown', function(e){
+  if(e.key === 'Enter'){
+    login();
+  }
+});
+
+// Sync profiles from backend
+fetch('profiles.json?t=' + Date.now())
+  .then(r => r.json())
+  .then(data => {
+    if(Array.isArray(data)){
+      profiles = data;
+      localStorage.setItem('sw_profiles', JSON.stringify(data));
+    }
+  })
+  .catch(()=>{});
+
+function showAlert(msg, type){
+  let el = document.getElementById('alertBox');
+  el.style.display = 'block';
+  el.className = 'alert-notice alert-' + type;
+  el.innerText = msg;
+  setTimeout(() => el.style.display = 'none', 4500);
+}
+
+async function login(){
+  let u = document.getElementById('username').value.trim();
+  let p = document.getElementById('password').value.trim();
+  if(!u || !p){
+    showAlert('Please enter both your Roll Number and Password.', 'error');
+    return;
+  }
+
+  try {
+    let r = await fetch('profiles.json?t=' + Date.now());
+    if(r.ok){
+      let data = await r.json();
+      if(Array.isArray(data)) profiles = data;
+    }
+  } catch(e){}
+
+  let found = profiles.find(pr => (pr.username === u || pr.roll === u) && pr.password === p);
+  if(!found){
+    found = profiles.find(pr => (pr.username?.toLowerCase() === u.toLowerCase() || pr.roll?.toLowerCase() === u.toLowerCase()) && pr.password === p);
+  }
+
+  if(found){
+    localStorage.setItem('sw_active_profile', JSON.stringify(found));
+    localStorage.setItem('sw_logged_in', 'student');
+    showAlert('Credentials verified. Redirecting to examination portal...', 'success');
+    setTimeout(() => location.href = 'index.html', 500);
+  } else {
+    showAlert('Invalid Roll Number or Password. Only administrator-registered candidates are authorized.', 'error');
+  }
+}
+</script>
+</body>
+</html>

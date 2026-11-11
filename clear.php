@@ -1,0 +1,1 @@
+<?php header('Content-Type: application/json'); file_put_contents(__DIR__.'/results.json', json_encode([], JSON_PRETTY_PRINT)); echo json_encode(['status'=>'ok','msg'=>'Cleared']); ?>

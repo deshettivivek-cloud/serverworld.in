@@ -1,0 +1,2178 @@
+[
+    {
+        "id": "1793994944642",
+        "examId": 1793958327,
+        "examTitle": "TSPSC Groups Practice Mock Test",
+        "category": "TSPSC Groups",
+        "token": "84f802e0bfd81084bb88d8b971830dac78ac49897ef5ed11",
+        "name": "Rahul Sharma",
+        "roll": "SW001",
+        "accessCode": "OPEN",
+        "startTime": "2026-11-06 20:55:44",
+        "startTimestamp": 1793994944,
+        "durationSeconds": 1200,
+        "status": "SUBMITTED",
+        "ip": "::1",
+        "responses": {
+            "0": {
+                "selected": 2,
+                "marked": false,
+                "timestamp": 1793994959
+            },
+            "13": {
+                "selected": null,
+                "marked": true,
+                "timestamp": 1793994962
+            }
+        },
+        "score": 0,
+        "total": 30,
+        "created": "2026-11-06 20:55:44",
+        "totalMarks": 30,
+        "correct": 0,
+        "incorrect": 1,
+        "unanswered": 29,
+        "percentage": 0,
+        "timeTaken": "0m 56s",
+        "timeTakenSeconds": 56,
+        "submissionTime": "2026-11-06 20:56:40"
+    },
+    {
+        "id": "1793997891726",
+        "examId": 1793958326,
+        "examTitle": "TSPSC Groups Live Test",
+        "category": "TSPSC Groups",
+        "token": "7154fd4a972171eb506d6549afa15393d522540dbf635af9",
+        "name": "Focused Mode Tester",
+        "roll": "SW_FOCUS_007",
+        "accessCode": "PDFTEST08",
+        "startTime": "2026-11-06 21:44:51",
+        "startTimestamp": 1793997891,
+        "durationSeconds": 1200,
+        "status": "SUBMITTED",
+        "ip": "127.0.0.1",
+        "responses": [
+            {
+                "selected": 0,
+                "marked": false,
+                "timestamp": 1793997891
+            }
+        ],
+        "score": 0,
+        "total": 30,
+        "created": "2026-11-06 21:44:51",
+        "focusEvents": [
+            {
+                "type": "TAB_SWITCH",
+                "reason": "window_blur",
+                "timestamp": "10:00:00 AM"
+            },
+            {
+                "type": "FULLSCREEN_EXIT",
+                "reason": "fullscreen_exited",
+                "timestamp": "10:00:15 AM"
+            }
+        ],
+        "tabSwitchCount": 1,
+        "fullscreenExitCount": 1,
+        "totalMarks": 30,
+        "correct": 0,
+        "incorrect": 1,
+        "unanswered": 29,
+        "percentage": 0,
+        "timeTaken": "0m 1s",
+        "timeTakenSeconds": 1,
+        "submissionTime": "2026-11-06 21:44:51"
+    },
+    {
+        "id": "1793997906158",
+        "examId": 1793958326,
+        "examTitle": "TSPSC Groups Live Test",
+        "category": "TSPSC Groups",
+        "token": "4394f961b7720660fe8171658b36b077fb9e6cfb56b0f53f",
+        "name": "Clean Candidate",
+        "roll": "SW_CLEAN_001",
+        "accessCode": "PDFTEST08",
+        "startTime": "2026-11-06 21:45:06",
+        "startTimestamp": 1793997906,
+        "durationSeconds": 1200,
+        "status": "SUBMITTED",
+        "ip": "127.0.0.1",
+        "responses": [
+            {
+                "selected": 0,
+                "marked": false,
+                "timestamp": 1793997906
+            }
+        ],
+        "score": 0,
+        "total": 30,
+        "created": "2026-11-06 21:45:06",
+        "tabSwitchCount": 0,
+        "fullscreenExitCount": 0,
+        "focusEvents": [],
+        "totalMarks": 30,
+        "correct": 0,
+        "incorrect": 1,
+        "unanswered": 29,
+        "percentage": 0,
+        "timeTaken": "0m 1s",
+        "timeTakenSeconds": 1,
+        "submissionTime": "2026-11-06 21:45:06"
+    },
+    {
+        "id": "1793998114425",
+        "examId": 1793958327,
+        "examTitle": "TSPSC Groups Practice Mock Test",
+        "category": "TSPSC Groups",
+        "token": "133a07a0cc804560641fcf5ac6d4ac948d27c1e70fd5ba88",
+        "name": "Rahul Sharma",
+        "roll": "SW001",
+        "accessCode": "OPEN",
+        "startTime": "2026-11-06 21:48:34",
+        "startTimestamp": 1793998114,
+        "durationSeconds": 1200,
+        "status": "SUBMITTED",
+        "ip": "::1",
+        "responses": [],
+        "score": 0,
+        "total": 30,
+        "created": "2026-11-06 21:48:34",
+        "focusEvents": [
+            {
+                "type": "FULLSCREEN_EXIT",
+                "timestamp": "2026-11-06T20:50:16.693Z",
+                "details": "fullscreen_exited"
+            },
+            {
+                "type": "FULLSCREEN_EXIT",
+                "timestamp": "2026-11-06T20:50:23.591Z",
+                "details": "fullscreen_exited"
+            }
+        ],
+        "tabSwitchCount": 0,
+        "fullscreenExitCount": 0,
+        "totalMarks": 30,
+        "correct": 0,
+        "incorrect": 0,
+        "unanswered": 30,
+        "percentage": 0,
+        "timeTaken": "1m 55s",
+        "timeTakenSeconds": 115,
+        "submissionTime": "2026-11-06 21:50:29"
+    },
+    {
+        "id": "1794036202964",
+        "examId": 888801,
+        "examTitle": "MakeCode PDF Interactive Assessment",
+        "category": "MakeCode",
+        "token": "447b33e42d4a893693ca12c989ceff0210b2e2e167034e3d",
+        "name": "PDF Student",
+        "roll": "SW_PDF_01",
+        "accessCode": "OPEN",
+        "startTime": "2026-11-07 08:23:22",
+        "startTimestamp": 1794036202,
+        "durationSeconds": 1200,
+        "status": "IN_PROGRESS",
+        "ip": "127.0.0.1",
+        "responses": [],
+        "score": 0,
+        "total": 7,
+        "created": "2026-11-07 08:23:22"
+    },
+    {
+        "id": "1794038927514",
+        "examId": 1794038883,
+        "examTitle": "live test 1",
+        "category": "Telangana Police",
+        "token": "be7778297ad0f2a5e3ce7747cd533aa29a90a3dc88d4ad6b",
+        "name": "Rahul Sharma",
+        "roll": "SW001",
+        "accessCode": "MAHI07",
+        "startTime": "2026-11-07 09:08:47",
+        "startTimestamp": 1794038927,
+        "durationSeconds": 900,
+        "status": "SUBMITTED",
+        "ip": "::1",
+        "responses": [],
+        "score": 0,
+        "total": 3,
+        "created": "2026-11-07 09:08:47",
+        "focusEvents": [
+            {
+                "type": "TAB_SWITCH",
+                "timestamp": "2026-11-07T08:09:06.747Z",
+                "details": "window_blur"
+            },
+            {
+                "type": "TAB_SWITCH",
+                "timestamp": "2026-11-07T08:09:14.607Z",
+                "details": "window_blur"
+            },
+            {
+                "type": "TAB_SWITCH",
+                "timestamp": "2026-11-07T08:09:20.567Z",
+                "details": "window_blur"
+            },
+            {
+                "type": "TAB_SWITCH",
+                "timestamp": "2026-11-07T08:09:23.256Z",
+                "details": "window_blur"
+            }
+        ],
+        "tabSwitchCount": 0,
+        "fullscreenExitCount": 0,
+        "totalMarks": 15,
+        "correct": 0,
+        "incorrect": 0,
+        "unanswered": 15,
+        "percentage": 0,
+        "timeTaken": "10m 52s",
+        "timeTakenSeconds": 652,
+        "submissionTime": "2026-11-07 09:19:39"
+    },
+    {
+        "id": "1794039613537",
+        "examId": 1794038883,
+        "examTitle": "live test 1",
+        "category": "Telangana Police",
+        "token": "0222a488e49c8f8933f47ccfff2c31b63053dec3bacfb92b",
+        "name": "Rahul Sharma",
+        "roll": "SW001",
+        "accessCode": "MAHI07",
+        "startTime": "2026-11-07 09:20:13",
+        "startTimestamp": 1794039613,
+        "durationSeconds": 900,
+        "status": "SUBMITTED",
+        "ip": "::1",
+        "responses": [
+            {
+                "selected": 1,
+                "marked": false,
+                "timestamp": 1794039622
+            },
+            {
+                "selected": 1,
+                "marked": false,
+                "timestamp": 1794039625
+            },
+            {
+                "selected": 2,
+                "marked": false,
+                "timestamp": 1794039630
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794039630
+            },
+            {
+                "selected": 2,
+                "marked": false,
+                "timestamp": 1794039634
+            },
+            {
+                "selected": 0,
+                "marked": false,
+                "timestamp": 1794039639
+            },
+            {
+                "selected": 1,
+                "marked": false,
+                "timestamp": 1794039642
+            },
+            {
+                "selected": 0,
+                "marked": false,
+                "timestamp": 1794039645
+            },
+            {
+                "selected": 1,
+                "marked": false,
+                "timestamp": 1794039648
+            },
+            {
+                "selected": 2,
+                "marked": false,
+                "timestamp": 1794039652
+            },
+            {
+                "selected": 3,
+                "marked": false,
+                "timestamp": 1794039654
+            },
+            {
+                "selected": 2,
+                "marked": false,
+                "timestamp": 1794039657
+            },
+            {
+                "selected": 2,
+                "marked": false,
+                "timestamp": 1794039660
+            },
+            {
+                "selected": 2,
+                "marked": false,
+                "timestamp": 1794039663
+            },
+            {
+                "selected": 1,
+                "marked": false,
+                "timestamp": 1794039667
+            }
+        ],
+        "score": 5,
+        "total": 15,
+        "created": "2026-11-07 09:20:13",
+        "tabSwitchCount": 0,
+        "fullscreenExitCount": 0,
+        "focusEvents": [
+            {
+                "type": "TAB_SWITCH",
+                "timestamp": "2026-11-07T08:21:10.572Z",
+                "details": "window_blur"
+            },
+            {
+                "type": "FULLSCREEN_EXIT",
+                "timestamp": "2026-11-07T08:21:10.605Z",
+                "details": "fullscreen_exited"
+            }
+        ],
+        "totalMarks": 15,
+        "correct": 5,
+        "incorrect": 9,
+        "unanswered": 1,
+        "percentage": 33.3,
+        "timeTaken": "1m 5s",
+        "timeTakenSeconds": 65,
+        "submissionTime": "2026-11-07 09:21:18"
+    },
+    {
+        "id": "1794042499453",
+        "examId": 1794042476,
+        "examTitle": "police1",
+        "category": "Telangana Police",
+        "token": "cc45473c56b04e093fc90c1291867702da0b77370e25f39b",
+        "name": "Rahul Sharma",
+        "roll": "SW001",
+        "accessCode": "MAHI07",
+        "startTime": "2026-11-07 10:08:19",
+        "startTimestamp": 1794042499,
+        "durationSeconds": 900,
+        "status": "SUBMITTED",
+        "ip": "::1",
+        "responses": [
+            {
+                "selected": 3,
+                "marked": false,
+                "timestamp": 1794042503
+            },
+            {
+                "selected": 3,
+                "marked": false,
+                "timestamp": 1794042506
+            },
+            {
+                "selected": 1,
+                "marked": false,
+                "timestamp": 1794042509
+            },
+            {
+                "selected": 2,
+                "marked": false,
+                "timestamp": 1794042513
+            },
+            {
+                "selected": 1,
+                "marked": false,
+                "timestamp": 1794042516
+            },
+            {
+                "selected": 3,
+                "marked": false,
+                "timestamp": 1794042519
+            },
+            {
+                "selected": 2,
+                "marked": false,
+                "timestamp": 1794042522
+            },
+            {
+                "selected": 2,
+                "marked": false,
+                "timestamp": 1794042525
+            },
+            {
+                "selected": 2,
+                "marked": false,
+                "timestamp": 1794042528
+            },
+            {
+                "selected": 2,
+                "marked": false,
+                "timestamp": 1794042532
+            },
+            {
+                "selected": 1,
+                "marked": false,
+                "timestamp": 1794042535
+            },
+            {
+                "selected": 2,
+                "marked": false,
+                "timestamp": 1794042547
+            },
+            {
+                "selected": 2,
+                "marked": false,
+                "timestamp": 1794042550
+            },
+            {
+                "selected": 2,
+                "marked": false,
+                "timestamp": 1794042553
+            },
+            {
+                "selected": 2,
+                "marked": false,
+                "timestamp": 1794042557
+            }
+        ],
+        "score": 5,
+        "total": 15,
+        "created": "2026-11-07 10:08:19",
+        "tabSwitchCount": 0,
+        "fullscreenExitCount": 0,
+        "focusEvents": [
+            {
+                "type": "TAB_SWITCH",
+                "timestamp": "2026-11-07T09:09:19.561Z",
+                "details": "window_blur"
+            },
+            {
+                "type": "FULLSCREEN_EXIT",
+                "timestamp": "2026-11-07T09:09:19.628Z",
+                "details": "fullscreen_exited"
+            },
+            {
+                "type": "TAB_SWITCH",
+                "timestamp": "2026-11-07T09:09:27.434Z",
+                "details": "window_blur"
+            },
+            {
+                "type": "TAB_SWITCH",
+                "timestamp": "2026-11-07T09:09:30.305Z",
+                "details": "window_blur"
+            }
+        ],
+        "totalMarks": 15,
+        "correct": 5,
+        "incorrect": 10,
+        "unanswered": 0,
+        "percentage": 33.3,
+        "timeTaken": "1m 17s",
+        "timeTakenSeconds": 77,
+        "submissionTime": "2026-11-07 10:09:36"
+    },
+    {
+        "id": "1794043170333",
+        "examId": 1793958327,
+        "examTitle": "TSPSC Groups Practice Mock Test",
+        "category": "TSPSC Groups",
+        "token": "454b267b2ffd162e8a2d7b2138e071b9886fc689978eaa24",
+        "name": "Rahul Sharma",
+        "roll": "SW001",
+        "accessCode": "OPEN",
+        "startTime": "2026-11-07 10:19:30",
+        "startTimestamp": 1794043170,
+        "durationSeconds": 1200,
+        "status": "SUBMITTED",
+        "ip": "::1",
+        "responses": [],
+        "score": 0,
+        "total": 30,
+        "created": "2026-11-07 10:19:30",
+        "focusEvents": [
+            {
+                "type": "TAB_SWITCH",
+                "timestamp": "2026-11-07T09:19:39.926Z",
+                "details": "window_blur"
+            },
+            {
+                "type": "TAB_SWITCH",
+                "timestamp": "2026-11-07T09:19:44.064Z",
+                "details": "window_blur"
+            }
+        ],
+        "tabSwitchCount": 0,
+        "fullscreenExitCount": 0,
+        "totalMarks": 30,
+        "correct": 0,
+        "incorrect": 0,
+        "unanswered": 30,
+        "percentage": 0,
+        "timeTaken": "7m 16s",
+        "timeTakenSeconds": 436,
+        "submissionTime": "2026-11-07 10:26:46"
+    },
+    {
+        "id": "1794043693690",
+        "examId": 1793958327,
+        "examTitle": "TSPSC Groups Practice Mock Test",
+        "category": "TSPSC Groups",
+        "token": "8ef40ab8ab1a88e51a8efec7c74a604ed62fb04579ea48da",
+        "name": "Rahul Sharma",
+        "roll": "SW001",
+        "accessCode": "OPEN",
+        "startTime": "2026-11-07 10:28:13",
+        "startTimestamp": 1794043693,
+        "durationSeconds": 1200,
+        "status": "SUBMITTED",
+        "ip": "::1",
+        "responses": [],
+        "score": 0,
+        "total": 30,
+        "created": "2026-11-07 10:28:13",
+        "totalMarks": 30,
+        "correct": 0,
+        "incorrect": 0,
+        "unanswered": 30,
+        "percentage": 0,
+        "timeTaken": "0m 8s",
+        "timeTakenSeconds": 8,
+        "submissionTime": "2026-11-07 10:28:21"
+    },
+    {
+        "id": "1794043718102",
+        "examId": 1793958327,
+        "examTitle": "TSPSC Groups Practice Mock Test",
+        "category": "TSPSC Groups",
+        "token": "f1671021dd1b3cf5f00b6621dc89295d80c92fe9170bb42a",
+        "name": "Rahul Sharma",
+        "roll": "SW001",
+        "accessCode": "OPEN",
+        "startTime": "2026-11-07 10:28:38",
+        "startTimestamp": 1794043718,
+        "durationSeconds": 1200,
+        "status": "SUBMITTED",
+        "ip": "::1",
+        "responses": [],
+        "score": 0,
+        "total": 30,
+        "created": "2026-11-07 10:28:38",
+        "focusEvents": [
+            {
+                "type": "TAB_SWITCH",
+                "timestamp": "2026-11-07T09:28:53.521Z",
+                "details": "window_blur"
+            },
+            {
+                "type": "TAB_SWITCH",
+                "timestamp": "2026-11-07T09:28:57.537Z",
+                "details": "window_blur"
+            },
+            {
+                "type": "TAB_SWITCH",
+                "timestamp": "2026-11-07T09:29:00.038Z",
+                "details": "window_blur"
+            }
+        ],
+        "tabSwitchCount": 0,
+        "fullscreenExitCount": 0,
+        "totalMarks": 30,
+        "correct": 0,
+        "incorrect": 0,
+        "unanswered": 30,
+        "percentage": 0,
+        "timeTaken": "2m 14s",
+        "timeTakenSeconds": 134,
+        "submissionTime": "2026-11-07 10:30:52"
+    },
+    {
+        "id": "1794045551875",
+        "examId": 1793958327,
+        "examTitle": "TSPSC Groups Practice Mock Test",
+        "category": "TSPSC Groups",
+        "token": "3f73e845a3793e7da3d6ef39a18215e4f126057957573e6c",
+        "name": "Rahul Sharma",
+        "roll": "SW001",
+        "accessCode": "OPEN",
+        "startTime": "2026-11-07 10:59:11",
+        "startTimestamp": 1794045551,
+        "durationSeconds": 1200,
+        "status": "SUBMITTED",
+        "ip": "::1",
+        "responses": [],
+        "score": 0,
+        "total": 30,
+        "created": "2026-11-07 10:59:11",
+        "totalMarks": 30,
+        "correct": 0,
+        "incorrect": 0,
+        "unanswered": 30,
+        "percentage": 0,
+        "timeTaken": "0m 18s",
+        "timeTakenSeconds": 18,
+        "submissionTime": "2026-11-07 10:59:29"
+    },
+    {
+        "id": "1794045672277",
+        "examId": 1793958327,
+        "examTitle": "TSPSC Groups Practice Mock Test",
+        "category": "TSPSC Groups",
+        "token": "abf7337650f2e712958dfa801719cfc83c2fc3a7e49a73d4",
+        "name": "Rahul Sharma",
+        "roll": "SW001",
+        "accessCode": "OPEN",
+        "startTime": "2026-11-07 11:01:12",
+        "startTimestamp": 1794045672,
+        "durationSeconds": 1200,
+        "status": "SUBMITTED",
+        "ip": "::1",
+        "responses": [],
+        "score": 0,
+        "total": 30,
+        "created": "2026-11-07 11:01:12",
+        "totalMarks": 30,
+        "correct": 0,
+        "incorrect": 0,
+        "unanswered": 30,
+        "percentage": 0,
+        "timeTaken": "0m 10s",
+        "timeTakenSeconds": 10,
+        "submissionTime": "2026-11-07 11:01:22"
+    },
+    {
+        "id": "1794077177407",
+        "examId": 1794077163,
+        "examTitle": "tspsc",
+        "category": "TSPSC Groups",
+        "token": "512836bc1bda4e9b992f01bb9c498baa9cbe4495792924c9",
+        "name": "RAHUL",
+        "roll": "SW001",
+        "accessCode": "WOW1234",
+        "startTime": "2026-11-07 19:46:17",
+        "startTimestamp": 1794077177,
+        "durationSeconds": 900,
+        "status": "SUBMITTED",
+        "ip": "::1",
+        "responses": [
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794077182
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794077183
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794077184
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794077184
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794077185
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794077185
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794077186
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794077187
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794077187
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794077189
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794077190
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794077190
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794077191
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794077192
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794077192
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794077193
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794077193
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794077194
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794077195
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794077196
+            }
+        ],
+        "score": 0,
+        "total": 20,
+        "created": "2026-11-07 19:46:17",
+        "tabSwitchCount": 0,
+        "fullscreenExitCount": 0,
+        "focusEvents": [
+            {
+                "type": "TAB_SWITCH",
+                "timestamp": "2026-11-07T18:46:40.579Z",
+                "details": "window_blur"
+            },
+            {
+                "type": "FULLSCREEN_EXIT",
+                "timestamp": "2026-11-07T18:46:40.637Z",
+                "details": "fullscreen_exited"
+            }
+        ],
+        "totalMarks": 20,
+        "correct": 0,
+        "incorrect": 0,
+        "unanswered": 20,
+        "percentage": 0,
+        "timeTaken": "0m 35s",
+        "timeTakenSeconds": 35,
+        "submissionTime": "2026-11-07 19:46:52"
+    },
+    {
+        "id": "1794077306297",
+        "examId": 1794077277,
+        "examTitle": "TSPSC",
+        "category": "TSPSC Groups",
+        "token": "e936242cf8f3e5b6d99e5fa72b92de0c0d3d2ecf8572f2ca",
+        "name": "RAHUL",
+        "roll": "SW001",
+        "accessCode": "OPEN",
+        "startTime": "2026-11-07 19:48:26",
+        "startTimestamp": 1794077306,
+        "durationSeconds": 900,
+        "status": "SUBMITTED",
+        "ip": "::1",
+        "responses": [
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794077352
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794077352
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794077353
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794077353
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794077354
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794077355
+            }
+        ],
+        "score": 0,
+        "total": 20,
+        "created": "2026-11-07 19:48:26",
+        "focusEvents": [
+            {
+                "type": "TAB_SWITCH",
+                "reason": "window_blur",
+                "timestamp": "12:18:34 AM",
+                "epoch": 1794077314856
+            },
+            {
+                "type": "TAB_SWITCH",
+                "reason": "window_blur",
+                "timestamp": "12:18:43 AM",
+                "epoch": 1794077323875
+            },
+            {
+                "type": "FULLSCREEN_EXIT",
+                "reason": "fullscreen_exited",
+                "timestamp": "12:18:43 AM",
+                "epoch": 1794077323876
+            },
+            {
+                "type": "TAB_SWITCH",
+                "timestamp": "2026-11-07T18:49:16.900Z",
+                "details": "window_blur"
+            },
+            {
+                "type": "FULLSCREEN_EXIT",
+                "timestamp": "2026-11-07T18:49:16.901Z",
+                "details": "fullscreen_exited"
+            }
+        ],
+        "tabSwitchCount": 2,
+        "fullscreenExitCount": 1,
+        "totalMarks": 20,
+        "correct": 0,
+        "incorrect": 0,
+        "unanswered": 20,
+        "percentage": 0,
+        "timeTaken": "1m 19s",
+        "timeTakenSeconds": 79,
+        "submissionTime": "2026-11-07 19:49:45"
+    },
+    {
+        "id": "1794079578914",
+        "examId": 1794077277,
+        "examTitle": "TSPSC",
+        "category": "TSPSC Groups",
+        "token": "9df24325ff3a686a74c6d936f19170df8b2a50fd27f17952",
+        "name": "RAHUL",
+        "roll": "SW001",
+        "accessCode": "OPEN",
+        "startTime": "2026-11-07 20:26:18",
+        "startTimestamp": 1794079578,
+        "durationSeconds": 900,
+        "status": "SUBMITTED",
+        "ip": "::1",
+        "responses": [],
+        "score": 0,
+        "total": 20,
+        "created": "2026-11-07 20:26:18",
+        "focusEvents": [
+            {
+                "type": "TAB_SWITCH",
+                "timestamp": "2026-11-07T19:26:27.250Z",
+                "details": "window_blur"
+            }
+        ],
+        "tabSwitchCount": 0,
+        "fullscreenExitCount": 0,
+        "totalMarks": 20,
+        "correct": 0,
+        "incorrect": 0,
+        "unanswered": 20,
+        "percentage": 0,
+        "timeTaken": "2m 48s",
+        "timeTakenSeconds": 168,
+        "submissionTime": "2026-11-07 20:29:06"
+    },
+    {
+        "id": "1794160809929",
+        "examId": 1794160791,
+        "examTitle": "abc",
+        "category": "TSPSC Groups",
+        "token": "779060dab467a95e08fd245c85a90055c82dada2c8b5b631",
+        "name": "ravi",
+        "roll": "sw002",
+        "accessCode": "EXAM13",
+        "startTime": "2026-11-08 19:00:09",
+        "startTimestamp": 1794160809,
+        "durationSeconds": 900,
+        "status": "SUBMITTED",
+        "ip": "::1",
+        "responses": [
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794160816
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794160822
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794160823
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794160823
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794160824
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794160825
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794160825
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794160826
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794160827
+            }
+        ],
+        "score": 0,
+        "total": 20,
+        "created": "2026-11-08 19:00:09",
+        "tabSwitchCount": 0,
+        "fullscreenExitCount": 0,
+        "focusEvents": [],
+        "totalMarks": 20,
+        "correct": 0,
+        "incorrect": 0,
+        "unanswered": 20,
+        "percentage": 0,
+        "timeTaken": "0m 20s",
+        "timeTakenSeconds": 20,
+        "submissionTime": "2026-11-08 19:00:29"
+    },
+    {
+        "id": "1794161245123",
+        "examId": 1793958327,
+        "examTitle": "TSPSC Groups Practice Mock Test",
+        "category": "TSPSC Groups",
+        "token": "dc5b8de3dac7b211c868b662f09a45c4d165c09436950b8f",
+        "name": "ramu",
+        "roll": "SW003",
+        "accessCode": "OPEN",
+        "startTime": "2026-11-08 19:07:25",
+        "startTimestamp": 1794161245,
+        "durationSeconds": 1200,
+        "status": "SUBMITTED",
+        "ip": "::1",
+        "responses": [],
+        "score": 0,
+        "total": 30,
+        "created": "2026-11-08 19:07:25",
+        "totalMarks": 30,
+        "correct": 0,
+        "incorrect": 0,
+        "unanswered": 30,
+        "percentage": 0,
+        "timeTaken": "0m 5s",
+        "timeTakenSeconds": 5,
+        "submissionTime": "2026-11-08 19:07:30"
+    },
+    {
+        "id": "1794161318860",
+        "examId": 1793958327,
+        "examTitle": "TSPSC Groups Practice Mock Test",
+        "category": "TSPSC Groups",
+        "token": "2cdc68326fcebb2e49e0016428881773747713372e709e3d",
+        "name": "ramu",
+        "roll": "SW003",
+        "accessCode": "OPEN",
+        "startTime": "2026-11-08 19:08:38",
+        "startTimestamp": 1794161318,
+        "durationSeconds": 1200,
+        "status": "SUBMITTED",
+        "ip": "::1",
+        "responses": {
+            "29": {
+                "selected": 3,
+                "marked": true,
+                "timestamp": 1794161425
+            },
+            "1": {
+                "selected": null,
+                "marked": true,
+                "timestamp": 1794161347
+            },
+            "2": {
+                "selected": null,
+                "marked": true,
+                "timestamp": 1794161353
+            }
+        },
+        "score": 0,
+        "total": 30,
+        "created": "2026-11-08 19:08:38",
+        "tabSwitchCount": 2,
+        "fullscreenExitCount": 2,
+        "focusEvents": [
+            {
+                "type": "TAB_SWITCH",
+                "reason": "window_blur",
+                "timestamp": "11:38:51 PM",
+                "epoch": 1794161331045
+            },
+            {
+                "type": "FULLSCREEN_EXIT",
+                "reason": "fullscreen_exited",
+                "timestamp": "11:38:51 PM",
+                "epoch": 1794161331084
+            },
+            {
+                "type": "TAB_SWITCH",
+                "reason": "window_blur",
+                "timestamp": "11:40:09 PM",
+                "epoch": 1794161409248
+            },
+            {
+                "type": "FULLSCREEN_EXIT",
+                "reason": "fullscreen_exited",
+                "timestamp": "11:40:09 PM",
+                "epoch": 1794161409275
+            },
+            {
+                "type": "TAB_SWITCH",
+                "timestamp": "2026-11-08T18:10:29.167Z",
+                "details": "window_blur"
+            },
+            {
+                "type": "FULLSCREEN_EXIT",
+                "timestamp": "2026-11-08T18:10:29.192Z",
+                "details": "fullscreen_exited"
+            },
+            {
+                "type": "FULLSCREEN_EXIT",
+                "timestamp": "2026-11-08T18:10:36.259Z",
+                "details": "fullscreen_exited"
+            },
+            {
+                "type": "TAB_SWITCH",
+                "timestamp": "2026-11-08T18:10:41.024Z",
+                "details": "window_blur"
+            }
+        ],
+        "totalMarks": 30,
+        "correct": 0,
+        "incorrect": 1,
+        "unanswered": 29,
+        "percentage": 0,
+        "timeTaken": "2m 55s",
+        "timeTakenSeconds": 175,
+        "submissionTime": "2026-11-08 19:11:33"
+    },
+    {
+        "id": "1794161901719",
+        "examId": 1794077277,
+        "examTitle": "TSPSC",
+        "category": "TSPSC Groups",
+        "token": "2b503551d5f1e7725474fb76822b579d8f457f10b3c77c55",
+        "name": "ramu",
+        "roll": "SW003",
+        "accessCode": "OPEN",
+        "startTime": "2026-11-08 19:18:21",
+        "startTimestamp": 1794161901,
+        "durationSeconds": 900,
+        "status": "SUBMITTED",
+        "ip": "::1",
+        "responses": [],
+        "score": 0,
+        "total": 20,
+        "created": "2026-11-08 19:18:21",
+        "totalMarks": 20,
+        "correct": 0,
+        "incorrect": 0,
+        "unanswered": 20,
+        "percentage": 0,
+        "timeTaken": "0m 3s",
+        "timeTakenSeconds": 3,
+        "submissionTime": "2026-11-08 19:18:24"
+    },
+    {
+        "id": "1794161971755",
+        "examId": 1794161941,
+        "examTitle": "aby",
+        "category": "TSPSC Groups",
+        "token": "fca4fbd37c219020f1fdd8ea34379a70533e597e8f1c5fab",
+        "name": "ramu",
+        "roll": "SW003",
+        "accessCode": "OPEN",
+        "startTime": "2026-11-08 19:19:31",
+        "startTimestamp": 1794161971,
+        "durationSeconds": 900,
+        "status": "SUBMITTED",
+        "ip": "::1",
+        "responses": [
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794161974
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794161975
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794161976
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794161976
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794161977
+            }
+        ],
+        "score": 0,
+        "total": 30,
+        "created": "2026-11-08 19:19:31",
+        "tabSwitchCount": 0,
+        "fullscreenExitCount": 0,
+        "focusEvents": [
+            {
+                "type": "TAB_SWITCH",
+                "timestamp": "2026-11-08T18:19:46.236Z",
+                "details": "window_blur"
+            }
+        ],
+        "totalMarks": 30,
+        "correct": 0,
+        "incorrect": 0,
+        "unanswered": 30,
+        "percentage": 0,
+        "timeTaken": "0m 24s",
+        "timeTakenSeconds": 24,
+        "submissionTime": "2026-11-08 19:19:55"
+    },
+    {
+        "id": "1794163046989",
+        "examId": 1794161941,
+        "examTitle": "aby",
+        "category": "TSPSC Groups",
+        "token": "802feee7f0155af7f62cac7da98c61e4c87fa809b3533a4e",
+        "name": "ramu",
+        "roll": "SW003",
+        "accessCode": "OPEN",
+        "startTime": "2026-11-08 19:37:26",
+        "startTimestamp": 1794163046,
+        "durationSeconds": 900,
+        "status": "SUBMITTED",
+        "ip": "::1",
+        "responses": [
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794163050
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794163050
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794163063
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794163065
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794163066
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794163067
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794163067
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794163068
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794163068
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794163069
+            },
+            {
+                "selected": null,
+                "marked": false,
+                "timestamp": 1794163070
+            }
+        ],
+        "score": 0,
+        "total": 30,
+        "created": "2026-11-08 19:37:26",
+        "tabSwitchCount": 1,
+        "fullscreenExitCount": 1,
+        "focusEvents": [
+            {
+                "type": "TAB_SWITCH",
+                "reason": "window_blur",
+                "timestamp": "12:07:33 AM",
+                "epoch": 1794163053184
+            },
+            {
+                "type": "FULLSCREEN_EXIT",
+                "reason": "fullscreen_exited",
+                "timestamp": "12:07:36 AM",
+                "epoch": 1794163056961
+            },
+            {
+                "type": "TAB_SWITCH",
+                "timestamp": "2026-11-08T18:37:54.705Z",
+                "details": "window_blur"
+            }
+        ],
+        "totalMarks": 30,
+        "correct": 0,
+        "incorrect": 0,
+        "unanswered": 30,
+        "percentage": 0,
+        "timeTaken": "0m 53s",
+        "timeTakenSeconds": 53,
+        "submissionTime": "2026-11-08 19:38:19"
+    },
+    {
+        "id": "1794242430877",
+        "examId": 1794242327,
+        "examTitle": "banking1",
+        "category": "Banking",
+        "token": "efdc1dae95f885e4b9d9c4c4d6d817e5ec014bf5dc6561e2",
+        "name": "SUMEDH",
+        "roll": "SW005",
+        "accessCode": "OPEN",
+        "startTime": "2026-11-09 17:40:30",
+        "startTimestamp": 1794242430,
+        "durationSeconds": 4800,
+        "status": "SUBMITTED",
+        "ip": "::1",
+        "responses": {
+            "47": {
+                "selected": 3,
+                "marked": false,
+                "timestamp": 1794242448
+            }
+        },
+        "score": 0,
+        "total": 71,
+        "created": "2026-11-09 17:40:30",
+        "tabSwitchCount": 0,
+        "fullscreenExitCount": 0,
+        "focusEvents": [
+            {
+                "type": "TAB_SWITCH",
+                "timestamp": "2026-11-09T16:40:49.442Z",
+                "details": "window_blur"
+            },
+            {
+                "type": "FULLSCREEN_EXIT",
+                "timestamp": "2026-11-09T16:41:16.715Z",
+                "details": "fullscreen_exited"
+            }
+        ],
+        "totalMarks": 71,
+        "correct": 0,
+        "incorrect": 1,
+        "unanswered": 70,
+        "percentage": 0,
+        "timeTaken": "0m 54s",
+        "timeTakenSeconds": 54,
+        "submissionTime": "2026-11-09 17:41:24"
+    },
+    {
+        "id": "1794293428565",
+        "examId": 8801,
+        "examTitle": "TSPSC Group 1 Prelims Official Live Test",
+        "category": "TSPSC Groups",
+        "token": "6e285caa7fffe02195994455e1b5b0c894beed58d420556b",
+        "name": "Student A",
+        "roll": "URN-01",
+        "accessCode": "",
+        "startTime": "2026-11-10 07:50:28",
+        "startTimestamp": 1794293428,
+        "durationSeconds": 900,
+        "status": "IN_PROGRESS",
+        "ip": "127.0.0.1",
+        "responses": [],
+        "score": 0,
+        "total": 3,
+        "created": "2026-11-10 07:50:28"
+    },
+    {
+        "id": "1794293428679",
+        "examId": 8801,
+        "examTitle": "TSPSC Group 1 Prelims Official Live Test",
+        "category": "TSPSC Groups",
+        "token": "f8c7d573fcb7160808b571a0432c512901f2eeb0b9e270a6",
+        "name": "Student A",
+        "roll": "URN-01",
+        "accessCode": "LIVE88",
+        "startTime": "2026-11-10 07:50:28",
+        "startTimestamp": 1794293428,
+        "durationSeconds": 900,
+        "status": "SUBMITTED",
+        "ip": "127.0.0.1",
+        "responses": [
+            {
+                "selected": 1,
+                "marked": false,
+                "timestamp": 1794293428
+            },
+            {
+                "selected": 0,
+                "marked": false,
+                "timestamp": 1794293428
+            }
+        ],
+        "score": 1,
+        "total": 3,
+        "created": "2026-11-10 07:50:28",
+        "totalMarks": 3,
+        "correct": 1,
+        "incorrect": 1,
+        "unanswered": 1,
+        "percentage": 33.3,
+        "timeTaken": "0m 1s",
+        "timeTakenSeconds": 1,
+        "submissionTime": "2026-11-10 07:50:28"
+    },
+    {
+        "id": "1794293428638",
+        "examId": 8802,
+        "examTitle": "TSPSC General Studies Free Practice Mock Test",
+        "category": "TSPSC Groups",
+        "token": "78b3ea64a9a5a706e1e0bd82292562761bf3ee965f780e80",
+        "name": "Student B",
+        "roll": "URN-02",
+        "accessCode": "OPEN",
+        "startTime": "2026-11-10 07:50:28",
+        "startTimestamp": 1794293428,
+        "durationSeconds": 600,
+        "status": "IN_PROGRESS",
+        "ip": "127.0.0.1",
+        "responses": [],
+        "score": 0,
+        "total": 2,
+        "created": "2026-11-10 07:50:28"
+    },
+    {
+        "id": "1794293444827",
+        "examId": 9901,
+        "examTitle": "Telangana Police Sub-Inspector Full Mock Exam",
+        "category": "Telangana Police",
+        "token": "0384aa432225bdec42f0a4f5ca611bb085993efb2914c2d7",
+        "name": "Kiran Kumar",
+        "roll": "URN-7788",
+        "accessCode": "POLICE99",
+        "startTime": "2026-11-10 07:50:44",
+        "startTimestamp": 1794293444,
+        "durationSeconds": 1200,
+        "status": "SUBMITTED",
+        "ip": "127.0.0.1",
+        "responses": [
+            {
+                "selected": 1,
+                "marked": false,
+                "timestamp": 1794293444
+            },
+            {
+                "selected": 1,
+                "marked": false,
+                "timestamp": 1794293444
+            },
+            {
+                "selected": 1,
+                "marked": true,
+                "timestamp": 1794293444
+            }
+        ],
+        "score": 3,
+        "total": 30,
+        "created": "2026-11-10 07:50:44",
+        "totalMarks": 31,
+        "correct": 3,
+        "incorrect": 0,
+        "unanswered": 27,
+        "percentage": 9.7,
+        "timeTaken": "0m 1s",
+        "timeTakenSeconds": 1,
+        "submissionTime": "2026-11-10 07:50:44"
+    },
+    {
+        "id": "1794294533592",
+        "examId": 8801,
+        "examTitle": "TSPSC Group 1 Prelims Official Live Test",
+        "category": "TSPSC Groups",
+        "token": "0fddac2e594c3ae6fb24822f925f243a6b331f1808e6550a",
+        "name": "Student A",
+        "roll": "URN-01",
+        "accessCode": "",
+        "startTime": "2026-11-10 08:08:53",
+        "startTimestamp": 1794294533,
+        "durationSeconds": 900,
+        "status": "IN_PROGRESS",
+        "ip": "127.0.0.1",
+        "responses": [],
+        "score": 0,
+        "total": 3,
+        "created": "2026-11-10 08:08:53"
+    },
+    {
+        "id": "1794294533314",
+        "examId": 8801,
+        "examTitle": "TSPSC Group 1 Prelims Official Live Test",
+        "category": "TSPSC Groups",
+        "token": "e8c1b0007b55c332f7f3e9dd32b171cfefdea0f6177daa70",
+        "name": "Student A",
+        "roll": "URN-01",
+        "accessCode": "LIVE88",
+        "startTime": "2026-11-10 08:08:53",
+        "startTimestamp": 1794294533,
+        "durationSeconds": 900,
+        "status": "SUBMITTED",
+        "ip": "127.0.0.1",
+        "responses": [
+            {
+                "selected": 1,
+                "marked": false,
+                "timestamp": 1794294533
+            },
+            {
+                "selected": 0,
+                "marked": false,
+                "timestamp": 1794294533
+            }
+        ],
+        "score": 1,
+        "total": 3,
+        "created": "2026-11-10 08:08:53",
+        "totalMarks": 3,
+        "correct": 1,
+        "incorrect": 1,
+        "unanswered": 1,
+        "percentage": 33.3,
+        "timeTaken": "0m 1s",
+        "timeTakenSeconds": 1,
+        "submissionTime": "2026-11-10 08:08:53"
+    },
+    {
+        "id": "1794294533188",
+        "examId": 8802,
+        "examTitle": "TSPSC General Studies Free Practice Mock Test",
+        "category": "TSPSC Groups",
+        "token": "87327fd86011d6da751d94f4ee3f3e45bd8649687fea8208",
+        "name": "Student B",
+        "roll": "URN-02",
+        "accessCode": "OPEN",
+        "startTime": "2026-11-10 08:08:53",
+        "startTimestamp": 1794294533,
+        "durationSeconds": 600,
+        "status": "IN_PROGRESS",
+        "ip": "127.0.0.1",
+        "responses": [],
+        "score": 0,
+        "total": 2,
+        "created": "2026-11-10 08:08:53"
+    },
+    {
+        "id": "1794294772580",
+        "examId": 1793958327,
+        "examTitle": "TSPSC Groups Practice Mock Test",
+        "category": "TSPSC Groups",
+        "token": "08dcfd582b74f0943a532f2667aeb3810462c818beafa03e",
+        "name": "SUMEDH",
+        "roll": "SW005",
+        "accessCode": "OPEN",
+        "startTime": "2026-11-10 08:12:52",
+        "startTimestamp": 1794294772,
+        "durationSeconds": 1200,
+        "status": "SUBMITTED",
+        "ip": "::1",
+        "responses": [],
+        "score": 0,
+        "total": 30,
+        "created": "2026-11-10 08:12:52",
+        "totalMarks": 30,
+        "correct": 0,
+        "incorrect": 0,
+        "unanswered": 30,
+        "percentage": 0,
+        "timeTaken": "0m 7s",
+        "timeTakenSeconds": 7,
+        "submissionTime": "2026-11-10 08:12:59"
+    },
+    {
+        "id": "1794313051597",
+        "examId": 8801,
+        "examTitle": "TSPSC Group 1 Prelims Official Live Test",
+        "category": "TSPSC Groups",
+        "token": "4f2f75d2d309693342c6cadf809091c15c13dfe9d3d1c98f",
+        "name": "Student A",
+        "roll": "URN-01",
+        "accessCode": "",
+        "startTime": "2026-11-10 13:17:31",
+        "startTimestamp": 1794313051,
+        "durationSeconds": 900,
+        "status": "IN_PROGRESS",
+        "ip": "127.0.0.1",
+        "responses": [],
+        "score": 0,
+        "total": 3,
+        "created": "2026-11-10 13:17:31"
+    },
+    {
+        "id": "1794313051822",
+        "examId": 8801,
+        "examTitle": "TSPSC Group 1 Prelims Official Live Test",
+        "category": "TSPSC Groups",
+        "token": "3dd5c42fcca95ebff94eb087cc75bc0d6c79661b5ec3c0e0",
+        "name": "Student A",
+        "roll": "URN-01",
+        "accessCode": "LIVE88",
+        "startTime": "2026-11-10 13:17:31",
+        "startTimestamp": 1794313051,
+        "durationSeconds": 900,
+        "status": "SUBMITTED",
+        "ip": "127.0.0.1",
+        "responses": [
+            {
+                "selected": 1,
+                "marked": false,
+                "timestamp": 1794313051
+            },
+            {
+                "selected": 0,
+                "marked": false,
+                "timestamp": 1794313051
+            }
+        ],
+        "score": 1,
+        "total": 3,
+        "created": "2026-11-10 13:17:31",
+        "totalMarks": 3,
+        "correct": 1,
+        "incorrect": 1,
+        "unanswered": 1,
+        "percentage": 33.3,
+        "timeTaken": "0m 1s",
+        "timeTakenSeconds": 1,
+        "submissionTime": "2026-11-10 13:17:31"
+    },
+    {
+        "id": "1794313051490",
+        "examId": 8802,
+        "examTitle": "TSPSC General Studies Free Practice Mock Test",
+        "category": "TSPSC Groups",
+        "token": "a41b9bd5c773753ac220e00b13d7ab3958b88401ed58ba35",
+        "name": "Student B",
+        "roll": "URN-02",
+        "accessCode": "OPEN",
+        "startTime": "2026-11-10 13:17:31",
+        "startTimestamp": 1794313051,
+        "durationSeconds": 600,
+        "status": "IN_PROGRESS",
+        "ip": "127.0.0.1",
+        "responses": [],
+        "score": 0,
+        "total": 2,
+        "created": "2026-11-10 13:17:31"
+    },
+    {
+        "id": "1794314239895",
+        "examId": 8801,
+        "examTitle": "TSPSC Group 1 Prelims Official Live Test",
+        "category": "TSPSC Groups",
+        "token": "196b05a670fc025794606977defdf40d6f1203dfb44f985c",
+        "name": "Student A",
+        "roll": "URN-01",
+        "accessCode": "",
+        "startTime": "2026-11-10 13:37:19",
+        "startTimestamp": 1794314239,
+        "durationSeconds": 900,
+        "status": "IN_PROGRESS",
+        "ip": "127.0.0.1",
+        "responses": [],
+        "score": 0,
+        "total": 3,
+        "created": "2026-11-10 13:37:19"
+    },
+    {
+        "id": "1794314239577",
+        "examId": 8801,
+        "examTitle": "TSPSC Group 1 Prelims Official Live Test",
+        "category": "TSPSC Groups",
+        "token": "f8d2370e8381684c2583570903f375c83ec03e11f471cfba",
+        "name": "Student A",
+        "roll": "URN-01",
+        "accessCode": "LIVE88",
+        "startTime": "2026-11-10 13:37:19",
+        "startTimestamp": 1794314239,
+        "durationSeconds": 900,
+        "status": "SUBMITTED",
+        "ip": "127.0.0.1",
+        "responses": [
+            {
+                "selected": 1,
+                "marked": false,
+                "timestamp": 1794314239
+            },
+            {
+                "selected": 0,
+                "marked": false,
+                "timestamp": 1794314239
+            }
+        ],
+        "score": 1,
+        "total": 3,
+        "created": "2026-11-10 13:37:19",
+        "totalMarks": 3,
+        "correct": 1,
+        "incorrect": 1,
+        "unanswered": 1,
+        "percentage": 33.3,
+        "timeTaken": "0m 1s",
+        "timeTakenSeconds": 1,
+        "submissionTime": "2026-11-10 13:37:19"
+    },
+    {
+        "id": "1794314239410",
+        "examId": 8802,
+        "examTitle": "TSPSC General Studies Free Practice Mock Test",
+        "category": "TSPSC Groups",
+        "token": "df734443e9072184770d41d1d802443739290040c8bca8fc",
+        "name": "Student B",
+        "roll": "URN-02",
+        "accessCode": "OPEN",
+        "startTime": "2026-11-10 13:37:19",
+        "startTimestamp": 1794314239,
+        "durationSeconds": 600,
+        "status": "IN_PROGRESS",
+        "ip": "127.0.0.1",
+        "responses": [],
+        "score": 0,
+        "total": 2,
+        "created": "2026-11-10 13:37:19"
+    },
+    {
+        "id": "1794315024324",
+        "examId": 8801,
+        "examTitle": "TSPSC Group 1 Prelims Official Live Test",
+        "category": "TSPSC Groups",
+        "token": "4777e046392b4a9ddc56ae3111658a971bb95bca30f0d76e",
+        "name": "Student A",
+        "roll": "URN-01",
+        "accessCode": "",
+        "startTime": "2026-11-10 13:50:24",
+        "startTimestamp": 1794315024,
+        "durationSeconds": 900,
+        "status": "IN_PROGRESS",
+        "ip": "127.0.0.1",
+        "responses": [],
+        "score": 0,
+        "total": 3,
+        "created": "2026-11-10 13:50:24"
+    },
+    {
+        "id": "1794315024985",
+        "examId": 8801,
+        "examTitle": "TSPSC Group 1 Prelims Official Live Test",
+        "category": "TSPSC Groups",
+        "token": "014930a56bf90ce3832c69f9192ea466577f7c45e90ca0a6",
+        "name": "Student A",
+        "roll": "URN-01",
+        "accessCode": "LIVE88",
+        "startTime": "2026-11-10 13:50:24",
+        "startTimestamp": 1794315024,
+        "durationSeconds": 900,
+        "status": "SUBMITTED",
+        "ip": "127.0.0.1",
+        "responses": [
+            {
+                "selected": 1,
+                "marked": false,
+                "timestamp": 1794315024
+            },
+            {
+                "selected": 0,
+                "marked": false,
+                "timestamp": 1794315024
+            }
+        ],
+        "score": 1,
+        "total": 3,
+        "created": "2026-11-10 13:50:24",
+        "totalMarks": 3,
+        "correct": 1,
+        "incorrect": 1,
+        "unanswered": 1,
+        "percentage": 33.3,
+        "timeTaken": "0m 1s",
+        "timeTakenSeconds": 1,
+        "submissionTime": "2026-11-10 13:50:24"
+    },
+    {
+        "id": "1794315025964",
+        "examId": 8802,
+        "examTitle": "TSPSC General Studies Free Practice Mock Test",
+        "category": "TSPSC Groups",
+        "token": "d67f271456d485853abefd6dd399d2b17444c03d85af9b33",
+        "name": "Student B",
+        "roll": "URN-02",
+        "accessCode": "OPEN",
+        "startTime": "2026-11-10 13:50:25",
+        "startTimestamp": 1794315025,
+        "durationSeconds": 600,
+        "status": "IN_PROGRESS",
+        "ip": "127.0.0.1",
+        "responses": [],
+        "score": 0,
+        "total": 2,
+        "created": "2026-11-10 13:50:25"
+    },
+    {
+        "id": "1794315408499",
+        "examId": 8801,
+        "examTitle": "TSPSC Group 1 Prelims Official Live Test",
+        "category": "TSPSC Groups",
+        "token": "0b328bec2a26825f07d76ea10286b877680825b6bbac815f",
+        "name": "Student A",
+        "roll": "URN-01",
+        "accessCode": "",
+        "startTime": "2026-11-10 13:56:48",
+        "startTimestamp": 1794315408,
+        "durationSeconds": 900,
+        "status": "IN_PROGRESS",
+        "ip": "127.0.0.1",
+        "responses": [],
+        "score": 0,
+        "total": 3,
+        "created": "2026-11-10 13:56:48"
+    },
+    {
+        "id": "1794315408567",
+        "examId": 8801,
+        "examTitle": "TSPSC Group 1 Prelims Official Live Test",
+        "category": "TSPSC Groups",
+        "token": "7ccb79148b5655b0be93e22ac097c951262b5b3827ca92c3",
+        "name": "Student A",
+        "roll": "URN-01",
+        "accessCode": "LIVE88",
+        "startTime": "2026-11-10 13:56:48",
+        "startTimestamp": 1794315408,
+        "durationSeconds": 900,
+        "status": "SUBMITTED",
+        "ip": "127.0.0.1",
+        "responses": [
+            {
+                "selected": 1,
+                "marked": false,
+                "timestamp": 1794315408
+            },
+            {
+                "selected": 0,
+                "marked": false,
+                "timestamp": 1794315408
+            }
+        ],
+        "score": 1,
+        "total": 3,
+        "created": "2026-11-10 13:56:48",
+        "totalMarks": 3,
+        "correct": 1,
+        "incorrect": 1,
+        "unanswered": 1,
+        "percentage": 33.3,
+        "timeTaken": "0m 1s",
+        "timeTakenSeconds": 1,
+        "submissionTime": "2026-11-10 13:56:49"
+    },
+    {
+        "id": "1794315409622",
+        "examId": 8802,
+        "examTitle": "TSPSC General Studies Free Practice Mock Test",
+        "category": "TSPSC Groups",
+        "token": "86cee16b3564084561fb95bcbe4b40d2913b069f4aa3b7fe",
+        "name": "Student B",
+        "roll": "URN-02",
+        "accessCode": "OPEN",
+        "startTime": "2026-11-10 13:56:49",
+        "startTimestamp": 1794315409,
+        "durationSeconds": 600,
+        "status": "IN_PROGRESS",
+        "ip": "127.0.0.1",
+        "responses": [],
+        "score": 0,
+        "total": 2,
+        "created": "2026-11-10 13:56:49"
+    },
+    {
+        "id": "1794315501951",
+        "examId": 8801,
+        "examTitle": "TSPSC Group 1 Prelims Official Live Test",
+        "category": "TSPSC Groups",
+        "token": "7fab89119f7c36dade534685a1791eca0897adf0627cf9a9",
+        "name": "Student A",
+        "roll": "URN-01",
+        "accessCode": "",
+        "startTime": "2026-11-10 13:58:21",
+        "startTimestamp": 1794315501,
+        "durationSeconds": 900,
+        "status": "IN_PROGRESS",
+        "ip": "127.0.0.1",
+        "responses": [],
+        "score": 0,
+        "total": 3,
+        "created": "2026-11-10 13:58:21"
+    },
+    {
+        "id": "1794315501169",
+        "examId": 8801,
+        "examTitle": "TSPSC Group 1 Prelims Official Live Test",
+        "category": "TSPSC Groups",
+        "token": "f15e0ddb221dec349d7d653fa941ec33c2bcc9c979e1c85c",
+        "name": "Student A",
+        "roll": "URN-01",
+        "accessCode": "LIVE88",
+        "startTime": "2026-11-10 13:58:21",
+        "startTimestamp": 1794315501,
+        "durationSeconds": 900,
+        "status": "SUBMITTED",
+        "ip": "127.0.0.1",
+        "responses": [
+            {
+                "selected": 1,
+                "marked": false,
+                "timestamp": 1794315501
+            },
+            {
+                "selected": 0,
+                "marked": false,
+                "timestamp": 1794315501
+            }
+        ],
+        "score": 1,
+        "total": 3,
+        "created": "2026-11-10 13:58:21",
+        "totalMarks": 3,
+        "correct": 1,
+        "incorrect": 1,
+        "unanswered": 1,
+        "percentage": 33.3,
+        "timeTaken": "0m 1s",
+        "timeTakenSeconds": 1,
+        "submissionTime": "2026-11-10 13:58:21"
+    },
+    {
+        "id": "1794315501436",
+        "examId": 8802,
+        "examTitle": "TSPSC General Studies Free Practice Mock Test",
+        "category": "TSPSC Groups",
+        "token": "4576d84f276e4ecd982d1e8a07fa45c3d5ab222f97ec70e1",
+        "name": "Student B",
+        "roll": "URN-02",
+        "accessCode": "OPEN",
+        "startTime": "2026-11-10 13:58:21",
+        "startTimestamp": 1794315501,
+        "durationSeconds": 600,
+        "status": "IN_PROGRESS",
+        "ip": "127.0.0.1",
+        "responses": [],
+        "score": 0,
+        "total": 2,
+        "created": "2026-11-10 13:58:21"
+    },
+    {
+        "id": "1794315948600",
+        "examId": 8801,
+        "examTitle": "TSPSC Group 1 Prelims Official Live Test",
+        "category": "TSPSC Groups",
+        "token": "d415c65d3c2d8c7556f0d16673459b8798e96ec8191c82cc",
+        "name": "Student A",
+        "roll": "URN-01",
+        "accessCode": "",
+        "startTime": "2026-11-10 14:05:48",
+        "startTimestamp": 1794315948,
+        "durationSeconds": 900,
+        "status": "IN_PROGRESS",
+        "ip": "127.0.0.1",
+        "responses": [],
+        "score": 0,
+        "total": 3,
+        "created": "2026-11-10 14:05:48"
+    },
+    {
+        "id": "1794315948747",
+        "examId": 8801,
+        "examTitle": "TSPSC Group 1 Prelims Official Live Test",
+        "category": "TSPSC Groups",
+        "token": "6a692a0aac5447cca6c3f4eb495772b502a5d500b6bacf3d",
+        "name": "Student A",
+        "roll": "URN-01",
+        "accessCode": "LIVE88",
+        "startTime": "2026-11-10 14:05:48",
+        "startTimestamp": 1794315948,
+        "durationSeconds": 900,
+        "status": "SUBMITTED",
+        "ip": "127.0.0.1",
+        "responses": [
+            {
+                "selected": 1,
+                "marked": false,
+                "timestamp": 1794315948
+            },
+            {
+                "selected": 0,
+                "marked": false,
+                "timestamp": 1794315948
+            }
+        ],
+        "score": 1,
+        "total": 3,
+        "created": "2026-11-10 14:05:48",
+        "totalMarks": 3,
+        "correct": 1,
+        "incorrect": 1,
+        "unanswered": 1,
+        "percentage": 33.3,
+        "timeTaken": "0m 1s",
+        "timeTakenSeconds": 1,
+        "submissionTime": "2026-11-10 14:05:48"
+    },
+    {
+        "id": "1794315948175",
+        "examId": 8802,
+        "examTitle": "TSPSC General Studies Free Practice Mock Test",
+        "category": "TSPSC Groups",
+        "token": "efa7ed792e5783e70f225376e66d2d482d2bed16fb76bb46",
+        "name": "Student B",
+        "roll": "URN-02",
+        "accessCode": "OPEN",
+        "startTime": "2026-11-10 14:05:48",
+        "startTimestamp": 1794315948,
+        "durationSeconds": 600,
+        "status": "IN_PROGRESS",
+        "ip": "127.0.0.1",
+        "responses": [],
+        "score": 0,
+        "total": 2,
+        "created": "2026-11-10 14:05:48"
+    },
+    {
+        "id": "1794330848493",
+        "examId": 8801,
+        "examTitle": "TSPSC Group 1 Prelims Official Live Test",
+        "category": "TSPSC Groups",
+        "token": "06584583c440ec0c22a8ea49a699bfb45d3a212c1f7771a4",
+        "name": "Student A",
+        "roll": "URN-01",
+        "accessCode": "",
+        "startTime": "2026-11-10 18:14:08",
+        "startTimestamp": 1794330848,
+        "durationSeconds": 900,
+        "status": "IN_PROGRESS",
+        "ip": "127.0.0.1",
+        "responses": [],
+        "score": 0,
+        "total": 3,
+        "created": "2026-11-10 18:14:08"
+    },
+    {
+        "id": "1794330848421",
+        "examId": 8801,
+        "examTitle": "TSPSC Group 1 Prelims Official Live Test",
+        "category": "TSPSC Groups",
+        "token": "572b15a98558adc0591ca0c3b9dd943830048177d9c5ee92",
+        "name": "Student A",
+        "roll": "URN-01",
+        "accessCode": "LIVE88",
+        "startTime": "2026-11-10 18:14:08",
+        "startTimestamp": 1794330848,
+        "durationSeconds": 900,
+        "status": "SUBMITTED",
+        "ip": "127.0.0.1",
+        "responses": [
+            {
+                "selected": 1,
+                "marked": false,
+                "timestamp": 1794330848
+            },
+            {
+                "selected": 0,
+                "marked": false,
+                "timestamp": 1794330848
+            }
+        ],
+        "score": 1,
+        "total": 3,
+        "created": "2026-11-10 18:14:08",
+        "totalMarks": 3,
+        "correct": 1,
+        "incorrect": 1,
+        "unanswered": 1,
+        "percentage": 33.3,
+        "timeTaken": "0m 1s",
+        "timeTakenSeconds": 1,
+        "submissionTime": "2026-11-10 18:14:08"
+    },
+    {
+        "id": "1794330848243",
+        "examId": 8802,
+        "examTitle": "TSPSC General Studies Free Practice Mock Test",
+        "category": "TSPSC Groups",
+        "token": "3dc5bcb7901555dc3b14e28bcb384af1e04560acdedbb936",
+        "name": "Student B",
+        "roll": "URN-02",
+        "accessCode": "OPEN",
+        "startTime": "2026-11-10 18:14:08",
+        "startTimestamp": 1794330848,
+        "durationSeconds": 600,
+        "status": "IN_PROGRESS",
+        "ip": "127.0.0.1",
+        "responses": [],
+        "score": 0,
+        "total": 2,
+        "created": "2026-11-10 18:14:08"
+    },
+    {
+        "id": "1794332037342",
+        "examId": 8801,
+        "examTitle": "TSPSC Group 1 Prelims Official Live Test",
+        "category": "TSPSC Groups",
+        "token": "c18c06964706661144d181982b18cf5eb0d97922922a5473",
+        "name": "Student A",
+        "roll": "URN-01",
+        "accessCode": "",
+        "startTime": "2026-11-10 18:33:57",
+        "startTimestamp": 1794332037,
+        "durationSeconds": 900,
+        "status": "IN_PROGRESS",
+        "ip": "127.0.0.1",
+        "responses": [],
+        "score": 0,
+        "total": 3,
+        "created": "2026-11-10 18:33:57"
+    },
+    {
+        "id": "1794332037383",
+        "examId": 8801,
+        "examTitle": "TSPSC Group 1 Prelims Official Live Test",
+        "category": "TSPSC Groups",
+        "token": "fdc1ac0532b1093db5018161c5e9d416545e0e3b97b16eb9",
+        "name": "Student A",
+        "roll": "URN-01",
+        "accessCode": "LIVE88",
+        "startTime": "2026-11-10 18:33:57",
+        "startTimestamp": 1794332037,
+        "durationSeconds": 900,
+        "status": "SUBMITTED",
+        "ip": "127.0.0.1",
+        "responses": [
+            {
+                "selected": 1,
+                "marked": false,
+                "timestamp": 1794332037
+            },
+            {
+                "selected": 0,
+                "marked": false,
+                "timestamp": 1794332037
+            }
+        ],
+        "score": 1,
+        "total": 3,
+        "created": "2026-11-10 18:33:57",
+        "totalMarks": 3,
+        "correct": 1,
+        "incorrect": 1,
+        "unanswered": 1,
+        "percentage": 33.3,
+        "timeTaken": "0m 1s",
+        "timeTakenSeconds": 1,
+        "submissionTime": "2026-11-10 18:33:57"
+    },
+    {
+        "id": "1794332037764",
+        "examId": 8802,
+        "examTitle": "TSPSC General Studies Free Practice Mock Test",
+        "category": "TSPSC Groups",
+        "token": "fd131f7432c0ba56531bf0bc4b724ca2554201354837f249",
+        "name": "Student B",
+        "roll": "URN-02",
+        "accessCode": "OPEN",
+        "startTime": "2026-11-10 18:33:57",
+        "startTimestamp": 1794332037,
+        "durationSeconds": 600,
+        "status": "IN_PROGRESS",
+        "ip": "127.0.0.1",
+        "responses": [],
+        "score": 0,
+        "total": 2,
+        "created": "2026-11-10 18:33:57"
+    }
+]
