@@ -3588,7 +3588,11 @@ function escapeHtml(str){
 
 function $(id){ return document.getElementById(id); }
 
-let activeProfile = JSON.parse(localStorage.getItem('sw_active_profile')||'{"name":"Candidate","roll":"SW001","email":"","phone":""}');
+let rawProfile = localStorage.getItem('sw_active_profile');
+if(!rawProfile){
+  location.replace('student_login.html');
+}
+let activeProfile = JSON.parse(rawProfile || '{}');
 let exams = JSON.parse(localStorage.getItem('sw_exams')||'[]');
 let results = JSON.parse(localStorage.getItem('sw_results')||'[]');
 let coursesList = JSON.parse(localStorage.getItem('sw_courses')||'[]');
