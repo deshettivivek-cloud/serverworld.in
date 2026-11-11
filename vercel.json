@@ -1,0 +1,9 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/admin.php", "destination": "/admin.html" },
+    { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/portal", "destination": "/candidate_portal.html" },
+    { "source": "/login", "destination": "/student_login.html" }
+  ]
+}
