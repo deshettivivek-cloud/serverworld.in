@@ -2,10 +2,28 @@
 if(session_status() === PHP_SESSION_NONE){
     @session_start();
 }
-$PASS = 'admin123';
+$passFile = __DIR__ . '/admin_pass.txt';
+$PASS = file_exists($passFile) ? trim(file_get_contents($passFile)) : 'admin123';
 if(isset($_POST['pass'])){ if($_POST['pass']===$PASS){ $_SESSION['admin']=true; } }
 if(isset($_GET['logout'])){ session_destroy(); header('Location: admin.php'); exit; }
 $isAuth = !empty($_SESSION['admin']);
+
+if($isAuth && isset($_POST['action']) && $_POST['action'] === 'change_admin_password'){
+    $curr = trim($_POST['current_pass'] ?? '');
+    $newP = trim($_POST['new_pass'] ?? '');
+    $confP = trim($_POST['confirm_pass'] ?? '');
+    if($curr !== $PASS){
+        $flash = ['type' => 'error', 'msg' => 'Current password is incorrect.'];
+    } elseif($newP !== $confP){
+        $flash = ['type' => 'error', 'msg' => 'New passwords do not match.'];
+    } elseif(strlen($newP) < 4){
+        $flash = ['type' => 'error', 'msg' => 'Password must be at least 4 characters.'];
+    } else {
+        @file_put_contents($passFile, $newP);
+        $PASS = $newP;
+        $flash = ['type' => 'success', 'msg' => 'Admin password successfully updated.'];
+    }
+}
 
 require_once __DIR__ . '/db.php';
 
@@ -1212,7 +1230,7 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:#1565D8;box-sh
     <div style="font-size:13px;color:#ea580c;font-weight:700;margin-bottom:20px;text-transform:uppercase;letter-spacing:0.5px">Administrator Sign In</div>
     <form method="post" style="text-align:left">
       <label style="font-size:13px;font-weight:600">Password</label>
-      <input type="password" name="pass" placeholder="Enter admin password (admin123)" required autofocus>
+      <input type="password" name="pass" placeholder="Enter administrator password" required autofocus>
       <button class="btn btn-blue" style="width:100%;margin-top:12px;justify-content:center">Access Control Panel</button>
     </form>
   </div>
