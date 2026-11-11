@@ -229,36 +229,22 @@
     }
 
     .brand-logo {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 12px;
       flex-shrink: 0;
+      text-decoration: none;
     }
     .brand-logo img {
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
-      object-fit: cover;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      object-fit: contain;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      transition: transform 0.2s ease;
+      display: block;
     }
-    .brand-text-title {
-      font-family: var(--font-display);
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--primary-dark);
-      line-height: 1.1;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .brand-text-title span {
-      color: var(--orange);
-    }
-    .brand-text-tagline {
-      font-size: 12px;
-      color: var(--slate);
-      font-weight: 600;
-      letter-spacing: 0.3px;
+    .brand-logo:hover img {
+      transform: scale(1.06);
     }
 
     .nav-menu {
@@ -1522,12 +1508,8 @@
   <!-- MAIN HEADER / NAVIGATION -->
   <header class="header">
     <div class="container">
-      <a href="#home" class="brand-logo">
-        <img src="logo.jpg" alt="Server World Logo">
-        <div>
-          <div class="brand-text-title">Server <span>World</span></div>
-          <div class="brand-text-tagline">Examination Infrastructure &amp; Services</div>
-        </div>
+      <a href="#home" class="brand-logo" title="Server World Examination Services">
+        <img src="images/logo_icon.jpg" alt="Server World Logo">
       </a>
 
       <nav>
@@ -2618,7 +2600,10 @@
     <div class="container">
       <div class="footer-grid">
         <div>
-          <div class="footer-brand-title">Server <span>World</span></div>
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+            <img src="images/logo_icon.jpg" alt="Server World Logo" style="width:48px;height:48px;border-radius:50%;object-fit:contain;background:#fff;padding:2px">
+            <div class="footer-brand-title" style="margin-bottom:0">Server <span>World</span></div>
+          </div>
           <p class="footer-text">
             Server World is a premier examination infrastructure and CBT testing center located in Hyderabad, Telangana. Delivering reliable test center booking, uninterrupted power, 100% CCTV surveillance, and certified manpower across Pan India.
           </p>
