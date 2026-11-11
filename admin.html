@@ -1,1264 +1,2473 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Server World - Administrator Console</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Server World - Examination Administration</title>
 <link rel="icon" type="image/jpeg" href="logo.jpg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --primary:#1e40af;
-  --primary-dark:#0f2d78;
-  --primary-soft:#eff6ff;
-  --orange:#f97316;
-  --orange-dark:#ea580c;
-  --orange-soft:#fff7ed;
-  --slate:#475569;
-  --dark:#0f172a;
-  --bg-page:#f8fafc;
-  --bg-card:#ffffff;
-  --border:#e2e8f0;
-  --border-strong:#cbd5e1;
-  --success:#16a34a;
-  --danger:#dc2626;
-  --radius:10px;
+body{font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#f8fafc;margin:0;color:#1e293b}
+header{background:#1565D8;color:#fff;padding:16px 24px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;margin-top:10px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+th,td{padding:12px 14px;border-bottom:1px solid #e2e8f0;font-size:13px;text-align:left}
+th{background:#E8F0FE;color:#1e3a8a;font-weight:700}
+tr:hover{background:#f1f5f9}
+.btn{padding:8px 14px;border-radius:6px;border:0;cursor:pointer;font-weight:700;font-size:13px;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+.btn-blue{background:#1565D8;color:#fff}.btn-orange{background:#FF8F17;color:#fff}.btn-red{background:#ef4444;color:#fff}.btn-green{background:#10B981;color:#fff}.btn-purple{background:#7c3aed;color:#fff}.btn-slate{background:#64748b;color:#fff}
+.container{max-width:1280px;margin:24px auto;padding:0 20px}
+.card{background:#fff;padding:22px;border-radius:12px;margin:14px 0;box-shadow:0 1px 3px rgba(0,0,0,.04);border:1px solid #e2e8f0}
+input,textarea,select{width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:6px;margin:6px 0;box-sizing:border-box;font-family:inherit;font-size:13px}
+input:focus,textarea:focus,select:focus{outline:none;border-color:#1565D8;box-shadow:0 0 0 3px rgba(21,101,216,0.12)}
+.grid2{display:grid;grid-template-columns:1.2fr 1fr;gap:20px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+@media(max-width:1024px){.grid2,.grid3{grid-template-columns:1fr}.grid4{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){
+  header{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+    padding:12px 16px;
+  }
+  header > div:last-child{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .container{
+    padding:0 12px;
+    margin:14px auto;
+  }
+  .grid4{
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+  .stat{
+    padding:12px;
+  }
+  .stat b{
+    font-size:20px;
+  }
+  .card{
+    padding:16px 14px;
+    margin:12px 0;
+  }
+  .modal-content{
+    width:95%;
+    padding:16px;
+    max-height:90vh;
+  }
+  table{
+    display:block;
+    width:100%;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    white-space:nowrap;
+  }
+  .q-opt-grid{
+    grid-template-columns:1fr;
+  }
 }
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif}
-body{background:var(--bg-page);color:var(--dark);min-height:100vh;display:flex;flex-direction:column}
-a{text-decoration:none;color:inherit}
-
-/* TOP BAR & HEADER */
-.admin-topbar{
-  background:#0c1c38;
-  color:#94a3b8;
-  font-size:12.5px;
-  padding:8px 24px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  border-bottom:1px solid rgba(255,255,255,0.08);
-}
-.admin-header{
-  background:#ffffff;
-  border-bottom:1px solid var(--border);
-  padding:14px 24px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  position:sticky;
-  top:0;
-  z-index:100;
-  box-shadow:0 1px 3px rgba(0,0,0,0.04);
-}
-.brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-.brand img{
-  width:44px;
-  height:44px;
-  border-radius:50%;
-  object-fit:contain;
-  border:1px solid var(--border);
-}
-.brand-title{
-  font-family:'Space Grotesk',sans-serif;
-  font-size:20px;
-  font-weight:800;
-  color:var(--primary-dark);
-  line-height:1.1;
-}
-.brand-title span{color:var(--orange)}
-.brand-subtitle{font-size:12px;font-weight:700;color:var(--slate)}
-
-.header-actions{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
-/* BUTTONS */
-.btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:6px;
-  padding:8px 16px;
-  border-radius:8px;
-  font-size:13px;
-  font-weight:700;
-  cursor:pointer;
-  border:1.5px solid transparent;
-  transition:all 0.2s ease;
-  white-space:nowrap;
-}
-.btn-primary{background:var(--primary);color:#fff}
-.btn-primary:hover{background:var(--primary-dark)}
-.btn-orange{background:var(--orange);color:#fff}
-.btn-orange:hover{background:var(--orange-dark)}
-.btn-outline{background:#fff;border-color:var(--border-strong);color:var(--slate)}
-.btn-outline:hover{background:#f1f5f9;color:var(--dark);border-color:var(--slate)}
-.btn-danger{background:#fee2e2;color:var(--danger);border-color:#fecaca}
-.btn-danger:hover{background:#fecaca}
-.btn-success{background:#dcfce7;color:var(--success);border-color:#bbf7d0}
-.btn-success:hover{background:#bbf7d0}
-
-/* NAVIGATION TABS */
-.admin-nav{
-  background:#ffffff;
-  border-bottom:1px solid var(--border);
-  padding:0 24px;
-  display:flex;
-  gap:6px;
-  overflow-x:auto;
-}
-.nav-tab{
-  padding:14px 18px;
-  font-size:13.5px;
-  font-weight:700;
-  color:var(--slate);
-  background:none;
-  border:none;
-  border-bottom:3px solid transparent;
-  cursor:pointer;
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  white-space:nowrap;
-  transition:all 0.2s ease;
-}
-.nav-tab:hover{color:var(--primary);background:var(--primary-soft)}
-.nav-tab.active{color:var(--primary);border-bottom-color:var(--orange);background:var(--primary-soft)}
-
-/* MAIN LAYOUT */
-.main-content{
-  max-width:1440px;
-  width:100%;
-  margin:0 auto;
-  padding:24px;
-  flex:1;
-}
-
-/* CARDS & PANELS */
-.panel{
-  background:#ffffff;
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:22px;
-  margin-bottom:24px;
-  box-shadow:0 1px 3px rgba(0,0,0,0.03);
-}
-.panel-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:18px;
-  flex-wrap:wrap;
-  gap:12px;
-}
-.panel-title{
-  font-family:'Space Grotesk',sans-serif;
-  font-size:18px;
-  font-weight:800;
-  color:var(--primary-dark);
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-.panel-desc{
-  font-size:13px;
-  color:var(--slate);
-  margin-top:2px;
-}
-
-/* STATS ROW */
-.stats-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:16px;
-  margin-bottom:24px;
-}
-.stat-card{
-  background:#ffffff;
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:18px;
-  box-shadow:0 1px 3px rgba(0,0,0,0.03);
-  display:flex;
-  align-items:center;
-  gap:16px;
-}
-.stat-icon{
-  width:48px;
-  height:48px;
-  border-radius:12px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:22px;
-}
-.stat-val{font-size:26px;font-weight:800;color:var(--dark);line-height:1}
-.stat-label{font-size:12.5px;font-weight:600;color:var(--slate);margin-top:4px}
-
-/* FORMS & INPUTS */
-.form-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:16px;
-}
-.form-group{margin-bottom:14px}
-.form-label{display:block;font-size:12.5px;font-weight:700;color:#334155;margin-bottom:6px}
-.form-input,.form-select,.form-textarea{
-  width:100%;
-  padding:10px 14px;
-  border:1.5px solid var(--border-strong);
-  border-radius:8px;
-  font-size:13.5px;
-  color:var(--dark);
-  background:#fff;
-  outline:none;
-  transition:border-color 0.2s ease;
-}
-.form-input:focus,.form-select:focus,.form-textarea:focus{
-  border-color:var(--primary);
-  box-shadow:0 0 0 3px rgba(30,64,175,0.1);
-}
-.form-textarea{resize:vertical;min-height:80px;font-family:monospace}
-
-/* TABLES */
-.table-responsive{
-  width:100%;
-  overflow-x:auto;
-  border:1px solid var(--border);
-  border-radius:8px;
-}
-.table{
-  width:100%;
-  border-collapse:collapse;
-  font-size:13px;
-  text-align:left;
-}
-.table th{
-  background:#f1f5f9;
-  color:#334155;
-  font-weight:700;
-  padding:12px 14px;
-  border-bottom:1px solid var(--border);
-  white-space:nowrap;
-}
-.table td{
-  padding:12px 14px;
-  border-bottom:1px solid var(--border);
-  vertical-align:middle;
-}
-.table tr:hover td{background:#f8fafc}
-.badge{
-  display:inline-flex;
-  align-items:center;
-  gap:4px;
-  padding:4px 10px;
-  border-radius:20px;
-  font-size:11.5px;
-  font-weight:700;
-}
-.badge-live{background:#dcfce7;color:#166534;border:1px solid #86efac}
-.badge-mock{background:#f1f5f9;color:#475569;border:1px solid #cbd5e1}
-.badge-course{background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe}
-.badge-alert{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5}
-.badge-clean{background:#dcfce7;color:#166534;border:1px solid #86efac}
-
-/* AUTH MODAL */
-.auth-gate{
-  position:fixed;
-  inset:0;
-  background:rgba(15,23,42,0.85);
-  backdrop-filter:blur(8px);
-  z-index:9999;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-}
-.auth-box{
-  background:#ffffff;
-  border-radius:16px;
-  padding:36px;
-  max-width:440px;
-  width:100%;
-  box-shadow:0 20px 40px rgba(0,0,0,0.25);
-  text-align:center;
-}
-
-/* COURSE CHIPS */
-.course-checkbox-list{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  padding:10px;
-  background:#f8fafc;
-  border:1px solid var(--border);
-  border-radius:8px;
-  max-height:160px;
-  overflow-y:auto;
-}
-.course-checkbox-label{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  background:#ffffff;
-  border:1px solid var(--border-strong);
-  padding:6px 12px;
-  border-radius:6px;
-  font-size:12.5px;
-  font-weight:600;
-  cursor:pointer;
-}
-.course-checkbox-label input{cursor:pointer}
-
-/* MODAL OVERLAY */
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.6);
-  z-index:2000;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-}
-.modal.open{display:flex}
-.modal-content{
-  background:#fff;
-  border-radius:14px;
-  max-width:760px;
-  width:100%;
-  max-height:90vh;
-  overflow-y:auto;
-  padding:24px;
-  box-shadow:0 20px 40px rgba(0,0,0,0.2);
-}
+.stat{background:#fff;padding:18px;border-radius:12px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.04);border:1px solid #e2e8f0}
+.stat b{font-size:26px;color:#1565D8}
+.alert-box{padding:12px 16px;border-radius:8px;margin-bottom:20px;font-size:13px;display:flex;align-items:center;justify-content:space-between}
+.alert-success{background:#dcfce7;color:#15803d;border:1px solid #86efac}
+.alert-error{background:#fee2e2;color:#b91c1c;border:1px solid #fca5a5}
+.alert-info{background:#e0f2fe;color:#0369a1;border:1px solid #7dd3fc}
+.badge{padding:3px 8px;border-radius:4px;font-size:12px;font-weight:700;display:inline-block}
+.badge-cbt{background:#dcfce7;color:#15803d;border:1px solid #86efac}
+.badge-doc{background:#fef3c7;color:#b45309;border:1px solid #fde68a}
+.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:9999;align-items:center;justify-content:center}
+.modal-content{background:#fff;padding:24px;border-radius:12px;max-width:680px;width:90%;max-height:85vh;overflow-y:auto;box-shadow:0 20px 40px rgba(0,0,0,.2)}
+.search-input{max-width:300px;padding:8px 12px;border:1px solid #cbd5e1;border-radius:6px;font-size:12px}
+.q-card-item{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin-bottom:12px}
+.q-card-item:hover{border-color:#93c5fd}
+.q-opt-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
+.q-opt{padding:6px 10px;border-radius:6px;background:#ffffff;border:1px solid #e2e8f0;font-size:12px}
+.q-opt.correct{background:#dcfce7;border-color:#86efac;font-weight:700;color:#15803d}
+.cand-folder-pill{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:8px;border:1px solid #cbd5e1;background:#f8fafc;color:#334155;font-size:12.5px;font-weight:700;cursor:pointer;transition:all 0.15s ease}
+.cand-folder-pill:hover{background:#e2e8f0;border-color:#94a3b8}
+.cand-folder-pill.active{background:#2563eb;color:#ffffff;border-color:#1d4ed8}
+.cand-folder-pill.active .folder-count{background:#ffffff;color:#1d4ed8}
+.cand-folder-pill .folder-count{font-size:12px;padding:1px 7px;border-radius:12px;background:#e2e8f0;color:#475569;font-weight:800}
+.cand-tab-btn{padding:8px 16px;border-radius:6px;border:1px solid #cbd5e1;background:#f8fafc;font-size:12.5px;font-weight:700;color:#475569;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.cand-tab-btn.active{background:#2563eb;color:#fff;border-color:#1d4ed8}
 </style>
 </head>
 <body>
 
-<!-- AUTH GATE (PASSWORD MODAL) -->
-<div class="auth-gate" id="authGate">
-  <div class="auth-box">
-    <img src="images/logo_icon.jpg" alt="Server World Logo" style="width:68px;height:68px;border-radius:50%;margin-bottom:16px">
-    <h2 style="font-family:'Space Grotesk',sans-serif;color:#1e3a8a;font-size:24px;margin-bottom:6px">Server World Admin</h2>
-    <p style="font-size:13.5px;color:var(--slate);margin-bottom:22px">Enter the administrative access password to proceed</p>
-    
-    <div style="margin-bottom:16px;text-align:left">
-      <label class="form-label">Admin Password</label>
-      <input type="password" id="adminPasswordInput" class="form-input" placeholder="Enter password (default: admin123)" autofocus onkeydown="if(event.key==='Enter')verifyAdminAuth()">
-      <div id="authErrorMsg" style="display:none;color:var(--danger);font-size:12.5px;font-weight:700;margin-top:6px">❌ Incorrect Password. Please try again.</div>
-    </div>
-    
-    <button type="button" class="btn btn-primary" style="width:100%;padding:12px;font-size:14px" onclick="verifyAdminAuth()">🔓 Unlock Admin Console</button>
-    <div style="margin-top:16px;font-size:12px;color:#94a3b8">
-      <a href="index.html" style="color:var(--primary);font-weight:700">← Back to Main Website</a>
-    </div>
-  </div>
-</div>
-
-<!-- TOP BAR -->
-<div class="admin-topbar">
-  <div>
-    <span>🇮🇳 Server World Institutional Assessment Administration</span>
-  </div>
-  <div style="display:flex;gap:18px;align-items:center">
-    <a href="index.html" target="_blank" style="color:#fdba74;font-weight:700">🏢 Main Website ↗</a>
-    <a href="candidate_portal.html" target="_blank" style="color:#ffffff;font-weight:700">🎓 Candidate Portal ↗</a>
-    <a href="javascript:void(0)" onclick="adminLogout()" style="color:#fecaca;font-weight:700">🔒 Sign Out</a>
-  </div>
-</div>
-
 <!-- HEADER -->
-<header class="admin-header">
-  <div class="brand">
-    <img src="images/logo_icon.jpg" alt="Server World Logo">
+<header style="background:#104085;color:#fff;padding:12px 24px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 1px 3px rgba(0,0,0,.1)">
+  <div style="display:flex;align-items:center;gap:12px">
+    <img src="logo.jpg" alt="Server World" style="height:42px;width:auto;object-fit:contain;background:#fff;border-radius:6px;padding:3px">
     <div>
-      <div class="brand-title">Server <span>World</span></div>
-      <div class="brand-subtitle">Offline | Online | service provider</div>
+      <div style="font-size:18px;font-weight:900;letter-spacing:-0.2px;line-height:1.2">Server World</div>
+      <div style="font-size:12px;color:#f97316;font-weight:800;letter-spacing:0.5px;text-transform:uppercase">Online Exam • Administration Portal</div>
     </div>
   </div>
-
-  <div class="header-actions">
-    <button class="btn btn-outline" onclick="syncAllLiveFiles()">🔄 Refresh Live Data</button>
-    <button class="btn btn-success" onclick="downloadAllBackupJson()">💾 Download Updated JSON</button>
-    <a href="sample_questions.csv" download class="btn btn-outline">📥 Sample CSV</a>
+  <div id="headerNavAuth" style="display:none">
+    <a href="index.html" target="_blank" style="color:#fdba74;text-decoration:none;font-weight:700;margin-right:16px" title="Visit Company Homepage">🏢 Main Website</a>
+    <a href="candidate_portal.html" target="_blank" style="color:#fff;text-decoration:none;font-weight:600;margin-right:16px">Candidate Portal</a>
+    <a href="sample_questions.csv" download style="color:#fde047;text-decoration:none;font-weight:700;margin-right:16px">Download Sample CSV</a>
+    <a href="javascript:void(0)" onclick="adminLogout()" style="color:#fecaca;text-decoration:none;font-weight:700">Sign Out</a>
   </div>
 </header>
 
-<!-- TABS NAVIGATION -->
-<nav class="admin-nav">
-  <button class="nav-tab active" onclick="switchAdminTab('candidates', this)">👥 Candidates &amp; Courses</button>
-  <button class="nav-tab" onclick="switchAdminTab('exams', this)">📝 Exams &amp; Questions</button>
-  <button class="nav-tab" onclick="switchAdminTab('courses', this)">📚 Course Streams</button>
-  <button class="nav-tab" onclick="switchAdminTab('results', this)">📊 Exam Submissions</button>
-  <button class="nav-tab" onclick="switchAdminTab('sync', this)">⚙️ Vercel Sync &amp; Backup</button>
-</nav>
+<div class="container">
 
-<!-- MAIN CONTENT WRAPPER -->
-<main class="main-content">
-
-  <!-- TOP SUMMARY STATS -->
-  <div class="stats-grid">
-    <div class="stat-card">
-      <div class="stat-icon" style="background:#eff6ff;color:#1e40af">👥</div>
-      <div>
-        <div class="stat-val" id="statCandidates">0</div>
-        <div class="stat-label">Registered Candidates</div>
-      </div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon" style="background:#fef3c7;color:#d97706">📝</div>
-      <div>
-        <div class="stat-val" id="statExams">0</div>
-        <div class="stat-label">Total Examinations</div>
-      </div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon" style="background:#f0fdf4;color:#16a34a">📚</div>
-      <div>
-        <div class="stat-val" id="statCourses">0</div>
-        <div class="stat-label">Active Course Streams</div>
-      </div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon" style="background:#fdf2f8;color:#db2777">📊</div>
-      <div>
-        <div class="stat-val" id="statResults">0</div>
-        <div class="stat-label">Completed Attempts</div>
-      </div>
-    </div>
+  <!-- LOGIN CARD (WHEN NOT AUTHENTICATED) -->
+  <div id="loginSection" class="card" style="max-width:420px;margin:60px auto;text-align:center">
+    <img src="logo.jpg" alt="Server World" style="height:76px;object-fit:contain;margin-bottom:12px">
+    <h2 style="margin:0 0 4px;color:#104085;font-weight:900">Server World</h2>
+    <div style="font-size:13px;color:#ea580c;font-weight:700;margin-bottom:20px;text-transform:uppercase;letter-spacing:0.5px">Administrator Sign In</div>
+    <form onsubmit="handleAdminLogin(event)" style="text-align:left">
+      <label style="font-size:13px;font-weight:600">Password</label>
+      <input type="password" id="adminPassInput" placeholder="Enter admin password (admin123)" required autofocus>
+      <div id="loginError" style="display:none;color:#dc2626;font-size:12px;font-weight:700;margin:6px 0">Incorrect password. Please try again.</div>
+      <button class="btn btn-blue" style="width:100%;margin-top:12px;justify-content:center">Access Control Panel</button>
+    </form>
   </div>
 
-  <!-- ================= TAB 1: CANDIDATES ================= -->
-  <section id="tabCandidates">
-    <!-- Register Candidate Panel -->
-    <div class="panel">
-      <div class="panel-header">
-        <div>
-          <h3 class="panel-title">➕ Register New Candidate / Student Account</h3>
-          <p class="panel-desc">Create candidate credentials and selectively assign one or multiple enrolled courses.</p>
-        </div>
-      </div>
+  <!-- AUTHENTICATED ADMIN PANEL -->
+  <div id="adminPanelSection" style="display:none">
 
-      <form onsubmit="handleCreateCandidate(event)">
-        <div class="form-grid">
-          <div class="form-group">
-            <label class="form-label">Full Candidate Name *</label>
-            <input type="text" id="candName" class="form-input" placeholder="e.g. Rahul Sharma" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Roll Number / URN *</label>
-            <input type="text" id="candRoll" class="form-input" placeholder="e.g. SW009 or POLICE-101" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Password / PIN *</label>
-            <input type="text" id="candPass" class="form-input" placeholder="e.g. 1234" value="1234" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Email Address (Optional)</label>
-            <input type="email" id="candEmail" class="form-input" placeholder="e.g. student@gmail.com">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Enrolled Study Courses (Selective Multi-Course Enrollment) *</label>
-          <div class="course-checkbox-list" id="candCourseCheckboxes">
-            <!-- Dynamically populated -->
-          </div>
-          <p style="font-size:12px;color:var(--slate);margin-top:6px">
-            Selected courses determine which mock tests and question papers this candidate can view on their candidate portal.
-          </p>
-        </div>
-
-        <button type="submit" class="btn btn-primary" style="padding:10px 22px">✅ Register Candidate</button>
-      </form>
+    <!-- FLASH BANNER -->
+    <div id="flashBox" class="alert-box alert-success" style="display:none">
+      <span id="flashMsg">Action successful.</span>
+      <button onclick="document.getElementById('flashBox').style.display='none'" style="background:none;border:none;cursor:pointer;font-weight:bold">&times;</button>
     </div>
 
-    <!-- Candidate Accounts Table -->
-    <div class="panel">
-      <div class="panel-header">
-        <div>
-          <h3 class="panel-title">👥 Registered Candidate Accounts</h3>
-          <p class="panel-desc">All candidate logins, assigned courses, and verification status.</p>
-        </div>
-        <div style="display:flex;gap:10px;align-items:center">
-          <input type="text" id="candSearchInput" class="form-input" placeholder="🔍 Search name or roll..." style="width:220px;padding:6px 12px;font-size:13px" oninput="renderCandidatesTable()">
-          <button class="btn btn-outline" id="btnToggleShowAllCand" onclick="toggleShowAllCandidates()">Show More</button>
-        </div>
+    <!-- QUICK NAVIGATION JUMP BAR -->
+    <div style="display:flex;gap:10px;margin:14px 0 18px;flex-wrap:wrap">
+      <a href="#courseManagementCard" class="btn btn-blue" style="font-size:12px;text-decoration:none;background:#0284c7">📚 Manage Courses &amp; Streams (<span id="jumpCoursesCount">0</span>)</a>
+      <a href="#createExamCard" class="btn btn-blue" style="font-size:12px;text-decoration:none;background:#2563eb">📝 Create Assessment</a>
+      <a href="#uploadFileCard" class="btn btn-purple" style="font-size:12px;text-decoration:none">📤 Upload Question Paper</a>
+      <a href="#examLibraryCard" class="btn btn-slate" style="font-size:12px;text-decoration:none">📋 Exam Library (<span id="jumpExamsCount">0</span>)</a>
+      <a href="#resultsCard" class="btn btn-green" style="font-size:12px;text-decoration:none">📊 Results (<span id="jumpResultsCount">0</span>)</a>
+      <a href="#candidateManagementCard" class="btn btn-orange" style="font-size:12px;text-decoration:none">👥 Candidate Accounts (<span id="jumpCandidatesCount">0</span>)</a>
+      <button type="button" class="btn" style="font-size:12px;background:#7c3aed;color:#fff;border:none;font-weight:700" onclick="openAdminVerificationModal('', 'Student Verification Tool')">📷 Pre-Exam Verification (Camera &amp; Photos)</button>
+    </div>
+
+    <!-- 4 STAT BOXES GRID -->
+    <div class="grid4">
+      <div class="stat"><b id="statTotalStudents">0</b><br><small style="color:#64748b">Registered Candidates</small></div>
+      <div class="stat"><b id="statTotalExams">0</b><br><small style="color:#64748b">Active Assessments</small></div>
+      <div class="stat"><b id="statTotalResults">0</b><br><small style="color:#64748b">Tests Completed</small></div>
+      <div class="stat"><b id="statAvgScore">0</b><br><small style="color:#64748b">Average Score (Top: <span id="statTopScore">0</span>)</small></div>
+    </div>
+
+    <!-- GRID 2: CREATE ASSESSMENT & IMPORT QUESTIONS -->
+    <div class="grid2">
+      <!-- 1. CREATE NEW ASSESSMENT -->
+      <div class="card" id="createExamCard">
+        <h4 style="margin-top:0;color:#1565D8">1. Create New Assessment (Live Test or Mock Test)</h4>
+        <p style="font-size:12px;color:#64748b;margin-bottom:12px">Create a new test with custom timer, live access code, result visibility, and questions.</p>
+        <form onsubmit="handleCreateExam(event)">
+          <label style="font-size:12px;font-weight:600">Assessment Title</label>
+          <input id="ceTitle" placeholder="e.g. TSPSC Group 1 Mock Test" required>
+          <div style="display:flex;gap:8px;margin-bottom:6px">
+            <div style="flex:1">
+              <label style="font-size:12px;font-weight:600">Classification</label>
+              <select id="ceTestType" style="font-weight:700">
+                <option value="live">🔴 Live Test (Code-Protected: Requires Access Code)</option>
+                <option value="mock">📘 Mock Test (Open Access: Available Without Code)</option>
+              </select>
+            </div>
+            <div style="width:140px">
+              <label style="font-size:12px;font-weight:600">Access Code (Live)</label>
+              <input id="ceAccessCode" placeholder="Auto / Custom" style="font-family:monospace;text-transform:uppercase" title="Students must enter this code for Live Tests">
+            </div>
+          </div>
+          <div style="display:flex;gap:8px">
+            <div style="flex:1">
+              <label style="font-size:12px;font-weight:600">Course Stream / Category</label>
+              <div style="display:flex;gap:6px">
+                <select id="createExamCategorySelect" onchange="toggleInlineCourseInput(this)" required style="flex:1;font-weight:700">
+                  <!-- Populated dynamically -->
+                </select>
+                <button type="button" class="btn btn-blue" onclick="revealInlineCourseRow()" style="font-size:12px;padding:6px 10px;white-space:nowrap" title="Type a new course name inline">+ New Course</button>
+              </div>
+              <div id="inlineNewCourseBox" style="display:none;margin-top:6px;padding:8px;background:#f0f9ff;border:1px solid #bae6fd;border-radius:6px">
+                <div style="display:flex;gap:8px">
+                  <input id="inlineCustomCategory" placeholder="Course Name (e.g. NEET, Banking, UPSC)" style="font-size:12px;padding:6px 8px;flex:1.5;background:#fff">
+                  <input id="inlineCustomStream" placeholder="Stream Subtitle (e.g. Medical Entrance, IBPS)" style="font-size:12px;padding:6px 8px;flex:1;background:#fff">
+                </div>
+              </div>
+            </div>
+            <div style="width:90px">
+              <label style="font-size:12px;font-weight:600">Duration</label>
+              <input id="ceDuration" type="number" value="15" min="5" required>
+            </div>
+            <div style="width:90px">
+              <label style="font-size:12px;font-weight:600">Max Marks</label>
+              <input id="ceMaxMarks" type="number" value="100" min="1" required>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px">
+            <div style="flex:1">
+              <label style="font-size:12px;font-weight:600">Result Visibility</label>
+              <select id="ceResultVis">
+                <option value="immediate">Immediate Scorecard &amp; Solutions</option>
+                <option value="hidden">Hidden (Published Later by Admin)</option>
+              </select>
+            </div>
+            <div style="width:120px">
+              <label style="font-size:12px;font-weight:600">Cert Min (%)</label>
+              <input id="ceCertThreshold" type="number" value="85" min="1" max="100" title="Minimum percentage required for Certificate">
+            </div>
+          </div>
+          <label style="font-size:12px;font-weight:600">Paste Questions (Q|OptA|OptB|OptC|OptD|AnsIndex 0-3|Marks|Expl):</label>
+          <textarea id="ceQuestionsText" rows="3" placeholder="What is the capital of Telangana?|Hyderabad|Warangal|Nizamabad|Karimnagar|0|1|Hyderabad is capital"></textarea>
+          <button type="submit" class="btn btn-blue" style="width:100%;margin-top:10px;justify-content:center">Create Assessment</button>
+        </form>
       </div>
 
-      <div class="table-responsive">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Photo</th>
-              <th>Roll / URN</th>
-              <th>Candidate Name</th>
-              <th>Password</th>
-              <th>Enrolled Courses</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="candidatesTableBody">
+      <!-- 2. IMPORT QUESTIONS INTO EXISTING ASSESSMENT -->
+      <div class="card" id="uploadFileCard">
+        <h4 style="margin-top:0;color:#7c3aed">2. Import Questions into Existing Assessment</h4>
+        <p style="font-size:12px;color:#64748b;margin-bottom:12px">Paste or upload CSV / TXT questions directly into an active assessment.</p>
+        <form onsubmit="handleImportQuestionsDirect(event)">
+          <label style="font-size:12px;font-weight:600">Select Target Assessment</label>
+          <select id="importTargetExamSelect" required>
             <!-- Populated dynamically -->
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= TAB 2: EXAMS ================= -->
-  <section id="tabExams" style="display:none">
-    <!-- Create Assessment Panel -->
-    <div class="panel">
-      <div class="panel-header">
-        <div>
-          <h3 class="panel-title">📝 Create New Examination / Assessment</h3>
-          <p class="panel-desc">Configure exam parameters, live/mock mode, access codes, and upload question banks.</p>
-        </div>
-      </div>
-
-      <form onsubmit="handleCreateExam(event)">
-        <div class="form-grid">
-          <div class="form-group">
-            <label class="form-label">Exam Title *</label>
-            <input type="text" id="examTitle" class="form-input" placeholder="e.g. TSPSC Group 1 Prelims Official Live Test" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Category / Course Stream *</label>
-            <select id="examCategory" class="form-select" required>
-              <!-- Populated dynamically -->
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Access Passcode *</label>
-            <input type="text" id="examAccessCode" class="form-input" placeholder="e.g. LIVE88 or OPEN" value="OPEN" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Duration (Minutes) *</label>
-            <input type="number" id="examDuration" class="form-input" value="60" min="5" max="300" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Assessment Type *</label>
-            <select id="examTestType" class="form-select">
-              <option value="mock">Practice Mock Test (Multi-Attempt)</option>
-              <option value="live">Official Live Assessment (Single Attempt + Proctored)</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Negative Marking per Wrong Ans</label>
-            <input type="number" id="examNegMarks" class="form-input" value="0.25" step="0.05" min="0">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Import Questions CSV or Paste Question Bank</label>
-          <input type="file" id="examCsvFile" accept=".csv,.txt" class="form-input" style="padding:7px" onchange="handleCsvFileSelect(event)">
-          <p style="font-size:12px;color:var(--slate);margin-top:6px">
-            CSV format: <code>num, question, optA, optB, optC, optD, ans (1-4 or A-D), explanation</code>. Or paste questions below:
-          </p>
-          <textarea id="examQuestionsPaste" class="form-textarea" placeholder="Paste questions CSV or text here..."></textarea>
-        </div>
-
-        <button type="submit" class="btn btn-orange" style="padding:10px 24px">🚀 Publish Examination</button>
-      </form>
-    </div>
-
-    <!-- Exam Library Panel -->
-    <div class="panel">
-      <div class="panel-header">
-        <div>
-          <h3 class="panel-title">📚 Examination Library</h3>
-          <p class="panel-desc">Manage existing assessments, questions, access codes, and live status.</p>
-        </div>
-      </div>
-
-      <div class="table-responsive">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Assessment Title</th>
-              <th>Category</th>
-              <th>Code</th>
-              <th>Questions</th>
-              <th>Duration</th>
-              <th>Type</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="examsTableBody">
-            <!-- Populated dynamically -->
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= TAB 3: COURSES ================= -->
-  <section id="tabCourses" style="display:none">
-    <div class="panel">
-      <div class="panel-header">
-        <div>
-          <h3 class="panel-title">📚 Course Streams &amp; Category Folders</h3>
-          <p class="panel-desc">Manage courses shown in the candidate enrollment portal and test filtering.</p>
-        </div>
-      </div>
-
-      <form onsubmit="handleCreateCourse(event)" style="margin-bottom:24px">
-        <div class="form-grid">
-          <div class="form-group">
-            <label class="form-label">Course Name *</label>
-            <input type="text" id="courseName" class="form-input" placeholder="e.g. Banking, Railway RRB, TSPSC" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Theme Color</label>
-            <select id="courseColor" class="form-select">
-              <option value="#1e40af">Royal Blue (#1e40af)</option>
-              <option value="#f97316">Orange (#f97316)</option>
-              <option value="#16a34a">Emerald Green (#16a34a)</option>
-              <option value="#7c3aed">Purple (#7c3aed)</option>
-              <option value="#dc2626">Crimson (#dc2626)</option>
-              <option value="#0284c7">Sky Blue (#0284c7)</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Icon Name</label>
-            <select id="courseIcon" class="form-select">
-              <option value="building">Building (Banking / SSC)</option>
-              <option value="shield">Shield (Police / Defense)</option>
-              <option value="academic">Graduation Cap (University)</option>
-              <option value="train">Train (Railways RRB)</option>
-              <option value="code">Code (IT / Software)</option>
-              <option value="chart">Chart (Govt PSC)</option>
-            </select>
-          </div>
-          <div class="form-group" style="display:flex;align-items:flex-end">
-            <button type="submit" class="btn btn-primary" style="width:100%;padding:10px">➕ Add Course Stream</button>
-          </div>
-        </div>
-      </form>
-
-      <div class="table-responsive">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Icon</th>
-              <th>Course Name</th>
-              <th>Category Tag</th>
-              <th>Active Exams</th>
-              <th>Enrolled Candidates</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="coursesTableBody">
-            <!-- Populated dynamically -->
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= TAB 4: RESULTS ================= -->
-  <section id="tabResults" style="display:none">
-    <div class="panel">
-      <div class="panel-header">
-        <div>
-          <h3 class="panel-title">📊 Candidate Examination Submissions &amp; Leaderboard</h3>
-          <p class="panel-desc">Real-time submissions, scores, accuracy, focus integrity logs, and CSV export.</p>
-        </div>
-        <div style="display:flex;gap:10px;align-items:center">
-          <select id="resultsExamFilter" class="form-select" style="width:200px;font-size:13px;padding:6px 10px" onchange="renderResultsTable()">
-            <option value="ALL">All Examinations</option>
           </select>
-          <button class="btn btn-orange" onclick="exportResultsToCsv()">📥 Export to CSV</button>
+          <label style="font-size:12px;font-weight:600">Select CSV / TXT File</label>
+          <input type="file" id="importQuestionsFileInput" accept=".csv,.txt" onchange="handleQuestionFilePick(this)">
+          <label style="font-size:12px;font-weight:600;margin-top:4px">Or Paste Questions (CSV / Pipe-Separated):</label>
+          <textarea id="importQuestionsTextArea" rows="4" placeholder="What is the square root of 64?|6|7|8|9|2|1|8x8=64"></textarea>
+          <button type="submit" class="btn btn-purple" style="width:100%;margin-top:10px;justify-content:center">Import Questions into Assessment &rarr;</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ==================== COURSE & STREAM MANAGEMENT ==================== -->
+    <div class="card" id="courseManagementCard" style="border-top:3px solid #0284c7">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+        <div>
+          <h3 style="margin:0;color:#0369a1">📚 Course Streams &amp; Categories (Total: <span id="displayCourseCount">0</span>)</h3>
+          <p style="margin:4px 0 0;font-size:12px;color:#64748b">
+            Manage courses shown on the candidate dashboard. Adding a course creates a colored card in "Exam Streams &amp; Categories" on the portal.
+          </p>
+        </div>
+        <div>
+          <a href="candidate_portal.html" target="_blank" class="btn btn-blue" style="font-size:12px;text-decoration:none;background:#0284c7">👁️ View on Candidate Portal</a>
         </div>
       </div>
 
-      <div class="table-responsive">
-        <table class="table">
+      <!-- Add Course Form -->
+      <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:16px;margin:16px 0">
+        <h4 style="margin:0 0 10px;color:#0369a1">➕ Add New Course / Category Stream</h4>
+        <form onsubmit="handleCreateCourse(event)" style="display:grid;grid-template-columns:1.5fr 1.5fr 1.2fr 1.2fr auto;gap:12px;align-items:end">
+          <div>
+            <label style="font-size:12px;font-weight:700;color:#0369a1">Course Name *</label>
+            <input id="newCourseName" placeholder="e.g. Banking PO, NEET UG, Data Science" required style="margin:4px 0 0;background:#fff">
+          </div>
+          <div>
+            <label style="font-size:12px;font-weight:700;color:#0369a1">Stream Subtitle / Description</label>
+            <input id="newCourseStream" placeholder="e.g. SBI • IBPS • RBI, Medical Entrance" style="margin:4px 0 0;background:#fff">
+          </div>
+          <div>
+            <label style="font-size:12px;font-weight:700;color:#0369a1">Box Color Theme</label>
+            <select id="newCourseColor" style="margin:4px 0 0;background:#fff">
+              <option value="blue">Blue</option>
+              <option value="orange">Orange</option>
+              <option value="green">Green</option>
+              <option value="purple">Purple</option>
+              <option value="cyan">Cyan / Tech</option>
+              <option value="indigo">Indigo</option>
+              <option value="rose">Rose</option>
+              <option value="amber">Amber</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:12px;font-weight:700;color:#0369a1">Icon Symbol</label>
+            <select id="newCourseIcon" style="margin:4px 0 0;background:#fff">
+              <option value="building">🏛️ Building / Gov</option>
+              <option value="shield">🛡️ Shield / Police / Defense</option>
+              <option value="academic">🎓 Graduation / Academic</option>
+              <option value="train">🚆 Train / Railway / SSC</option>
+              <option value="code">💻 Code / Tech / CS</option>
+              <option value="book">📖 Book / General</option>
+              <option value="chart">📊 Chart / Finance / Business</option>
+              <option value="award">🏆 Award / Competitive</option>
+            </select>
+          </div>
+          <div>
+            <button class="btn btn-blue" style="height:40px;padding:0 20px;font-weight:800;background:#0284c7">Create Course</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Courses Grid Display -->
+      <div id="coursesGrid" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));gap:14px;margin-top:14px">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+
+    <!-- ==================== EXAMS LIST ==================== -->
+    <div class="card" id="examLibraryCard">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h3 style="margin:0;color:#1e3a8a">Examination Library (Total: <span id="displayExamsCount">0</span>)</h3>
+        <span style="font-size:12px;color:#64748b">Changes sync directly to candidate portal</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Stream</th>
+            <th>Type</th>
+            <th>Access Code</th>
+            <th>Format</th>
+            <th>Questions</th>
+            <th>Duration</th>
+            <th>Max Marks</th>
+            <th>Results Visibility</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="examsTableBody">
+          <!-- Rendered via JS -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ==================== RESULTS & STUDENT ATTEMPTS ANALYTICS ==================== -->
+    <div class="card" id="resultsCard">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+        <div>
+          <h3 style="margin:0;color:#1e3a8a">Candidate Examination Submissions &amp; Attempts (Total: <span id="displayResultsCount">0</span>)</h3>
+          <p style="margin:4px 0 0 0;font-size:12px;color:#64748b">Verified records of completed tests, calculated percentages, and time logs</p>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <button type="button" onclick="exportResultsCSV()" class="btn btn-green" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;text-decoration:none;font-weight:700;font-size:12px">
+            📥 Download All Results (.csv)
+          </button>
+          <select id="exportExamFilterSelect" onchange="exportResultsCSV(this.value)" style="padding:7px 10px;font-size:12px;border:1px solid #cbd5e1;border-radius:6px;background:#fff">
+            <option value="">Export by Specific Exam...</option>
+          </select>
+          <input type="text" id="resultSearchInput" placeholder="Search by Candidate or Roll..." class="search-input" onkeyup="filterResultsTable()">
+          <button type="button" onclick="clearResultsHistory()" style="color:#ef4444;background:#fff;border:1px solid #fecaca;border-radius:6px;font-size:12px;font-weight:600;padding:6px 10px;cursor:pointer">Clear History</button>
+        </div>
+      </div>
+      <div style="overflow-x:auto">
+        <table id="resultsTable">
           <thead>
             <tr>
               <th>Rank</th>
-              <th>Photo</th>
               <th>Candidate Name</th>
-              <th>Roll / URN</th>
+              <th>📷 Pre-Exam Photo</th>
+              <th>Candidate URN</th>
               <th>Exam Title</th>
+              <th>Code</th>
               <th>Score / Total</th>
               <th>Accuracy</th>
               <th>Time Taken</th>
               <th>Focus Integrity</th>
               <th>Submission Date</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody id="resultsTableBody">
-            <!-- Populated dynamically -->
+            <!-- Rendered via JS -->
           </tbody>
         </table>
       </div>
-    </div>
-  </section>
 
-  <!-- ================= TAB 5: VERCEL SYNC & BACKUP ================= -->
-  <section id="tabSync" style="display:none">
-    <div class="panel">
-      <div class="panel-header">
+      <!-- RESULTS SHOW MORE / SHOW LESS PAGINATION BAR -->
+      <div id="resultsPaginationBar" style="display:none;justify-content:center;align-items:center;padding:12px 16px;background:#f8fafc;border-top:1px solid #e2e8f0;margin-top:6px;border-radius:0 0 8px 8px;gap:12px;flex-wrap:wrap">
+        <button type="button" id="btnToggleResults" class="btn btn-blue" onclick="toggleResultsShowMore()" style="font-size:12px;font-weight:700;padding:8px 22px;border-radius:6px;box-shadow:none;display:inline-flex;align-items:center;gap:6px;cursor:pointer">
+          <span id="btnToggleResultsText">👁️ Show More ▼</span>
+        </button>
+        <span id="resultsCountLabel" style="font-size:12px;color:#64748b;font-weight:600"></span>
+      </div>
+    </div>
+
+    <!-- ==================== CANDIDATE ACCOUNTS & COURSE FOLDERS ==================== -->
+    <div class="card" id="candidateManagementCard" style="border-top:3px solid #2563eb">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
         <div>
-          <h3 class="panel-title">⚙️ Vercel Deployment &amp; Live JSON Data Sync</h3>
-          <p class="panel-desc">How to manage exams and candidates on Vercel without a PHP server.</p>
+          <h3 style="margin:0;color:#1e3a8a">Candidate Accounts &amp; Course Folders (Total: <span id="displayCandidatesCount">0</span>)</h3>
+          <p style="margin:4px 0 0 0;font-size:12px;color:#64748b">Organize students course-wise in folders, import student lists, and auto-assign random access passwords</p>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <button type="button" class="btn" style="background:#7c3aed;color:#fff;font-size:12px;font-weight:700;padding:6px 14px" onclick="openAdminVerificationModal('', 'Student Webcam Verification Tool')">📷 Student Pre-Exam Photo Verification Tool &amp; Camera</button>
+          <span style="background:#eff6ff;color:#1d4ed8;font-size:12px;font-weight:700;padding:6px 12px;border-radius:6px;border:1px solid #bfdbfe">
+            🔒 Admin Gated Access Enabled
+          </span>
         </div>
       </div>
 
-      <div style="line-height:1.7;color:var(--slate);font-size:14px">
-        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:18px;margin-bottom:20px;color:#1e3a8a">
-          <b>⚡ How Live Data Works on Vercel:</b><br>
-          1. Any student accounts, exams, and courses you create in this Admin Console are saved immediately to your browser's local database so you can test them live.<br>
-          2. To persist new candidates and tests across all devices globally on Vercel, simply click <b>"Download Updated JSON"</b> below and push them to your GitHub repository (<code>https://github.com/deshettivivek-cloud/serverworld.in</code>). Vercel will redeploy in 15 seconds!
-        </div>
-
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-bottom:24px">
-          <div style="border:1px solid var(--border);border-radius:10px;padding:16px;background:#fff">
-            <h4 style="color:#0369a1;margin-bottom:6px">👥 Candidate Profiles</h4>
-            <p style="font-size:12.5px;color:var(--slate);margin-bottom:12px">Contains all registered candidate accounts, passwords, and assigned courses.</p>
-            <button class="btn btn-outline" style="width:100%" onclick="downloadJsonFile('profiles.json', profiles)">📥 Download profiles.json</button>
-          </div>
-
-          <div style="border:1px solid var(--border);border-radius:10px;padding:16px;background:#fff">
-            <h4 style="color:#d97706;margin-bottom:6px">📝 Examination Library</h4>
-            <p style="font-size:12.5px;color:var(--slate);margin-bottom:12px">Contains all question banks, assessment codes, timers, and live tests.</p>
-            <button class="btn btn-outline" style="width:100%" onclick="downloadJsonFile('exams.json', exams)">📥 Download exams.json</button>
-          </div>
-
-          <div style="border:1px solid var(--border);border-radius:10px;padding:16px;background:#fff">
-            <h4 style="color:#16a34a;margin-bottom:6px">📚 Course Streams</h4>
-            <p style="font-size:12.5px;color:var(--slate);margin-bottom:12px">Contains course categories, stream names, and color tags.</p>
-            <button class="btn btn-outline" style="width:100%" onclick="downloadJsonFile('courses.json', courses)">📥 Download courses.json</button>
-          </div>
-
-          <div style="border:1px solid var(--border);border-radius:10px;padding:16px;background:#fff">
-            <h4 style="color:#7c3aed;margin-bottom:6px">📊 Examination Results</h4>
-            <p style="font-size:12.5px;color:var(--slate);margin-bottom:12px">Contains student submissions, scores, and integrity logs.</p>
-            <button class="btn btn-outline" style="width:100%" onclick="downloadJsonFile('results.json', results)">📥 Download results.json</button>
-          </div>
-        </div>
-
-        <button class="btn btn-orange" style="padding:12px 24px;font-size:14px" onclick="downloadAllBackupJson()">
-          💾 Download Complete Data Bundle (.zip / all JSONs)
+      <!-- CREATION / IMPORT TABS -->
+      <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+        <button type="button" class="cand-tab-btn active" id="tabBtnImport" onclick="switchCandCreateTab('import')">
+          <span>📥 Bulk Import Students (CSV / Text)</span>
+        </button>
+        <button type="button" class="cand-tab-btn" id="tabBtnSingle" onclick="switchCandCreateTab('single')">
+          <span>👤 Add Individual Student</span>
+        </button>
+        <button type="button" class="cand-tab-btn" id="tabBtnBulk" onclick="switchCandCreateTab('bulk')">
+          <span>⚡ Quick Sequence Generator</span>
         </button>
       </div>
+
+      <!-- PANE 1: BULK IMPORT (CSV / TEXT) -->
+      <div id="candPaneImport" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:18px;margin-bottom:24px">
+        <h4 style="margin:0 0 10px 0;font-size:13px;font-weight:800;color:#1e3a8a;display:flex;align-items:center;gap:6px">
+          <span>📥 Import Students &amp; Auto-Assign Random Passwords</span>
+        </h4>
+        <form onsubmit="handleBulkImportStudents(event)">
+          <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:16px">
+            <div>
+              <label style="font-size:12px;font-weight:700;color:#1e293b;display:flex;justify-content:space-between;margin-bottom:4px">
+                <span>Paste Student Names, Roll Numbers &amp; Course *</span>
+                <a href="javascript:void(0)" onclick="insertSampleStudentData()" style="color:#2563eb;text-decoration:none;font-weight:600">📋 Paste Sample Format</a>
+              </label>
+              <textarea id="importStudentTextArea" rows="6" placeholder="Rahul Sharma, SW101, NEET&#10;Priya Patel, SW102, TSPSC Groups&#10;Suresh Kumar, POL-01, Telangana Police" style="width:100%;padding:10px;font-size:12.5px;font-family:monospace;border:1px solid #cbd5e1;border-radius:6px;resize:vertical"></textarea>
+              <div style="font-size:12px;color:#64748b;margin-top:4px;line-height:1.5">
+                Format: <code>Student Name, Roll Number, Course Name</code> (or tab-separated copied from Excel). Random passwords will be securely generated!
+              </div>
+            </div>
+            <div>
+              <label style="font-size:12px;font-weight:700;color:#1e293b;display:block;margin-bottom:4px">Or Upload CSV / Text File</label>
+              <input type="file" id="importStudentFileInput" accept=".csv, .txt" onchange="handleStudentFilePick(this)" style="font-size:12px;padding:8px;border:1px dashed #cbd5e1;border-radius:6px;width:100%;background:#fff">
+              
+              <div style="margin-top:10px">
+                <label style="font-size:12px;font-weight:700;color:#64748b;display:block;margin-bottom:3px">Default Course (if not in row)</label>
+                <select id="importDefaultCourseSelect" style="width:100%;padding:8px 10px;font-size:12px;border:1px solid #cbd5e1;border-radius:6px;background:#fff">
+                  <!-- Populated dynamically -->
+                </select>
+              </div>
+
+              <div style="margin-top:14px">
+                <button type="submit" class="btn btn-blue" style="width:100%;padding:10px;font-weight:700;font-size:12.5px">
+                  📥 Import Students &amp; Auto-Assign Passwords
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- PANE 2: SINGLE CANDIDATE -->
+      <div id="candPaneSingle" style="display:none;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:18px;margin-bottom:24px">
+        <h4 style="margin:0 0 12px 0;font-size:13px;font-weight:700;color:#1e293b;display:flex;align-items:center;gap:6px">
+          <span>👤 Add Individual Student</span>
+        </h4>
+        <form onsubmit="handleCreateSingleCandidate(event)">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px">
+            <div>
+              <label style="font-size:12px;font-weight:700;color:#64748b;display:block;margin-bottom:3px">Full Name *</label>
+              <input type="text" id="candSingleName" required placeholder="e.g. Rahul Sharma" style="width:100%;padding:8px 10px;font-size:12px;border:1px solid #cbd5e1;border-radius:6px">
+            </div>
+            <div>
+              <label style="font-size:12px;font-weight:700;color:#64748b;display:block;margin-bottom:3px">Username / Roll No *</label>
+              <input type="text" id="candSingleRoll" required placeholder="e.g. SW101" style="width:100%;padding:8px 10px;font-size:12px;border:1px solid #cbd5e1;border-radius:6px">
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px">
+            <div>
+              <label style="font-size:12px;font-weight:700;color:#64748b;display:block;margin-bottom:3px">Password *</label>
+              <input type="text" id="candSinglePass" required placeholder="e.g. 123456" style="width:100%;padding:8px 10px;font-size:12px;border:1px solid #cbd5e1;border-radius:6px;font-family:monospace;font-weight:700">
+            </div>
+            <div>
+              <label style="font-size:12px;font-weight:700;color:#1e293b;display:flex;justify-content:space-between;margin-bottom:3px">
+                <span>Assign Course(s) (Select 1, 2, or more) *</span>
+                <span style="font-size:12px">
+                  <a href="javascript:void(0)" onclick="candToggleAllCourses('candCreateBox', true)" style="color:#2563eb;text-decoration:none;font-weight:700">All</a> | 
+                  <a href="javascript:void(0)" onclick="candToggleAllCourses('candCreateBox', false)" style="color:#64748b;text-decoration:none">Clear</a>
+                </span>
+              </label>
+              <div id="candCreateBox" style="display:flex;flex-wrap:wrap;gap:6px;background:#fff;padding:8px 10px;border:1px solid #cbd5e1;border-radius:6px;max-height:120px;overflow-y:auto">
+                <!-- Checkboxes populated via JS -->
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-blue" style="width:100%;padding:9px;font-weight:700;font-size:12px">+ Create Candidate Credentials</button>
+        </form>
+      </div>
+
+      <!-- PANE 3: BULK GENERATOR -->
+      <div id="candPaneBulk" style="display:none;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:18px;margin-bottom:24px">
+        <h4 style="margin:0 0 12px 0;font-size:13px;font-weight:700;color:#1e293b;display:flex;align-items:center;gap:6px">
+          <span>⚡ Quick Sequence Generator</span>
+        </h4>
+        <form onsubmit="handleBulkGenerateCandidates(event)">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px">
+            <div>
+              <label style="font-size:12px;font-weight:700;color:#64748b;display:block;margin-bottom:3px">Username Prefix *</label>
+              <input type="text" id="bulkPrefix" required value="TSPSC" placeholder="e.g. TSPSC or POLICE" style="width:100%;padding:8px 10px;font-size:12px;border:1px solid #cbd5e1;border-radius:6px;font-weight:700">
+            </div>
+            <div>
+              <label style="font-size:12px;font-weight:700;color:#64748b;display:block;margin-bottom:3px">Number of Candidates *</label>
+              <input type="number" id="bulkCount" min="1" max="100" value="10" required style="width:100%;padding:8px 10px;font-size:12px;border:1px solid #cbd5e1;border-radius:6px">
+            </div>
+          </div>
+          <div style="margin-bottom:12px">
+            <label style="font-size:12px;font-weight:700;color:#64748b;display:block;margin-bottom:3px">Assign to Course Folder *</label>
+            <select id="bulkCourseSelect" style="width:100%;padding:8px 10px;font-size:12px;border:1px solid #cbd5e1;border-radius:6px;background:#fff">
+              <!-- Populated dynamically -->
+            </select>
+          </div>
+          <button type="submit" class="btn btn-green" style="width:100%;padding:9px;font-weight:700;font-size:12px">⚡ Generate Accounts with Random Passwords</button>
+        </form>
+      </div>
+
+      <!-- COURSE FOLDERS NAVIGATION -->
+      <div style="background:#ffffff;border:1px solid #cbd5e1;border-radius:10px;padding:16px;margin-bottom:18px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:10px">
+          <div>
+            <div style="font-size:14px;font-weight:800;color:#1e3a8a;display:flex;align-items:center;gap:6px">
+              <span>📁 Course Folders</span>
+              <span style="font-size:12px;font-weight:600;color:#64748b">(Click any folder to view students organized by course)</span>
+            </div>
+            <div id="candFolderCounterDisplay" style="font-size:12px;color:#0284c7;font-weight:700;margin-top:2px">
+              Showing students in All Course Folders
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <input type="text" id="candidateSearchInput" placeholder="🔍 Search name, roll..." onkeyup="filterCandidatesFolder()" style="padding:7px 12px;font-size:12px;border:1px solid #cbd5e1;border-radius:6px;width:180px;margin:0">
+            <button type="button" onclick="exportCandidatesCSV()" class="btn" style="background:#0284c7;color:#fff;padding:7px 12px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:4px">
+              📥 Export Passwords
+            </button>
+            <button type="button" class="btn btn-blue" style="padding:7px 12px;font-size:12px;font-weight:700" onclick="printFolderStudentSlips()" title="Print login credential cards for students in this folder">
+              🖨️ Print Login Slips
+            </button>
+          </div>
+        </div>
+
+        <!-- FOLDER PILLS -->
+        <div style="display:flex;flex-wrap:wrap;gap:8px" id="candFolderPills">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+
+      <!-- CANDIDATES TABLE -->
+      <div style="overflow-x:auto">
+        <table>
+          <thead>
+            <tr>
+              <th>Candidate Name</th>
+              <th>Username / Roll No</th>
+              <th>Access Password</th>
+              <th>Course Folder</th>
+              <th>📷 Pre-Exam Verification</th>
+              <th>Exam Status</th>
+              <th>Registered Date</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="candidateTableBody">
+            <!-- Populated dynamically via JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- CANDIDATES SHOW MORE / SHOW LESS PAGINATION BAR -->
+      <div id="candidatesPaginationBar" style="display:none;justify-content:center;align-items:center;padding:12px 16px;background:#f8fafc;border-top:1px solid #e2e8f0;margin-top:6px;border-radius:0 0 8px 8px;gap:12px;flex-wrap:wrap">
+        <button type="button" id="btnToggleCandidates" class="btn btn-blue" onclick="toggleCandidatesShowMore()" style="font-size:12px;font-weight:700;padding:8px 22px;border-radius:6px;box-shadow:none;display:inline-flex;align-items:center;gap:6px;cursor:pointer">
+          <span id="btnToggleCandidatesText">👁️ Show More Students ▼</span>
+        </button>
+        <span id="candidatesCountLabel" style="font-size:12px;color:#64748b;font-weight:600"></span>
+      </div>
     </div>
-  </section>
 
-</main>
+  </div><!-- /adminPanelSection -->
 
+</div><!-- /container -->
+
+<!-- ==================== ALL 8 MODALS FROM ADMIN.PHP ==================== -->
+
+<!-- 1. FULL QUESTION MANAGER MODAL -->
+<div id="qManagerModal" class="modal-overlay">
+  <div class="modal-content" style="max-width:840px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;border-bottom:1px solid #e2e8f0;padding-bottom:10px">
+      <div>
+        <h3 style="margin:0;color:#1565D8" id="qmExamTitle">Question Management</h3>
+        <span style="font-size:12px;color:#64748b" id="qmExamSubtitle">Manage questions, choices, correct answers and marks</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <button type="button" id="qmPublishBtn" class="btn btn-green" style="padding:6px 14px;font-size:12px;font-weight:700" onclick="toggleExamVisibilityFromModal()">📢 Publish Answers &amp; Solutions</button>
+        <button onclick="closeQuestionManagerModal()" style="border:none;background:none;font-size:22px;cursor:pointer">&times;</button>
+      </div>
+    </div>
+
+    <!-- ADD SINGLE QUESTION QUICK BAR -->
+    <details style="background:#f1f5f9;padding:12px;border-radius:8px;margin-bottom:16px">
+      <summary style="font-weight:700;font-size:13px;cursor:pointer;color:#1565D8">+ Add Individual Question Manually</summary>
+      <form onsubmit="handleAddSingleQuestionFromModal(event)" style="margin-top:10px">
+        <input type="hidden" id="qmAddExamId">
+        <div style="display:flex;gap:10px;margin-bottom:8px">
+          <div style="flex:1">
+            <label style="font-size:12px;font-weight:600">Question Type</label>
+            <select id="qmAddQType">
+              <option value="mcq">Multiple Choice Question (MCQ)</option>
+              <option value="blank">Fill in the Blanks (Keyboard Typing Input)</option>
+            </select>
+          </div>
+        </div>
+
+        <label style="font-size:12px;font-weight:600">Question Text</label>
+        <textarea id="qmAddQText" rows="2" placeholder="Enter question prompt..." required></textarea>
+
+        <label style="font-size:12px;font-weight:600;margin-top:4px;display:block">📖 Reference Passage / Comprehension Paragraph (Optional)</label>
+        <textarea id="qmAddPassage" rows="2" placeholder="Optional: Enter reading passage or case study text that appears above this question in CBT..."></textarea>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div><label style="font-size:12px;font-weight:600">Option A / Accepted Answer</label><input id="qmAddOptA" required></div>
+          <div><label style="font-size:12px;font-weight:600">Option B</label><input id="qmAddOptB"></div>
+          <div><label style="font-size:12px;font-weight:600">Option C</label><input id="qmAddOptC"></div>
+          <div><label style="font-size:12px;font-weight:600">Option D</label><input id="qmAddOptD"></div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:6px">
+          <div style="flex:1">
+            <label style="font-size:12px;font-weight:600">Correct Answer / Index</label>
+            <select id="qmAddAns">
+              <option value="0">Option A</option>
+              <option value="1">Option B</option>
+              <option value="2">Option C</option>
+              <option value="3">Option D</option>
+            </select>
+          </div>
+          <div style="width:120px">
+            <label style="font-size:12px;font-weight:600">Marks</label>
+            <input type="number" step="0.25" id="qmAddMarks" value="1.0" required>
+          </div>
+        </div>
+        <label style="font-size:12px;font-weight:600">Explanation (Optional)</label>
+        <input id="qmAddExp" placeholder="Optional answer rationale...">
+        <button type="submit" class="btn btn-blue" style="margin-top:8px">Save Question</button>
+      </form>
+    </details>
+
+    <!-- QUESTIONS LIST -->
+    <div id="qmQuestionsList" style="max-height:55vh;overflow-y:auto"></div>
+  </div>
+</div>
+
+<!-- 2. EDIT SINGLE QUESTION MODAL -->
+<div id="editQModal" class="modal-overlay" style="z-index:10001">
+  <div class="modal-content" style="max-width:600px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <h3 style="margin:0;color:#1565D8">Edit Question</h3>
+      <button onclick="closeEditQModal()" style="border:none;background:none;font-size:20px;cursor:pointer">&times;</button>
+    </div>
+    <form onsubmit="handleSaveEditQuestion(event)">
+      <input type="hidden" id="eqExamId">
+      <input type="hidden" id="eqQIndex">
+      <label style="font-size:12px;font-weight:600">Question Text</label>
+      <textarea id="eqText" rows="3" required></textarea>
+      <label style="font-size:12px;font-weight:600;margin-top:4px;display:block">📖 Reference Passage / Comprehension Paragraph</label>
+      <textarea id="eqPassage" rows="2"></textarea>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div><label style="font-size:12px;font-weight:600">Option A</label><input id="eqOptA" required></div>
+        <div><label style="font-size:12px;font-weight:600">Option B</label><input id="eqOptB"></div>
+        <div><label style="font-size:12px;font-weight:600">Option C</label><input id="eqOptC"></div>
+        <div><label style="font-size:12px;font-weight:600">Option D</label><input id="eqOptD"></div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:6px">
+        <div style="flex:1">
+          <label style="font-size:12px;font-weight:600">Correct Answer</label>
+          <select id="eqAns">
+            <option value="0">Option A</option>
+            <option value="1">Option B</option>
+            <option value="2">Option C</option>
+            <option value="3">Option D</option>
+          </select>
+        </div>
+        <div style="width:120px">
+          <label style="font-size:12px;font-weight:600">Marks</label>
+          <input type="number" step="0.25" id="eqMarks" required>
+        </div>
+      </div>
+      <label style="font-size:12px;font-weight:600">Explanation</label>
+      <input id="eqExp">
+      <div style="display:flex;gap:8px;margin-top:16px">
+        <button type="button" class="btn" style="background:#e2e8f0;color:#1e293b" onclick="closeEditQModal()">Cancel</button>
+        <button type="submit" class="btn btn-blue" style="flex:1;justify-content:center">Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- 3. MODAL FOR IMPORTING QUESTIONS -->
+<div id="addQModal" class="modal-overlay">
+  <div class="modal-content">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <h3 style="margin:0;color:#1565D8" id="modalExamTitle">Import Questions</h3>
+      <button onclick="closeAddQuestionsModal()" style="border:none;background:none;font-size:20px;cursor:pointer">&times;</button>
+    </div>
+    <form onsubmit="handleImportQuestionsFromModal(event)">
+      <input type="hidden" id="modalExamId">
+      <p style="font-size:12px;color:#64748b;margin-bottom:14px">Select or paste questions to import into this examination.</p>
+      <label style="font-size:12px;font-weight:600">Paste Questions (Pipe separated):</label>
+      <textarea id="modalQuestionsText" rows="5" placeholder="Question|OptA|OptB|OptC|OptD|AnsIndex 0-3|Marks|Explanation" style="width:100%"></textarea>
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <button type="button" class="btn" style="background:#e2e8f0;color:#1e293b" onclick="closeAddQuestionsModal()">Cancel</button>
+        <button type="submit" class="btn btn-purple" style="flex:1;justify-content:center">Import Questions &rarr;</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- 4. MODAL FOR EDITING EXAM ACCESS CODE -->
+<div id="editCodeModal" class="modal-overlay">
+  <div class="modal-content" style="max-width:440px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <h3 style="margin:0;color:#1565D8" id="editCodeExamTitle">Change Exam Access Code</h3>
+      <button onclick="closeEditCodeModal()" style="border:none;background:none;font-size:20px;cursor:pointer">&times;</button>
+    </div>
+    <p style="font-size:12px;color:#64748b;margin-bottom:14px">Students will need to enter this code on the portal to access and start this exam.</p>
+    <form onsubmit="handleSaveAccessCode(event)">
+      <input type="hidden" id="editCodeExamId">
+      <label style="font-size:12px;font-weight:600">Access Code (Letters &amp; Numbers)</label>
+      <input id="editCodeInput" placeholder="e.g. TSPSC01 or POLICE02" style="font-family:monospace;font-size:16px;font-weight:700;letter-spacing:1px;text-transform:uppercase" required>
+      <div style="display:flex;gap:8px;margin-top:16px">
+        <button type="button" class="btn" style="background:#e2e8f0;color:#1e293b" onclick="closeEditCodeModal()">Cancel</button>
+        <button type="submit" class="btn btn-blue" style="flex:1;justify-content:center">Save Access Code</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- 5. CANDIDATE PAPER & ANSWERS REVIEW MODAL -->
+<div id="candidateReviewModal" class="modal-overlay">
+  <div class="modal-content" style="max-width:880px;max-height:90vh;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;border-bottom:1px solid #e2e8f0;padding-bottom:10px">
+      <div>
+        <h3 style="margin:0;color:#1565D8" id="crmCandidateTitle">Candidate Examination Paper Review</h3>
+        <span style="font-size:12px;color:#64748b" id="crmCandidateSubtitle">Submitted questions, chosen answers, correct answers and explanations</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <button type="button" class="btn btn-green" style="padding:6px 12px;font-size:12px;font-weight:700" onclick="printCurrentCandidateReview()">🖨️ Print / Save PDF</button>
+        <button onclick="closeCandidateReviewModal()" style="border:none;background:none;font-size:22px;cursor:pointer">&times;</button>
+      </div>
+    </div>
+
+    <!-- SUMMARY METRICS BAR -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(130px, 1fr));gap:10px;margin-bottom:14px;background:#f8fafc;padding:12px;border-radius:8px;border:1px solid #e2e8f0">
+      <div>
+        <div style="font-size:12px;color:#64748b;font-weight:700;text-transform:uppercase">Candidate</div>
+        <div style="font-size:14px;font-weight:800;color:#1e293b" id="crmMetaName">-</div>
+        <code style="font-size:12px;color:#64748b" id="crmMetaRoll">-</code>
+      </div>
+      <div>
+        <div style="font-size:12px;color:#64748b;font-weight:700;text-transform:uppercase">Score</div>
+        <div style="font-size:16px;font-weight:800;color:#0284c7" id="crmMetaScore">-</div>
+      </div>
+      <div>
+        <div style="font-size:12px;color:#64748b;font-weight:700;text-transform:uppercase">Accuracy</div>
+        <div style="font-size:16px;font-weight:800;color:#15803d" id="crmMetaAccuracy">-</div>
+      </div>
+      <div>
+        <div style="font-size:12px;color:#64748b;font-weight:700;text-transform:uppercase">Time Taken</div>
+        <div style="font-size:14px;font-weight:700;color:#334155" id="crmMetaTime">-</div>
+      </div>
+      <div>
+        <div style="font-size:12px;color:#64748b;font-weight:700;text-transform:uppercase">Focus Integrity</div>
+        <div id="crmMetaFocus">-</div>
+      </div>
+    </div>
+
+    <!-- FILTER BUTTONS -->
+    <div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap" id="crmFilterBar"></div>
+
+    <!-- QUESTIONS LIST -->
+    <div id="crmQuestionsList" style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding-right:6px"></div>
+  </div>
+</div>
+
+<!-- 6. ADMIN PRE-EXAM STUDENT VERIFICATION & LIVE WEBCAM MODAL -->
+<div id="adminVerificationModal" class="modal-overlay" style="display:none">
+  <div class="modal-content" style="max-width:540px;text-align:center">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;border-bottom:1px solid #e2e8f0;padding-bottom:10px">
+      <div style="text-align:left">
+        <h3 style="margin:0;color:#7c3aed;display:flex;align-items:center;gap:6px">
+          <span>📷</span> <span id="avmTitle">Student Pre-Exam Verification</span>
+        </h3>
+        <div style="font-size:12px;color:#64748b;margin-top:2px">Capture or upload verification photo for examination identity</div>
+      </div>
+      <button type="button" onclick="closeAdminVerificationModal()" style="border:none;background:none;font-size:24px;cursor:pointer;color:#64748b">&times;</button>
+    </div>
+
+    <!-- Target Candidate Info -->
+    <div style="background:#f5f3ff;border:1px solid #ddd6fe;border-radius:8px;padding:10px 14px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;text-align:left">
+      <div>
+        <b style="color:#5b21b6;font-size:14px" id="avmCandName">Selected Student</b>
+        <div style="font-size:12px;color:#6d28d9">Roll Number: <code id="avmCandRoll" style="font-weight:700">SW001</code></div>
+      </div>
+      <span id="avmStatusBadge" style="background:#dcfce7;color:#15803d;padding:3px 8px;border-radius:4px;font-size:12px;font-weight:700">Optional</span>
+    </div>
+
+    <!-- Live Webcam Video Box & Snapshot Preview -->
+    <div style="position:relative;width:240px;height:240px;margin:0 auto 14px;background:#0f172a;border-radius:12px;overflow:hidden;border:2px solid #7c3aed;display:flex;align-items:center;justify-content:center">
+      <video id="avmWebcam" autoplay playsinline muted style="width:100%;height:100%;object-fit:cover;display:none;transform:scaleX(-1)"></video>
+      <img id="avmCapturedPhoto" src="" style="width:100%;height:100%;object-fit:cover;display:none">
+      
+      <!-- Placeholder when camera is off -->
+      <div id="avmPlaceholder" style="color:#94a3b8;font-size:13px;padding:16px;text-align:center">
+        <div style="font-size:40px;margin-bottom:6px">📷</div>
+        <span>Camera is currently off.<br>Click <b>Turn On Camera</b> below to test live capture.</span>
+      </div>
+
+      <!-- Face Guide Overlay -->
+      <div id="avmFaceGuide" style="display:none;position:absolute;top:20px;bottom:20px;left:30px;right:30px;border:2px dashed rgba(255,255,255,0.7);border-radius:50%;pointer-events:none"></div>
+    </div>
+
+    <!-- Camera Control Buttons -->
+    <div style="display:flex;gap:8px;justify-content:center;margin-bottom:14px;flex-wrap:wrap">
+      <button type="button" id="btnAvmStartCam" class="btn" style="background:#7c3aed;color:#fff;font-weight:700;font-size:12px;padding:8px 16px" onclick="startAdminWebcam()">
+        📹 Turn On Camera
+      </button>
+      <button type="button" id="btnAvmSnap" class="btn btn-green" style="font-weight:700;font-size:12px;padding:8px 16px;display:none" onclick="captureAdminWebcamPhoto()">
+        ⚡ Capture Snapshot Now
+      </button>
+      <button type="button" id="btnAvmRetake" class="btn" style="background:#e2e8f0;color:#1e293b;font-size:12px;padding:8px 14px;display:none" onclick="retakeAdminWebcam()">
+        🔄 Retake
+      </button>
+    </div>
+
+    <!-- Upload File Form -->
+    <form onsubmit="handleSaveVerificationPhoto(event)" style="border-top:1px solid #e2e8f0;padding-top:12px;text-align:left">
+      <input type="hidden" id="avmFormRoll" value="">
+      <input type="hidden" id="avmFormPhotoData" value="">
+      <div style="margin-bottom:10px">
+        <label style="font-size:12px;font-weight:600;color:#475569">Or Upload Photo File (JPG, PNG)</label>
+        <input type="file" accept="image/*" style="font-size:12px;padding:4px;margin-top:2px" onchange="previewAdminPhotoFile(this)">
+      </div>
+      <div style="display:flex;gap:8px">
+        <button type="button" class="btn" style="background:#e2e8f0;color:#1e293b;flex:1" onclick="closeAdminVerificationModal()">Close</button>
+        <button type="submit" id="btnAvmSave" class="btn btn-blue" style="flex:1.5;justify-content:center;font-weight:700">✓ Save Verification Photo</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- 7. PHOTO LIGHTBOX PREVIEW MODAL -->
+<div id="viewPhotoModal" class="modal-overlay" style="display:none" onclick="closeViewPhotoModal()">
+  <div class="modal-content" style="max-width:380px;text-align:center" onclick="event.stopPropagation()">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;border-bottom:1px solid #e2e8f0;padding-bottom:8px">
+      <div style="text-align:left">
+        <h4 style="margin:0;color:#1e293b" id="vpmTitle">Candidate Photo</h4>
+        <div style="font-size:12px;color:#64748b" id="vpmSubtitle">SW001</div>
+      </div>
+      <button type="button" onclick="closeViewPhotoModal()" style="border:none;background:none;font-size:24px;cursor:pointer">&times;</button>
+    </div>
+    <div style="width:260px;height:260px;margin:0 auto 12px;background:#f8fafc;border-radius:10px;overflow:hidden;border:1.5px solid #cbd5e1;display:flex;align-items:center;justify-content:center">
+      <img id="vpmImage" src="" style="width:100%;height:100%;object-fit:cover">
+    </div>
+    <div style="font-size:12px;color:#15803d;font-weight:700;margin-bottom:10px">✓ Verified Examination Identity</div>
+    <button type="button" class="btn btn-blue" style="width:100%;justify-content:center" onclick="closeViewPhotoModal()">Close Preview</button>
+  </div>
+</div>
+
+<!-- 8. ADMIN EDIT STUDENT MULTI-COURSE ASSIGNMENT MODAL -->
+<div id="adminEditStudentCoursesModal" class="modal-overlay" style="display:none">
+  <div class="modal-content" style="max-width:540px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;border-bottom:1px solid #e2e8f0;padding-bottom:10px">
+      <div>
+        <h3 style="margin:0;color:#1e3a8a;font-size:16px;display:flex;align-items:center;gap:6px">
+          <span>📚 Assign / Select Courses to Study</span>
+        </h3>
+        <p style="margin:4px 0 0 0;font-size:12px;color:#64748b" id="editCandCoursesSub">Select two or more courses for this student</p>
+      </div>
+      <button type="button" onclick="closeAdminEditStudentCoursesModal()" style="background:none;border:none;font-size:22px;cursor:pointer;color:#64748b">&times;</button>
+    </div>
+    <form onsubmit="handleSaveCandidateCourses(event)">
+      <input type="hidden" id="editCandUsernameInput">
+      <div style="margin-bottom:14px">
+        <label style="font-size:12px;font-weight:700;color:#1e293b;display:flex;justify-content:space-between;margin-bottom:6px">
+          <span>Enrolled Course(s) (Select 1, 2, or more) *</span>
+          <span style="font-size:12px">
+            <a href="javascript:void(0)" onclick="candToggleAllCourses('candEditBox', true)" style="color:#2563eb;text-decoration:none;font-weight:700">All Courses</a> | 
+            <a href="javascript:void(0)" onclick="candToggleAllCourses('candEditBox', false)" style="color:#64748b;text-decoration:none">Clear</a>
+          </span>
+        </label>
+        <div id="candEditBox" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;background:#f8fafc;padding:12px;border:1px solid #cbd5e1;border-radius:8px;max-height:260px;overflow-y:auto">
+          <!-- Checkboxes populated via JS -->
+        </div>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:8px">
+        <button type="button" class="btn" style="background:#e2e8f0;color:#334155;font-size:12px;font-weight:700" onclick="closeAdminEditStudentCoursesModal()">Cancel</button>
+        <button type="submit" class="btn btn-blue" style="font-size:12px;font-weight:700;padding:8px 18px">✓ Save Enrolled Courses</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ==================== JAVASCRIPT ENGINE ==================== -->
 <script>
-// ==================== STATE MANAGEMENT ====================
-let profiles = [];
-let exams = [];
-let courses = [];
-let results = [];
-let showAllCandidates = false;
+// DEFAULT SEED DATA
+const defaultCourses = [
+  {"id":"course_tspsc","name":"TSPSC Groups","stream":"Group 1, 2, 3 & 4","color":"blue","icon":"building"},
+  {"id":"course_police","name":"Telangana Police","stream":"Constable • SI • ASI","color":"orange","icon":"shield"},
+  {"id":"course_tet","name":"TET DSC","stream":"Paper 1 • Paper 2","color":"green","icon":"academic"},
+  {"id":"course_ssc","name":"SSC RRB","stream":"SSC • Railway Exams","color":"purple","icon":"train"},
+  {"id":"course_cs","name":"Computer Science","stream":"IT • Coding • CS Concepts","color":"cyan","icon":"code"},
+  {"id":"course_neet","name":"NEET","stream":"Physics • Chemistry • Biology","color":"rose","icon":"academic"},
+  {"id":"course_banking","name":"Banking","stream":"IBPS • SBI • RBI","color":"blue","icon":"building"}
+];
 
-// AUTH CHECK
+const defaultExams = [
+  {
+    "id": 1793958326,
+    "title": "TSPSC Groups Live Test",
+    "category": "TSPSC Groups",
+    "accessCode": "TSPSC-7821",
+    "duration": 20,
+    "maxMarks": 30,
+    "certificateThreshold": 85,
+    "result_visibility": "immediate",
+    "single_attempt": true,
+    "paperType": "interactive",
+    "testType": "live",
+    "status": "LIVE",
+    "questions": [
+      {"num":1,"q":"Which dynasty ruled much of the Deccan from its capital at Kalyani?","opts":["Kakatiya","Western Chalukya","Satavahana","Qutb Shahi"],"ans":1,"marks":1,"explanation":"Western Chalukyas had capital at Kalyani."},
+      {"num":2,"q":"What is the capital city of Telangana?","opts":["Warangal","Hyderabad","Nizamabad","Karimnagar"],"ans":1,"marks":1,"explanation":"Hyderabad is capital of Telangana."},
+      {"num":3,"q":"When was Telangana officially formed?","opts":["2 June 2014","15 August 2014","26 January 2014","1 May 2014"],"ans":0,"marks":1,"explanation":"Formed on 2 June 2014."}
+    ]
+  }
+];
+
+const defaultProfiles = [
+  {"id":"cand_1","name":"SUMEDH","roll":"SW005","username":"SW005","password":"1234","assigned_exam_title":"Banking","assigned_courses":["Banking"],"created":"2026-11-09 17:39:56","photo":""},
+  {"id":"cand_2","name":"Rahul Sharma","roll":"SW001","username":"SW001","password":"123456","assigned_exam_title":"TSPSC Groups","assigned_courses":["TSPSC Groups"],"created":"2026-11-10 10:00:00","photo":""},
+  {"id":"cand_3","name":"Priya Patel","roll":"SW002","username":"SW002","password":"123456","assigned_exam_title":"NEET","assigned_courses":["NEET"],"created":"2026-11-10 10:00:00","photo":""}
+];
+
+const defaultResults = [
+  {
+    "attemptId":"ATT-1001",
+    "name":"SUMEDH",
+    "roll":"SW005",
+    "examTitle":"TSPSC Groups Live Test",
+    "examId":1793958326,
+    "accessCode":"TSPSC-7821",
+    "score":2,
+    "total":3,
+    "totalMarks":3,
+    "accuracy":66.7,
+    "timeTaken":"4m 12s",
+    "tabSwitchCount":0,
+    "fullscreenExitCount":0,
+    "timestamp":"2026-11-10 18:14:08"
+  }
+];
+
+// STATE MANAGEMENT (LOCALSTORAGE + FALLBACK)
+let courses = JSON.parse(localStorage.getItem('sw_courses') || 'null') || defaultCourses;
+let exams = JSON.parse(localStorage.getItem('sw_exams') || 'null') || defaultExams;
+let profiles = JSON.parse(localStorage.getItem('sw_profiles') || 'null') || defaultProfiles;
+let results = JSON.parse(localStorage.getItem('sw_results') || 'null') || defaultResults;
+
+function saveAllState(){
+  localStorage.setItem('sw_courses', JSON.stringify(courses));
+  localStorage.setItem('sw_exams', JSON.stringify(exams));
+  localStorage.setItem('sw_profiles', JSON.stringify(profiles));
+  localStorage.setItem('sw_results', JSON.stringify(results));
+}
+
+function showFlash(msg, type='success'){
+  const b = document.getElementById('flashBox');
+  const m = document.getElementById('flashMsg');
+  if(!b || !m) return;
+  m.innerText = msg;
+  b.className = 'alert-box alert-' + type;
+  b.style.display = 'flex';
+  setTimeout(() => { b.style.display = 'none'; }, 5000);
+}
+
+// AUTH
 function checkAuth(){
-  const isAuth = sessionStorage.getItem('sw_admin_authenticated') === 'true';
-  const gate = document.getElementById('authGate');
-  if(!isAuth){
-    gate.style.display = 'flex';
+  const isAuth = sessionStorage.getItem('sw_admin_auth') === 'true';
+  const loginSec = document.getElementById('loginSection');
+  const adminSec = document.getElementById('adminPanelSection');
+  const navAuth = document.getElementById('headerNavAuth');
+  if(isAuth){
+    if(loginSec) loginSec.style.display = 'none';
+    if(adminSec) adminSec.style.display = 'block';
+    if(navAuth) navAuth.style.display = 'block';
+    renderAll();
   } else {
-    gate.style.display = 'none';
+    if(loginSec) loginSec.style.display = 'block';
+    if(adminSec) adminSec.style.display = 'none';
+    if(navAuth) navAuth.style.display = 'none';
   }
 }
 
-function verifyAdminAuth(){
-  const inp = document.getElementById('adminPasswordInput');
-  const err = document.getElementById('authErrorMsg');
-  if(inp.value.trim() === 'admin123'){
-    sessionStorage.setItem('sw_admin_authenticated', 'true');
-    document.getElementById('authGate').style.display = 'none';
-    err.style.display = 'none';
-    initAdminData();
+function handleAdminLogin(e){
+  e.preventDefault();
+  const pass = document.getElementById('adminPassInput').value.trim();
+  const err = document.getElementById('loginError');
+  if(pass === 'admin123'){
+    if(err) err.style.display = 'none';
+    sessionStorage.setItem('sw_admin_auth', 'true');
+    checkAuth();
+    showFlash('Welcome to Server World Administrator Console.');
   } else {
-    err.style.display = 'block';
-    inp.focus();
+    if(err) err.style.display = 'block';
   }
 }
 
 function adminLogout(){
-  sessionStorage.removeItem('sw_admin_authenticated');
-  location.href = 'index.html';
+  sessionStorage.removeItem('sw_admin_auth');
+  checkAuth();
 }
 
-// TAB SWITCHING
-function switchAdminTab(tabName, btn){
-  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-
-  const tabs = ['candidates', 'exams', 'courses', 'results', 'sync'];
-  tabs.forEach(t => {
-    const el = document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1));
-    if(el){
-      el.style.display = (t === tabName) ? 'block' : 'none';
-    }
-  });
-}
-
-// ==================== INITIALIZE & FETCH LIVE DATA ====================
-async function initAdminData(){
-  // 1. Fetch live files
-  try {
-    const [pRes, eRes, cRes, rRes] = await Promise.all([
-      fetch('profiles.json?t=' + Date.now()).catch(() => null),
-      fetch('exams.json?t=' + Date.now()).catch(() => null),
-      fetch('courses.json?t=' + Date.now()).catch(() => null),
-      fetch('results.json?t=' + Date.now()).catch(() => null)
-    ]);
-
-    let pData = pRes && pRes.ok ? await pRes.json() : null;
-    let eData = eRes && eRes.ok ? await eRes.json() : null;
-    let cData = cRes && cRes.ok ? await cRes.json() : null;
-    let rData = rRes && rRes.ok ? await rRes.json() : null;
-
-    // Load from localStorage or fetched data
-    profiles = JSON.parse(localStorage.getItem('sw_profiles') || 'null') || (Array.isArray(pData) ? pData : []);
-    exams = JSON.parse(localStorage.getItem('sw_exams') || 'null') || (Array.isArray(eData) ? eData : []);
-    courses = JSON.parse(localStorage.getItem('sw_courses') || 'null') || (Array.isArray(cData) ? cData : []);
-    results = JSON.parse(localStorage.getItem('sw_results') || 'null') || (Array.isArray(rData) ? rData : []);
-
-    // Save initial state to localStorage
-    saveLocalState();
-  } catch(e) {
-    console.warn('Initial data load notice:', e);
-  }
-
-  // Fallbacks if empty
-  if(courses.length === 0){
-    courses = [
-      { name: "Banking", category: "Banking", color: "#1e40af", icon: "building" },
-      { name: "Police", category: "Police", color: "#f97316", icon: "shield" },
-      { name: "TSPSC Groups", category: "TSPSC Groups", color: "#16a34a", icon: "chart" }
-    ];
-    saveLocalState();
-  }
-
-  updateSummaryStats();
-  renderCourseCheckboxes();
-  renderExamCategorySelect();
-  renderCandidatesTable();
+// RENDER ALL
+function renderAll(){
+  updateStats();
+  renderCourseSelects();
+  renderCoursesGrid();
   renderExamsTable();
-  renderCoursesTable();
   renderResultsTable();
+  renderCandidatesFoldersAndTable();
 }
 
-function saveLocalState(){
-  localStorage.setItem('sw_profiles', JSON.stringify(profiles));
-  localStorage.setItem('sw_exams', JSON.stringify(exams));
-  localStorage.setItem('sw_courses', JSON.stringify(courses));
-  localStorage.setItem('sw_results', JSON.stringify(results));
-  updateSummaryStats();
-}
+function updateStats(){
+  const sStud = document.getElementById('statTotalStudents');
+  const sExam = document.getElementById('statTotalExams');
+  const sRes = document.getElementById('statTotalResults');
+  const sAvg = document.getElementById('statAvgScore');
+  const sTop = document.getElementById('statTopScore');
 
-function syncAllLiveFiles(){
-  localStorage.removeItem('sw_profiles');
-  localStorage.removeItem('sw_exams');
-  localStorage.removeItem('sw_courses');
-  localStorage.removeItem('sw_results');
-  initAdminData();
-  alert('Synced successfully with server files!');
-}
+  const jC = document.getElementById('jumpCoursesCount');
+  const jE = document.getElementById('jumpExamsCount');
+  const jR = document.getElementById('jumpResultsCount');
+  const jCand = document.getElementById('jumpCandidatesCount');
 
-function updateSummaryStats(){
-  document.getElementById('statCandidates').innerText = profiles.length;
-  document.getElementById('statExams').innerText = exams.length;
-  document.getElementById('statCourses').innerText = courses.length;
-  document.getElementById('statResults').innerText = results.length;
-}
+  const dC = document.getElementById('displayCourseCount');
+  const dE = document.getElementById('displayExamsCount');
+  const dR = document.getElementById('displayResultsCount');
+  const dCand = document.getElementById('displayCandidatesCount');
 
-// ==================== CANDIDATE MANAGEMENT ====================
-function renderCourseCheckboxes(){
-  const container = document.getElementById('candCourseCheckboxes');
-  container.innerHTML = courses.map(c => `
-    <label class="course-checkbox-label">
-      <input type="checkbox" name="candCourses" value="${c.name}">
-      <span>${c.name}</span>
-    </label>
-  `).join('');
-}
+  const totStud = profiles.length;
+  const totExams = exams.length;
+  const totRes = results.length;
 
-function handleCreateCandidate(e){
-  e.preventDefault();
-  const name = document.getElementById('candName').value.trim();
-  const roll = document.getElementById('candRoll').value.trim();
-  const pass = document.getElementById('candPass').value.trim();
-  const email = document.getElementById('candEmail').value.trim();
-
-  const checkedBoxes = Array.from(document.querySelectorAll('input[name="candCourses"]:checked'));
-  const selectedCourses = checkedBoxes.map(b => b.value);
-
-  if(selectedCourses.length === 0){
-    alert('Please select at least one study course for the candidate.');
-    return;
-  }
-
-  // Check duplicate
-  const existing = profiles.find(p => p.roll?.toLowerCase() === roll.toLowerCase() || p.username?.toLowerCase() === roll.toLowerCase());
-  if(existing){
-    alert('A candidate with Roll Number ' + roll + ' already exists!');
-    return;
-  }
-
-  const newCand = {
-    id: "cand_" + Date.now().toString(16),
-    name: name,
-    roll: roll,
-    username: roll,
-    password: pass,
-    email: email,
-    phone: "",
-    enrolledCourses: selectedCourses,
-    assigned_exam_title: selectedCourses.join(', '),
-    assigned_exam_id: "cat_" + selectedCourses[0],
-    created: new Date().toISOString().replace('T', ' ').substring(0, 19)
-  };
-
-  profiles.unshift(newCand);
-  saveLocalState();
-  renderCandidatesTable();
-  e.target.reset();
-  alert(`Candidate ${name} (${roll}) registered successfully!`);
-}
-
-function renderCandidatesTable(){
-  const tbody = document.getElementById('candidatesTableBody');
-  const search = document.getElementById('candSearchInput').value.toLowerCase().trim();
-
-  let list = profiles.filter(p => {
-    return (p.name || '').toLowerCase().includes(search) || (p.roll || '').toLowerCase().includes(search);
+  let totalScore = 0;
+  let topScore = 0;
+  results.forEach(r => {
+    const sc = parseFloat(r.score || 0);
+    totalScore += sc;
+    if(sc > topScore) topScore = sc;
   });
+  const avg = totRes > 0 ? (totalScore / totRes).toFixed(1) : 0;
 
-  const btnToggle = document.getElementById('btnToggleShowAllCand');
-  const total = list.length;
+  if(sStud) sStud.innerText = totStud;
+  if(sExam) sExam.innerText = totExams;
+  if(sRes) sRes.innerText = totRes;
+  if(sAvg) sAvg.innerText = avg;
+  if(sTop) sTop.innerText = topScore;
 
-  if(!showAllCandidates && total > 10){
-    list = list.slice(0, 10);
-    btnToggle.style.display = 'inline-flex';
-    btnToggle.innerText = `Show More (${total - 10} hidden)`;
-  } else if(total > 10) {
-    btnToggle.style.display = 'inline-flex';
-    btnToggle.innerText = 'Show Less';
-  } else {
-    btnToggle.style.display = 'none';
+  if(jC) jC.innerText = courses.length;
+  if(jE) jE.innerText = totExams;
+  if(jR) jR.innerText = totRes;
+  if(jCand) jCand.innerText = totStud;
+
+  if(dC) dC.innerText = courses.length;
+  if(dE) dE.innerText = totExams;
+  if(dR) dR.innerText = totRes;
+  if(dCand) dCand.innerText = totStud;
+}
+
+// COURSES
+function renderCourseSelects(){
+  const selCreate = document.getElementById('createExamCategorySelect');
+  const selTarget = document.getElementById('importTargetExamSelect');
+  const selBulk = document.getElementById('bulkCourseSelect');
+  const selImportDef = document.getElementById('importDefaultCourseSelect');
+  const selExport = document.getElementById('exportExamFilterSelect');
+
+  if(selCreate){
+    let html = '';
+    courses.forEach(c => {
+      html += `<option value="${escapeHtml(c.name)}">${escapeHtml(c.name)} (${escapeHtml(c.stream || '')})</option>`;
+    });
+    html += `<option value="__NEW__">➕ Type New Course Name...</option>`;
+    selCreate.innerHTML = html;
   }
 
-  if(list.length === 0){
-    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:24px;color:#94a3b8">No candidates found.</td></tr>`;
+  if(selTarget){
+    let html = '';
+    exams.forEach(ex => {
+      html += `<option value="${ex.id}">${escapeHtml(ex.title)} (Code: ${escapeHtml(ex.accessCode || 'OPEN')})</option>`;
+    });
+    selTarget.innerHTML = html;
+  }
+
+  if(selBulk){
+    let html = `<option value="all">-- All Active Exams --</option><optgroup label="By Course Stream / Category">`;
+    courses.forEach(c => {
+      html += `<option value="cat_${escapeHtml(c.name)}">Course Folder: ${escapeHtml(c.name)}</option>`;
+    });
+    html += `</optgroup>`;
+    selBulk.innerHTML = html;
+  }
+
+  if(selImportDef){
+    let html = '';
+    courses.forEach(c => {
+      html += `<option value="${escapeHtml(c.name)}">${escapeHtml(c.name)}</option>`;
+    });
+    html += `<option value="All Assessments">All Assessments</option>`;
+    selImportDef.innerHTML = html;
+  }
+
+  if(selExport){
+    let html = `<option value="">Export by Specific Exam...</option>`;
+    exams.forEach(ex => {
+      html += `<option value="${ex.id}">${escapeHtml(ex.title)}</option>`;
+    });
+    selExport.innerHTML = html;
+  }
+
+  // Populate Single Candidate Checkboxes
+  const cBox = document.getElementById('candCreateBox');
+  if(cBox){
+    let html = `
+      <label style="display:inline-flex;align-items:center;gap:4px;font-size:12px;background:#eff6ff;padding:3px 8px;border-radius:4px;border:1px solid #bfdbfe;cursor:pointer">
+        <input type="checkbox" name="cand_courses[]" value="All Assessments" checked onchange="candHandleAllToggle(this, 'candCreateBox')">
+        <b style="color:#1d4ed8">🌐 All Assessments</b>
+      </label>
+    `;
+    courses.forEach(c => {
+      html += `
+        <label style="display:inline-flex;align-items:center;gap:4px;font-size:12px;background:#f8fafc;padding:3px 8px;border-radius:4px;border:1px solid #e2e8f0;cursor:pointer">
+          <input type="checkbox" name="cand_courses[]" value="${escapeHtml(c.name)}" onchange="candHandleSingleToggle(this, 'candCreateBox')">
+          <span>📁 ${escapeHtml(c.name)}</span>
+        </label>
+      `;
+    });
+    cBox.innerHTML = html;
+  }
+
+  // Populate Edit Modal Checkboxes
+  const eBox = document.getElementById('candEditBox');
+  if(eBox){
+    let html = `
+      <label style="grid-column:1/-1;display:inline-flex;align-items:center;gap:6px;font-size:12px;background:#eff6ff;padding:6px 10px;border-radius:6px;border:1px solid #bfdbfe;cursor:pointer">
+        <input type="checkbox" name="cand_courses[]" value="All Assessments" class="edit-course-check" onchange="candHandleAllToggle(this, 'candEditBox')">
+        <b style="color:#1d4ed8">🌐 All Assessments (All Courses &amp; Exams)</b>
+      </label>
+    `;
+    courses.forEach(c => {
+      html += `
+        <label style="display:inline-flex;align-items:center;gap:6px;font-size:12px;background:#fff;padding:6px 10px;border-radius:6px;border:1px solid #e2e8f0;cursor:pointer">
+          <input type="checkbox" name="cand_courses[]" value="${escapeHtml(c.name)}" class="edit-course-check" onchange="candHandleSingleToggle(this, 'candEditBox')">
+          <span>📁 ${escapeHtml(c.name)}</span>
+        </label>
+      `;
+    });
+    eBox.innerHTML = html;
+  }
+}
+
+function renderCoursesGrid(){
+  const grid = document.getElementById('coursesGrid');
+  if(!grid) return;
+  if(courses.length === 0){
+    grid.innerHTML = '<div style="color:#64748b;padding:12px">No course categories added yet.</div>';
     return;
   }
+  let html = '';
+  courses.forEach((c, idx) => {
+    let testCount = 0;
+    exams.forEach(ex => {
+      if((ex.category || '').toLowerCase() === (c.name || '').toLowerCase()) testCount++;
+    });
+    html += `
+      <div style="border:1.5px solid #e2e8f0;border-radius:10px;padding:14px;background:#fff;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <b style="font-size:14px;color:#0f172a">${escapeHtml(c.name)}</b>
+          </div>
+          <div style="font-size:12px;color:#64748b;margin-top:3px">${escapeHtml(c.stream || '')}</div>
+          <div style="font-size:12px;color:#0369a1;font-weight:700;margin-top:4px">${testCount} ${testCount === 1 ? 'Assessment' : 'Assessments'} linked</div>
+        </div>
+        <div>
+          <button type="button" class="btn btn-red" style="padding:4px 8px;font-size:12px" onclick="deleteCourse(${idx})" title="Delete Course">🗑️</button>
+        </div>
+      </div>
+    `;
+  });
+  grid.innerHTML = html;
+}
 
-  tbody.innerHTML = list.map((cand, idx) => {
-    const courseBadges = (cand.enrolledCourses || (cand.assigned_exam_title ? [cand.assigned_exam_title] : []))
-      .map(c => `<span class="badge badge-course">${c}</span>`).join(' ');
+function handleCreateCourse(e){
+  e.preventDefault();
+  const name = document.getElementById('newCourseName').value.trim();
+  const stream = document.getElementById('newCourseStream').value.trim();
+  const color = document.getElementById('newCourseColor').value;
+  const icon = document.getElementById('newCourseIcon').value;
+  if(!name) return;
 
-    const photoHtml = cand.photo ? 
-      `<img src="${cand.photo}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:1px solid #cbd5e1" title="Pre-Exam Verification Photo">` : 
-      `<span style="color:#94a3b8;font-size:11px">None</span>`;
+  courses.push({
+    id: 'course_' + Date.now(),
+    name,
+    stream,
+    color,
+    icon
+  });
+  saveAllState();
+  renderAll();
+  document.getElementById('newCourseName').value = '';
+  document.getElementById('newCourseStream').value = '';
+  showFlash(`Created course category '${name}'.`);
+}
 
-    return `
+function deleteCourse(idx){
+  const c = courses[idx];
+  if(!c) return;
+  if(confirm(`Remove course stream '${c.name}'? Linked exams will remain safe.`)){
+    courses.splice(idx, 1);
+    saveAllState();
+    renderAll();
+    showFlash(`Course '${c.name}' removed.`);
+  }
+}
+
+function toggleInlineCourseInput(sel){
+  let box = document.getElementById('inlineNewCourseBox');
+  if(!box) return;
+  if(sel.value === '__NEW__'){
+    box.style.display = 'block';
+    let inp = document.getElementById('inlineCustomCategory');
+    if(inp) inp.focus();
+  } else {
+    box.style.display = 'none';
+  }
+}
+function revealInlineCourseRow(){
+  let sel = document.getElementById('createExamCategorySelect');
+  if(!sel) return;
+  sel.value = '__NEW__';
+  toggleInlineCourseInput(sel);
+}
+
+// EXAMS
+function renderExamsTable(){
+  const tb = document.getElementById('examsTableBody');
+  if(!tb) return;
+  if(exams.length === 0){
+    tb.innerHTML = '<tr><td colspan="10" style="text-align:center;color:#64748b;padding:24px">No assessments found.</td></tr>';
+    return;
+  }
+  let html = '';
+  exams.forEach((e, idx) => {
+    const qLen = (e.questions || []).length;
+    const isLive = (e.testType === 'live');
+    const isHidden = (e.result_visibility === 'hidden');
+    html += `
       <tr>
-        <td>${idx + 1}</td>
-        <td>${photoHtml}</td>
-        <td><b>${cand.roll || cand.username}</b></td>
-        <td>${cand.name}</td>
-        <td><code>${cand.password || '1234'}</code></td>
-        <td>${courseBadges || '<span style="color:#94a3b8">None</span>'}</td>
+        <td><b>${escapeHtml(e.title || 'Untitled')}</b></td>
+        <td><span style="background:#e0f2fe;color:#0284c7;padding:3px 8px;border-radius:4px;font-weight:700;font-size:12px">${escapeHtml(e.category || 'General')}</span></td>
         <td>
-          <button class="btn btn-outline" style="padding:4px 8px;font-size:11.5px" onclick="editCandidateCourses('${cand.id || cand.roll}')">✏️ Courses</button>
-          <button class="btn btn-danger" style="padding:4px 8px;font-size:11.5px" onclick="deleteCandidate('${cand.id || cand.roll}')">🗑️</button>
+          <div style="display:flex;align-items:center;gap:6px">
+            ${isLive 
+              ? '<span class="badge" style="background:#fee2e2;color:#b91c1c;font-weight:800;border:1px solid #fca5a5">🔴 Live Test</span>'
+              : '<span class="badge" style="background:#eff6ff;color:#1d4ed8;font-weight:800;border:1px solid #bfdbfe">📘 Mock Test</span>'
+            }
+            <button type="button" class="btn" style="padding:2px 6px;font-size:12px;background:#f8fafc;color:#475569;border:1px solid #cbd5e1;cursor:pointer" onclick="toggleExamTestType(${e.id})">Switch</button>
+          </div>
+        </td>
+        <td>
+          ${isLive 
+            ? `<div style="display:flex;align-items:center;gap:6px">
+                <code style="background:#fef3c7;color:#b45309;padding:4px 8px;border-radius:6px;font-weight:800;font-size:12px;font-family:monospace;letter-spacing:1px;border:1px solid #fde68a">${escapeHtml(e.accessCode || 'REQUIRED')}</code>
+                <button type="button" class="btn" style="padding:2px 6px;font-size:12px;background:#f8fafc;color:#475569;border:1px solid #cbd5e1" onclick="navigator.clipboard.writeText('${escapeHtml(e.accessCode || '')}');alert('Access Code copied!');">Copy</button>
+                <button type="button" class="btn" style="padding:2px 6px;font-size:12px;background:#f8fafc;color:#475569;border:1px solid #cbd5e1" onclick="openEditCodeModal(${e.id}, '${escapeHtml(e.title)}', '${escapeHtml(e.accessCode || '')}')">Edit</button>
+               </div>`
+            : '<span style="color:#059669;font-weight:700;font-size:12px">🟢 Open (No Code)</span>'
+          }
+        </td>
+        <td>
+          ${qLen > 0 
+            ? '<span class="badge badge-cbt" style="font-weight:800">⚡ Interactive CBT</span>'
+            : '<span class="badge" style="background:#f1f5f9;color:#64748b">Draft (No Questions)</span>'
+          }
+        </td>
+        <td>
+          <button type="button" class="btn btn-blue" style="padding:4px 10px;font-size:12px" onclick="openQuestionManagerModal(${e.id})">
+            <b>${qLen} Questions</b> (Manage)
+          </button>
+        </td>
+        <td>${e.duration || 15} Mins</td>
+        <td><b>${e.maxMarks || 100}</b></td>
+        <td>
+          <div style="display:flex;align-items:center;gap:6px">
+            ${isHidden 
+              ? `<span class="badge" style="background:#fef3c7;color:#92400e;font-weight:800;border:1px solid #fde68a">🔒 Hidden</span>
+                 <button type="button" class="btn btn-green" style="padding:2px 8px;font-size:12px;font-weight:700" onclick="toggleExamVisibility(${e.id})">📢 Publish</button>`
+              : `<span class="badge" style="background:#dcfce7;color:#15803d;font-weight:800;border:1px solid #86efac">🟢 Published</span>
+                 <button type="button" class="btn" style="padding:2px 6px;font-size:12px;background:#f8fafc;color:#475569;border:1px solid #cbd5e1" onclick="toggleExamVisibility(${e.id})">Hide</button>`
+            }
+          </div>
+        </td>
+        <td style="white-space:nowrap">
+          <button type="button" class="btn btn-purple" style="padding:4px 8px;font-size:12px" onclick="openAddQuestionsModal(${e.id}, '${escapeHtml(e.title)}')">
+            Import CSV
+          </button>
+          <button type="button" class="btn btn-red" style="padding:4px 8px;font-size:12px" onclick="deleteExam(${idx})">
+            Delete
+          </button>
         </td>
       </tr>
     `;
-  }).join('');
-}
-
-function toggleShowAllCandidates(){
-  showAllCandidates = !showAllCandidates;
-  renderCandidatesTable();
-}
-
-function deleteCandidate(idOrRoll){
-  if(!confirm('Are you sure you want to delete this candidate account?')) return;
-  profiles = profiles.filter(p => p.id !== idOrRoll && p.roll !== idOrRoll && p.username !== idOrRoll);
-  saveLocalState();
-  renderCandidatesTable();
-}
-
-function editCandidateCourses(idOrRoll){
-  const cand = profiles.find(p => p.id === idOrRoll || p.roll === idOrRoll || p.username === idOrRoll);
-  if(!cand) return;
-
-  const current = (cand.enrolledCourses || (cand.assigned_exam_title ? [cand.assigned_exam_title] : [])).join(', ');
-  const available = courses.map(c => c.name).join(', ');
-  const updated = prompt(`Edit enrolled courses for ${cand.name} (${cand.roll}):\nAvailable courses: ${available}\n\nEnter comma-separated courses:`, current);
-
-  if(updated !== null){
-    const newCourses = updated.split(',').map(s => s.trim()).filter(Boolean);
-    cand.enrolledCourses = newCourses;
-    cand.assigned_exam_title = newCourses.join(', ');
-    saveLocalState();
-    renderCandidatesTable();
-    alert('Candidate courses updated successfully!');
-  }
-}
-
-// ==================== EXAM MANAGEMENT ====================
-function renderExamCategorySelect(){
-  const sel = document.getElementById('examCategory');
-  sel.innerHTML = courses.map(c => `<option value="${c.name}">${c.name}</option>`).join('');
-}
-
-let parsedUploadedQuestions = [];
-
-function handleCsvFileSelect(e){
-  const file = e.target.files[0];
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload = function(evt){
-    const text = evt.target.result;
-    document.getElementById('examQuestionsPaste').value = text;
-    parseQuestionsFromText(text);
-  };
-  reader.readAsText(file);
-}
-
-function parseQuestionsFromText(text){
-  const lines = text.split(/\r?\n/).filter(l => l.trim().length > 0);
-  parsedUploadedQuestions = [];
-
-  lines.forEach((line, idx) => {
-    // Basic CSV parser
-    const parts = line.split(',').map(p => p.trim());
-    if(parts.length >= 6 && !isNaN(parseInt(parts[0]))){
-      parsedUploadedQuestions.push({
-        num: parsedUploadedQuestions.length + 1,
-        q: parts[1] || 'Question',
-        opts: [parts[2] || 'A', parts[3] || 'B', parts[4] || 'C', parts[5] || 'D'],
-        ans: isNaN(parseInt(parts[6])) ? 0 : Math.max(0, parseInt(parts[6]) - 1),
-        marks: 1,
-        explanation: parts[7] || ''
-      });
-    }
   });
-
-  if(parsedUploadedQuestions.length > 0){
-    alert(`Parsed ${parsedUploadedQuestions.length} questions successfully!`);
-  }
+  tb.innerHTML = html;
 }
 
 function handleCreateExam(e){
   e.preventDefault();
-  const title = document.getElementById('examTitle').value.trim();
-  const category = document.getElementById('examCategory').value;
-  const code = document.getElementById('examAccessCode').value.trim() || 'OPEN';
-  const duration = parseInt(document.getElementById('examDuration').value) || 60;
-  const testType = document.getElementById('examTestType').value;
-  const negMarks = parseFloat(document.getElementById('examNegMarks').value) || 0.25;
-
-  const rawText = document.getElementById('examQuestionsPaste').value.trim();
-  if(rawText && parsedUploadedQuestions.length === 0){
-    parseQuestionsFromText(rawText);
+  const title = document.getElementById('ceTitle').value.trim();
+  const testType = document.getElementById('ceTestType').value;
+  let code = document.getElementById('ceAccessCode').value.trim().toUpperCase();
+  let category = document.getElementById('createExamCategorySelect').value;
+  if(category === '__NEW__'){
+    const customCat = document.getElementById('inlineCustomCategory').value.trim();
+    const customStr = document.getElementById('inlineCustomStream').value.trim();
+    if(customCat){
+      category = customCat;
+      courses.push({ id:'course_'+Date.now(), name:customCat, stream:customStr, color:'blue', icon:'book' });
+    } else {
+      category = 'General';
+    }
   }
 
-  // Default demo questions if none uploaded
-  let qList = parsedUploadedQuestions.length > 0 ? parsedUploadedQuestions : [
-    { num: 1, q: "Sample Question 1: What is the primary function of the CPU?", opts: ["Data storage", "Arithmetic & logic processing", "Network routing", "Power distribution"], ans: 1, marks: 1 },
-    { num: 2, q: "Sample Question 2: In banking, what does RTGS stand for?", opts: ["Real Time Gross Settlement", "Regional Trade General Service", "Real Total Growth Score", "Reserve Transfer Gold System"], ans: 0, marks: 1 },
-    { num: 3, q: "Sample Question 3: Which protocol is used for secure browser web browsing?", opts: ["HTTP", "FTP", "HTTPS", "SMTP"], ans: 2, marks: 1 }
-  ];
+  if(!code && testType === 'live'){
+    code = 'EXAM-' + Math.floor(1000 + Math.random() * 9000);
+  }
+
+  const duration = parseInt(document.getElementById('ceDuration').value) || 15;
+  const maxMarks = parseFloat(document.getElementById('ceMaxMarks').value) || 100;
+  const vis = document.getElementById('ceResultVis').value;
+  const cert = parseInt(document.getElementById('ceCertThreshold').value) || 85;
+
+  const rawQText = document.getElementById('ceQuestionsText').value.trim();
+  const parsedQuestions = parsePipeQuestions(rawQText);
 
   const newExam = {
     id: Date.now(),
-    title: title,
-    category: category,
+    title,
+    category,
+    testType,
     accessCode: code,
-    duration: duration,
-    maxMarks: qList.length,
-    testType: testType,
-    status: testType === 'live' ? 'LIVE' : 'MOCK',
-    negativeMarks: negMarks,
-    questions: qList
+    duration,
+    maxMarks,
+    result_visibility: vis,
+    certificateThreshold: cert,
+    single_attempt: (testType === 'live'),
+    paperType: 'interactive',
+    status: 'LIVE',
+    questions: parsedQuestions
   };
 
-  exams.unshift(newExam);
-  saveLocalState();
-  renderExamsTable();
-  e.target.reset();
-  parsedUploadedQuestions = [];
-  alert(`Assessment "${title}" published with ${qList.length} questions!`);
+  exams.push(newExam);
+  saveAllState();
+  renderAll();
+
+  document.getElementById('ceTitle').value = '';
+  document.getElementById('ceQuestionsText').value = '';
+  document.getElementById('ceAccessCode').value = '';
+  showFlash(`Created assessment '${title}'. Access Code: ${code || 'OPEN'}.`);
 }
 
-function renderExamsTable(){
-  const tbody = document.getElementById('examsTableBody');
-  const filterSel = document.getElementById('resultsExamFilter');
-
-  filterSel.innerHTML = '<option value="ALL">All Examinations</option>' + 
-    exams.map(e => `<option value="${e.id}">${e.title}</option>`).join('');
-
-  if(exams.length === 0){
-    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:24px;color:#94a3b8">No examinations found.</td></tr>`;
-    return;
-  }
-
-  tbody.innerHTML = exams.map(ex => `
-    <tr>
-      <td><code>#${ex.id.toString().slice(-4)}</code></td>
-      <td><b>${ex.title}</b></td>
-      <td><span class="badge badge-course">${ex.category}</span></td>
-      <td><code>${ex.accessCode || 'OPEN'}</code></td>
-      <td>${ex.questions ? ex.questions.length : (ex.maxMarks || 0)} Qs</td>
-      <td>${ex.duration || 60} mins</td>
-      <td><span class="badge ${ex.testType === 'live' ? 'badge-live' : 'badge-mock'}">${(ex.testType || 'mock').toUpperCase()}</span></td>
-      <td>
-        <button class="btn btn-outline" style="padding:4px 8px;font-size:11.5px" onclick="editExamCode(${ex.id})">🔑 Code</button>
-        <button class="btn btn-danger" style="padding:4px 8px;font-size:11.5px" onclick="deleteExam(${ex.id})">🗑️</button>
-      </td>
-    </tr>
-  `).join('');
+function parsePipeQuestions(text){
+  if(!text) return [];
+  const lines = text.split('\n');
+  const qs = [];
+  lines.forEach((line, i) => {
+    line = line.trim();
+    if(!line) return;
+    const parts = line.split('|');
+    if(parts.length >= 2){
+      const q = parts[0] ? parts[0].trim() : 'Question ' + (i+1);
+      const optA = parts[1] ? parts[1].trim() : '';
+      const optB = parts[2] ? parts[2].trim() : '';
+      const optC = parts[3] ? parts[3].trim() : '';
+      const optD = parts[4] ? parts[4].trim() : '';
+      const ans = parseInt(parts[5] || 0) || 0;
+      const marks = parseFloat(parts[6] || 1.0) || 1.0;
+      const exp = parts[7] ? parts[7].trim() : '';
+      qs.push({
+        num: i + 1,
+        q,
+        opts: [optA, optB, optC, optD].filter(Boolean),
+        ans,
+        marks,
+        explanation: exp
+      });
+    }
+  });
+  return qs;
 }
 
-function deleteExam(id){
-  if(!confirm('Are you sure you want to delete this examination?')) return;
-  exams = exams.filter(e => e.id !== id);
-  saveLocalState();
-  renderExamsTable();
-}
-
-function editExamCode(id){
+function toggleExamTestType(id){
   const ex = exams.find(e => e.id === id);
   if(!ex) return;
-  const newCode = prompt(`Change Access Code for "${ex.title}":`, ex.accessCode || 'OPEN');
-  if(newCode !== null){
-    ex.accessCode = newCode.trim() || 'OPEN';
-    saveLocalState();
-    renderExamsTable();
+  ex.testType = (ex.testType === 'live') ? 'mock' : 'live';
+  if(ex.testType === 'live' && !ex.accessCode){
+    ex.accessCode = 'CODE-' + Math.floor(1000 + Math.random() * 9000);
+  }
+  saveAllState();
+  renderAll();
+}
+
+function toggleExamVisibility(id){
+  const ex = exams.find(e => e.id === id);
+  if(!ex) return;
+  ex.result_visibility = (ex.result_visibility === 'hidden') ? 'immediate' : 'hidden';
+  saveAllState();
+  renderAll();
+  showFlash(`Updated visibility for '${ex.title}' to ${ex.result_visibility}.`);
+}
+
+function deleteExam(idx){
+  const ex = exams[idx];
+  if(!ex) return;
+  if(confirm(`Delete assessment '${ex.title}' from library?`)){
+    exams.splice(idx, 1);
+    saveAllState();
+    renderAll();
+    showFlash(`Deleted assessment '${ex.title}'.`);
   }
 }
 
-// ==================== COURSE MANAGEMENT ====================
-function handleCreateCourse(e){
-  e.preventDefault();
-  const name = document.getElementById('courseName').value.trim();
-  const color = document.getElementById('courseColor').value;
-  const icon = document.getElementById('courseIcon').value;
+// IMPORT QUESTIONS
+function handleQuestionFilePick(input){
+  if(input.files && input.files[0]){
+    const reader = new FileReader();
+    reader.onload = function(e){
+      document.getElementById('importQuestionsTextArea').value = e.target.result;
+    };
+    reader.readAsText(input.files[0]);
+  }
+}
 
-  if(courses.some(c => c.name.toLowerCase() === name.toLowerCase())){
-    alert('Course with this name already exists!');
+function handleImportQuestionsDirect(e){
+  e.preventDefault();
+  const examId = parseInt(document.getElementById('importTargetExamSelect').value);
+  const text = document.getElementById('importQuestionsTextArea').value.trim();
+  const ex = exams.find(x => x.id === examId);
+  if(!ex) return alert('Select assessment first');
+  const qs = parsePipeQuestions(text);
+  if(qs.length === 0) return alert('No questions found to import. Format: Q|OptA|OptB|OptC|OptD|AnsIndex|Marks|Expl');
+
+  if(!ex.questions) ex.questions = [];
+  ex.questions = ex.questions.concat(qs);
+  saveAllState();
+  renderAll();
+  document.getElementById('importQuestionsTextArea').value = '';
+  showFlash(`Imported ${qs.length} question(s) into '${ex.title}'.`);
+}
+
+function openAddQuestionsModal(id, title){
+  document.getElementById('modalExamId').value = id;
+  document.getElementById('modalExamTitle').innerText = 'Import Questions: ' + title;
+  document.getElementById('modalQuestionsText').value = '';
+  document.getElementById('addQModal').style.display = 'flex';
+}
+function closeAddQuestionsModal(){
+  document.getElementById('addQModal').style.display = 'none';
+}
+function handleImportQuestionsFromModal(e){
+  e.preventDefault();
+  const id = parseInt(document.getElementById('modalExamId').value);
+  const text = document.getElementById('modalQuestionsText').value.trim();
+  const ex = exams.find(x => x.id === id);
+  if(!ex) return;
+  const qs = parsePipeQuestions(text);
+  if(qs.length === 0) return alert('Please enter at least one question.');
+  if(!ex.questions) ex.questions = [];
+  ex.questions = ex.questions.concat(qs);
+  saveAllState();
+  renderAll();
+  closeAddQuestionsModal();
+  showFlash(`Successfully imported ${qs.length} question(s) into '${ex.title}'.`);
+}
+
+function openEditCodeModal(id, title, code){
+  document.getElementById('editCodeExamId').value = id;
+  document.getElementById('editCodeExamTitle').innerText = 'Access Code: ' + title;
+  document.getElementById('editCodeInput').value = code || '';
+  document.getElementById('editCodeModal').style.display = 'flex';
+}
+function closeEditCodeModal(){
+  document.getElementById('editCodeModal').style.display = 'none';
+}
+function handleSaveAccessCode(e){
+  e.preventDefault();
+  const id = parseInt(document.getElementById('editCodeExamId').value);
+  const code = document.getElementById('editCodeInput').value.trim().toUpperCase();
+  const ex = exams.find(x => x.id === id);
+  if(!ex) return;
+  ex.accessCode = code;
+  saveAllState();
+  renderAll();
+  closeEditCodeModal();
+  showFlash(`Updated access code to ${code} for '${ex.title}'.`);
+}
+
+// QUESTION MANAGER MODAL
+let activeQmExamId = null;
+function openQuestionManagerModal(examId){
+  activeQmExamId = examId;
+  const ex = exams.find(e => parseInt(e.id) === parseInt(examId));
+  if(!ex) return alert('Exam not found');
+
+  const isHidden = (ex.result_visibility === 'hidden');
+  const visBadge = isHidden 
+    ? '<span style="background:#fef3c7;color:#92400e;padding:2px 8px;border-radius:4px;font-weight:800;font-size:12px">🔒 Answers Hidden from Students</span>'
+    : '<span style="background:#dcfce7;color:#15803d;padding:2px 8px;border-radius:4px;font-weight:800;font-size:12px">🟢 Answers Published to Students</span>';
+
+  document.getElementById('qmExamTitle').innerText = ex.title;
+  document.getElementById('qmExamSubtitle').innerHTML = (ex.category || 'General') + ' • ' + (ex.questions ? ex.questions.length : 0) + ' Questions • Code: <code>' + (ex.accessCode || 'OPEN') + '</code> • ' + visBadge;
+  document.getElementById('qmAddExamId').value = examId;
+
+  const pubBtn = document.getElementById('qmPublishBtn');
+  if(pubBtn){
+    if(isHidden){
+      pubBtn.className = 'btn btn-green';
+      pubBtn.innerHTML = '📢 Publish Answers &amp; Solutions';
+      pubBtn.style.background = '';
+      pubBtn.style.color = '';
+    } else {
+      pubBtn.className = 'btn';
+      pubBtn.style.background = '#f1f5f9';
+      pubBtn.style.color = '#475569';
+      pubBtn.innerHTML = '🔒 Hide Answers from Students';
+    }
+  }
+
+  renderQmQuestionsList(ex);
+  document.getElementById('qManagerModal').style.display = 'flex';
+}
+function closeQuestionManagerModal(){
+  document.getElementById('qManagerModal').style.display = 'none';
+}
+function toggleExamVisibilityFromModal(){
+  if(!activeQmExamId) return;
+  toggleExamVisibility(activeQmExamId);
+  openQuestionManagerModal(activeQmExamId);
+}
+function renderQmQuestionsList(ex){
+  const list = document.getElementById('qmQuestionsList');
+  if(!ex.questions || ex.questions.length === 0){
+    list.innerHTML = '<div style="text-align:center;padding:32px;color:#64748b">No questions added yet. Use the form above to add questions or import a CSV file.</div>';
     return;
   }
+  let html = '';
+  const letters = ['A','B','C','D'];
+  ex.questions.forEach((q, idx) => {
+    const opts = q.opts || ['', '', '', ''];
+    const correctIdx = parseInt(q.ans || 0);
+    const isBlank = (q.type === 'blank');
+    html += `
+      <div class="q-card-item">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div style="flex:1;padding-right:12px">
+            <span style="font-weight:800;color:#1565D8">Q${idx + 1}.</span>
+            <span style="font-weight:600;color:#0f172a;margin-left:4px">${escapeHtml(q.q)}</span>
+            ${q.passage ? `<div style="background:#f1f5f9;border-left:3px solid #0284c7;padding:6px 10px;border-radius:4px;margin:6px 0;font-size:12px;color:#334155;white-space:pre-wrap"><b>📖 Reference Passage:</b> ${escapeHtml(q.passage)}</div>` : ''}
+          </div>
+          <div style="display:flex;gap:6px;flex-shrink:0">
+            <span style="background:#e0f2fe;color:#0369a1;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:700">+${q.marks || 1} M</span>
+            <button class="btn" style="padding:2px 8px;font-size:12px;background:#f8fafc;border:1px solid #cbd5e1" onclick="openEditQModal(${ex.id}, ${idx})">Edit</button>
+            <button class="btn btn-red" style="padding:2px 8px;font-size:12px" onclick="deleteQmQuestion(${ex.id}, ${idx})">Delete</button>
+          </div>
+        </div>
+        <div class="q-opt-grid">
+          ${opts.map((opt, oIdx) => `
+            <div class="q-opt ${oIdx === correctIdx ? 'correct' : ''}">
+              <b>${letters[oIdx]}.</b> ${escapeHtml(opt)} ${oIdx === correctIdx ? '✓ (Correct)' : ''}
+            </div>
+          `).join('')}
+        </div>
+        ${q.explanation ? `<div style="font-size:12px;color:#64748b;margin-top:4px">💡 <b>Explanation:</b> ${escapeHtml(q.explanation)}</div>` : ''}
+      </div>
+    `;
+  });
+  list.innerHTML = html;
+}
+function handleAddSingleQuestionFromModal(e){
+  e.preventDefault();
+  const examId = parseInt(document.getElementById('qmAddExamId').value);
+  const ex = exams.find(x => x.id === examId);
+  if(!ex) return;
+  const qText = document.getElementById('qmAddQText').value.trim();
+  const passage = document.getElementById('qmAddPassage').value.trim();
+  const optA = document.getElementById('qmAddOptA').value.trim();
+  const optB = document.getElementById('qmAddOptB').value.trim();
+  const optC = document.getElementById('qmAddOptC').value.trim();
+  const optD = document.getElementById('qmAddOptD').value.trim();
+  const ans = parseInt(document.getElementById('qmAddAns').value) || 0;
+  const marks = parseFloat(document.getElementById('qmAddMarks').value) || 1.0;
+  const exp = document.getElementById('qmAddExp').value.trim();
 
-  courses.push({ name, category: name, color, icon });
-  saveLocalState();
-  renderCoursesTable();
-  renderCourseCheckboxes();
-  renderExamCategorySelect();
-  e.target.reset();
-  alert(`Course stream "${name}" created!`);
+  if(!ex.questions) ex.questions = [];
+  ex.questions.push({
+    num: ex.questions.length + 1,
+    q: qText,
+    passage,
+    opts: [optA, optB, optC, optD].filter(Boolean),
+    ans,
+    marks,
+    explanation: exp
+  });
+  saveAllState();
+  renderAll();
+  openQuestionManagerModal(examId);
+  document.getElementById('qmAddQText').value = '';
+  document.getElementById('qmAddPassage').value = '';
+}
+function deleteQmQuestion(examId, qIdx){
+  const ex = exams.find(x => x.id === examId);
+  if(!ex || !ex.questions) return;
+  if(confirm(`Delete question Q${qIdx + 1}?`)){
+    ex.questions.splice(qIdx, 1);
+    saveAllState();
+    renderAll();
+    openQuestionManagerModal(examId);
+  }
 }
 
-function renderCoursesTable(){
-  const tbody = document.getElementById('coursesTableBody');
-  tbody.innerHTML = courses.map(c => {
-    const examCount = exams.filter(e => (e.category || '').toLowerCase() === c.name.toLowerCase()).length;
-    const candCount = profiles.filter(p => (p.enrolledCourses || [p.assigned_exam_title]).some(ec => (ec || '').toLowerCase() === c.name.toLowerCase())).length;
+// EDIT QUESTION MODAL
+function openEditQModal(examId, qIdx){
+  const ex = exams.find(e => e.id === examId);
+  if(!ex || !ex.questions || !ex.questions[qIdx]) return;
+  const q = ex.questions[qIdx];
+  document.getElementById('eqExamId').value = examId;
+  document.getElementById('eqQIndex').value = qIdx;
+  document.getElementById('eqText').value = q.q || '';
+  document.getElementById('eqPassage').value = q.passage || '';
+  document.getElementById('eqOptA').value = (q.opts && q.opts[0]) || '';
+  document.getElementById('eqOptB').value = (q.opts && q.opts[1]) || '';
+  document.getElementById('eqOptC').value = (q.opts && q.opts[2]) || '';
+  document.getElementById('eqOptD').value = (q.opts && q.opts[3]) || '';
+  document.getElementById('eqAns').value = q.ans !== undefined ? q.ans : 0;
+  document.getElementById('eqMarks').value = q.marks || 1.0;
+  document.getElementById('eqExp').value = q.explanation || '';
+  document.getElementById('editQModal').style.display = 'flex';
+}
+function closeEditQModal(){
+  document.getElementById('editQModal').style.display = 'none';
+}
+function handleSaveEditQuestion(e){
+  e.preventDefault();
+  const examId = parseInt(document.getElementById('eqExamId').value);
+  const qIdx = parseInt(document.getElementById('eqQIndex').value);
+  const ex = exams.find(x => x.id === examId);
+  if(!ex || !ex.questions || !ex.questions[qIdx]) return;
 
-    return `
-      <tr>
-        <td><span style="display:inline-block;width:24px;height:24px;border-radius:6px;background:${c.color || '#1e40af'}"></span></td>
-        <td><b>${c.name}</b></td>
-        <td><code>${c.category || c.name}</code></td>
-        <td>${examCount} Exams</td>
-        <td>${candCount} Students</td>
+  ex.questions[qIdx] = {
+    ...ex.questions[qIdx],
+    q: document.getElementById('eqText').value.trim(),
+    passage: document.getElementById('eqPassage').value.trim(),
+    opts: [
+      document.getElementById('eqOptA').value.trim(),
+      document.getElementById('eqOptB').value.trim(),
+      document.getElementById('eqOptC').value.trim(),
+      document.getElementById('eqOptD').value.trim()
+    ].filter(Boolean),
+    ans: parseInt(document.getElementById('eqAns').value) || 0,
+    marks: parseFloat(document.getElementById('eqMarks').value) || 1.0,
+    explanation: document.getElementById('eqExp').value.trim()
+  };
+  saveAllState();
+  renderAll();
+  closeEditQModal();
+  openQuestionManagerModal(examId);
+}
+
+// RESULTS
+let resultsExpanded = false;
+function renderResultsTable(){
+  const tb = document.getElementById('resultsTableBody');
+  if(!tb) return;
+  if(results.length === 0){
+    tb.innerHTML = '<tr><td colspan="12" style="text-align:center;color:#64748b;padding:24px">No test results recorded yet.</td></tr>';
+    document.getElementById('resultsPaginationBar').style.display = 'none';
+    return;
+  }
+  let html = '';
+  results.forEach((r, i) => {
+    const score = parseFloat(r.score || 0);
+    const total = parseFloat(r.totalMarks || r.total || 10);
+    const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+    const tabSw = parseInt(r.tabSwitchCount || 0);
+    const fsExit = parseInt(r.fullscreenExitCount || 0);
+    const totInt = tabSw + fsExit;
+    const candPhoto = r.photo || (profiles.find(p => p.roll === r.roll)?.photo || '');
+
+    html += `
+      <tr class="result-row">
+        <td><b>#${i + 1}</b></td>
+        <td class="res-name">${escapeHtml(r.name || 'Candidate')}</td>
         <td>
-          <button class="btn btn-danger" style="padding:4px 8px;font-size:11.5px" onclick="deleteCourse('${c.name}')">🗑️ Delete</button>
+          ${candPhoto 
+            ? `<img src="${escapeHtml(candPhoto)}" style="width:34px;height:34px;border-radius:6px;object-fit:cover;border:1.5px solid #10b981;cursor:pointer" onclick="viewVerificationPhoto('${escapeHtml(r.name || 'Candidate')}','${escapeHtml(r.roll || '-')}','${escapeHtml(candPhoto)}')">`
+            : `<button type="button" class="btn" style="padding:2px 6px;font-size:12px;background:#f8fafc;color:#64748b;border:1px solid #cbd5e1" onclick="openAdminVerificationModal('${escapeHtml(r.roll || '-')}','${escapeHtml(r.name || 'Candidate')}','')">📷 Verify</button>`
+          }
+        </td>
+        <td class="res-roll"><code>${escapeHtml(r.roll || '-')}</code></td>
+        <td class="res-exam"><b>${escapeHtml(r.examTitle || 'Online Exam')}</b></td>
+        <td><code>${escapeHtml(r.accessCode || '-')}</code></td>
+        <td><b style="color:${pct >= 60 ? '#15803d' : '#b91c1c'}">${score}</b> / ${total}</td>
+        <td><b>${pct}%</b></td>
+        <td>${escapeHtml(r.timeTaken || '-')}</td>
+        <td>
+          ${totInt === 0 
+            ? '<span style="background:#dcfce7;color:#15803d;padding:3px 8px;border-radius:4px;font-size:12px;font-weight:700">✓ Clean (0)</span>'
+            : `<span style="background:#fee2e2;color:#b91c1c;padding:3px 8px;border-radius:4px;font-size:12px;font-weight:700">⚠️ ${totInt} Event(s)</span>`
+          }
+        </td>
+        <td style="font-size:12px;color:#64748b">${escapeHtml(r.timestamp || r.date || '')}</td>
+        <td style="white-space:nowrap">
+          <button type="button" class="btn btn-blue" style="padding:3px 8px;font-size:12px" onclick="openCandidateReviewModal(${i})">👁️ View Answers</button>
+          <button type="button" class="btn btn-green" style="padding:3px 8px;font-size:12px" onclick="printStudentScorecard(${i})">🖨️ PDF Scorecard</button>
+          <button type="button" class="btn btn-red" style="padding:3px 8px;font-size:12px" onclick="deleteResult(${i})">Delete</button>
         </td>
       </tr>
     `;
-  }).join('');
+  });
+  tb.innerHTML = html;
+  applyResultsPagination();
 }
 
-function deleteCourse(name){
-  if(!confirm(`Delete course "${name}"?`)) return;
-  courses = courses.filter(c => c.name !== name);
-  saveLocalState();
-  renderCoursesTable();
-  renderCourseCheckboxes();
-  renderExamCategorySelect();
-}
+function applyResultsPagination(){
+  const searchInput = document.getElementById('resultSearchInput');
+  const q = searchInput ? searchInput.value.toLowerCase().trim() : '';
+  const rows = Array.from(document.querySelectorAll('#resultsTable .result-row'));
+  const paginationBar = document.getElementById('resultsPaginationBar');
+  const toggleBtnText = document.getElementById('btnToggleResultsText');
+  const countLabel = document.getElementById('resultsCountLabel');
 
-// ==================== RESULTS MANAGEMENT ====================
-function renderResultsTable(){
-  const tbody = document.getElementById('resultsTableBody');
-  const filter = document.getElementById('resultsExamFilter').value;
-
-  let list = results;
-  if(filter !== 'ALL'){
-    list = list.filter(r => (r.examId || '').toString() === filter.toString());
-  }
-
-  if(list.length === 0){
-    tbody.innerHTML = `<tr><td colspan="10" style="text-align:center;padding:24px;color:#94a3b8">No examination attempts recorded yet.</td></tr>`;
+  if(rows.length === 0){
+    if(paginationBar) paginationBar.style.display = 'none';
     return;
   }
 
-  tbody.innerHTML = list.map((res, idx) => {
-    const violations = parseInt(res.violations || res.tabSwitchCount || 0);
-    const integHtml = violations > 0 ? 
-      `<span class="badge badge-alert">⚠️ ${violations} Interruptions</span>` : 
-      `<span class="badge badge-clean">✓ Clean (0)</span>`;
+  const matchingRows = [];
+  rows.forEach(r => {
+    const text = r.innerText.toLowerCase();
+    if(!q || text.includes(q)){
+      matchingRows.push(r);
+    } else {
+      r.style.display = 'none';
+    }
+  });
 
-    return `
-      <tr>
-        <td><b>#${idx + 1}</b></td>
-        <td><img src="images/logo_icon.jpg" style="width:28px;height:28px;border-radius:50%"></td>
-        <td>${res.candidateName || res.name || 'Candidate'}</td>
-        <td><code>${res.candidateRoll || res.roll || '--'}</code></td>
-        <td><b>${res.examTitle || 'Live Test'}</b></td>
-        <td><b style="color:#1e40af">${res.score || 0} / ${res.total || res.maxMarks || 0}</b></td>
-        <td>${res.accuracy || 0}%</td>
-        <td>${res.timeTaken || '--'}</td>
-        <td>${integHtml}</td>
-        <td><span style="font-size:11.5px;color:#64748b">${res.timestamp || res.created_at || '--'}</span></td>
+  const totalMatching = matchingRows.length;
+  if(q || totalMatching <= 10){
+    matchingRows.forEach(r => r.style.display = '');
+    if(paginationBar) paginationBar.style.display = 'none';
+    return;
+  }
+
+  if(paginationBar) paginationBar.style.display = 'flex';
+  if(resultsExpanded){
+    matchingRows.forEach(r => r.style.display = '');
+    if(toggleBtnText) toggleBtnText.innerHTML = `▲ Show Less (Show First 10)`;
+    if(countLabel) countLabel.innerText = `Showing all ${totalMatching} submissions`;
+  } else {
+    matchingRows.forEach((r, idx) => {
+      r.style.display = idx < 10 ? '' : 'none';
+    });
+    if(toggleBtnText) toggleBtnText.innerHTML = `👁️ Show More Submissions (Showing 10 of ${totalMatching}) ▼`;
+    if(countLabel) countLabel.innerText = `Remaining ${totalMatching - 10} hidden`;
+  }
+}
+
+function toggleResultsShowMore(){
+  resultsExpanded = !resultsExpanded;
+  applyResultsPagination();
+}
+
+function filterResultsTable(){
+  applyResultsPagination();
+}
+
+function deleteResult(idx){
+  if(confirm('Delete this result record?')){
+    results.splice(idx, 1);
+    saveAllState();
+    renderAll();
+  }
+}
+
+function clearResultsHistory(){
+  if(confirm('Clear all results history? This cannot be undone.')){
+    results = [];
+    saveAllState();
+    renderAll();
+    showFlash('Cleared all exam results.');
+  }
+}
+
+function exportResultsCSV(examIdFilter){
+  let exportData = results;
+  if(examIdFilter){
+    exportData = exportData.filter(r => String(r.examId) === String(examIdFilter));
+  }
+  let csv = "Rank,Candidate Name,Candidate URN,Exam Title,Access Code,Score Obtained,Total Marks,Accuracy %,Time Taken,Focus Integrity,Submission Timestamp\n";
+  exportData.forEach((r, i) => {
+    const score = parseFloat(r.score || 0);
+    const total = parseFloat(r.totalMarks || r.total || 10);
+    const acc = total > 0 ? ((score/total)*100).toFixed(1) : 0;
+    csv += `"${i+1}","${r.name || 'Candidate'}","${r.roll || '-'}","${r.examTitle || 'Exam'}","${r.accessCode || '-'}","${score}","${total}","${acc}%","${r.timeTaken || '-'}","Clean","${r.timestamp || ''}"\n`;
+  });
+  downloadRawFile("ServerWorld_Results.csv", csv, "text/csv");
+}
+
+// CANDIDATE ACCOUNTS & COURSE FOLDERS
+let currentSelectedFolder = 'all';
+let candidatesExpanded = false;
+
+function switchCandCreateTab(tabId){
+  const tabs = ['import', 'single', 'bulk'];
+  tabs.forEach(t => {
+    const pane = document.getElementById('candPane' + t.charAt(0).toUpperCase() + t.slice(1));
+    const btn = document.getElementById('tabBtn' + t.charAt(0).toUpperCase() + t.slice(1));
+    if(pane) pane.style.display = (t === tabId) ? 'block' : 'none';
+    if(btn) {
+      if(t === tabId) btn.classList.add('active');
+      else btn.classList.remove('active');
+    }
+  });
+}
+
+function renderCandidatesFoldersAndTable(){
+  // Group students by course
+  const folderMap = { 'All Assessments': [] };
+  courses.forEach(c => { folderMap[c.name] = []; });
+
+  profiles.forEach(p => {
+    const cList = (p.assigned_courses && p.assigned_courses.length) 
+      ? p.assigned_courses 
+      : (p.assigned_exam_title ? p.assigned_exam_title.split(',').map(s=>s.trim()) : ['All Assessments']);
+    cList.forEach(cName => {
+      if(!folderMap[cName]) folderMap[cName] = [];
+      folderMap[cName].push(p);
+    });
+  });
+
+  // Render Folder Pills
+  const pillsWrap = document.getElementById('candFolderPills');
+  if(pillsWrap){
+    let html = `
+      <button type="button" class="cand-folder-pill ${currentSelectedFolder==='all'?'active':''}" onclick="selectCourseFolder('all', this)">
+        <span style="font-size:14px">📂</span>
+        <span>All Students</span>
+        <span class="folder-count">${profiles.length}</span>
+      </button>
+    `;
+    Object.keys(folderMap).forEach(fName => {
+      const cnt = (folderMap[fName] || []).length;
+      html += `
+        <button type="button" class="cand-folder-pill ${currentSelectedFolder===fName?'active':''}" onclick="selectCourseFolder('${escapeHtml(fName)}', this)">
+          <span style="font-size:14px">📁</span>
+          <span>${escapeHtml(fName)}</span>
+          <span class="folder-count">${cnt}</span>
+        </button>
+      `;
+    });
+    pillsWrap.innerHTML = html;
+  }
+
+  // Render Candidates Table
+  const tb = document.getElementById('candidateTableBody');
+  if(!tb) return;
+  if(profiles.length === 0){
+    tb.innerHTML = '<tr id="noCandidatesRow"><td colspan="8" style="text-align:center;color:#64748b;padding:24px">No candidate accounts created yet.</td></tr>';
+    document.getElementById('candidatesPaginationBar').style.display = 'none';
+    return;
+  }
+
+  let html = '';
+  profiles.forEach((p, idx) => {
+    const u = p.username || p.roll || '';
+    const pName = p.name || 'Candidate';
+    const cPhoto = p.photo || '';
+    const candCourses = (p.assigned_courses && p.assigned_courses.length) 
+      ? p.assigned_courses 
+      : (p.assigned_exam_title ? p.assigned_exam_title.split(',').map(s=>s.trim()) : ['All Assessments']);
+    const courseData = candCourses.join('|');
+
+    html += `
+      <tr class="candidate-row" data-course="${escapeHtml(courseData)}" data-name="${escapeHtml(pName.toLowerCase())}" data-roll="${escapeHtml(u.toLowerCase())}">
+        <td>
+          <div style="display:flex;align-items:center;gap:8px">
+            ${cPhoto 
+              ? `<img src="${escapeHtml(cPhoto)}" style="width:28px;height:28px;border-radius:50%;object-fit:cover;border:1.5px solid #10b981">`
+              : `<span style="font-size:16px">👤</span>`
+            }
+            <b>${escapeHtml(pName)}</b>
+          </div>
+        </td>
+        <td><code style="background:#f1f5f9;padding:3px 8px;border-radius:4px;font-weight:700;color:#1e40af">${escapeHtml(u)}</code></td>
+        <td>
+          <span style="font-family:monospace;font-weight:700;letter-spacing:1px;background:#fef3c7;color:#92400e;padding:3px 8px;border-radius:4px">${escapeHtml(p.password || '123456')}</span>
+          <button type="button" class="btn" style="padding:2px 6px;font-size:12px;margin-left:4px" onclick="navigator.clipboard.writeText('${escapeHtml(p.password || '123456')}');alert('Password copied!');">Copy</button>
+        </td>
+        <td>
+          <div style="display:flex;flex-wrap:wrap;gap:4px;align-items:center">
+            ${candCourses.map(cc => `
+              <span style="background:#eff6ff;color:#1d4ed8;padding:2px 8px;border-radius:10px;font-size:12px;font-weight:700;border:1px solid #bfdbfe">
+                📁 ${escapeHtml(cc)}
+              </span>
+            `).join('')}
+            <button type="button" class="btn" style="padding:2px 7px;font-size:12px;background:#f8fafc;border:1px solid #cbd5e1;color:#0284c7;font-weight:700" onclick='openAdminEditStudentCoursesModal("${escapeHtml(u)}", "${escapeHtml(pName)}", ${JSON.stringify(candCourses)})'>✏️ Edit</button>
+          </div>
+        </td>
+        <td>
+          ${cPhoto 
+            ? `<div style="display:flex;align-items:center;gap:6px">
+                <img src="${escapeHtml(cPhoto)}" style="width:34px;height:34px;border-radius:6px;object-fit:cover;border:1.5px solid #10b981;cursor:pointer" onclick="viewVerificationPhoto('${escapeHtml(pName)}','${escapeHtml(u)}','${escapeHtml(cPhoto)}')">
+                <div><span style="background:#dcfce7;color:#15803d;padding:2px 6px;border-radius:4px;font-size:12px;font-weight:700">🟢 Verified</span></div>
+               </div>`
+            : `<button type="button" class="btn btn-blue" style="padding:2px 6px;font-size:12px" onclick="openAdminVerificationModal('${escapeHtml(u)}','${escapeHtml(pName)}','')">📷 Verify Photo</button>`
+          }
+        </td>
+        <td><span style="background:#f1f5f9;color:#64748b;padding:3px 8px;border-radius:4px;font-size:12px;font-weight:600">Active</span></td>
+        <td style="font-size:12px;color:#64748b">${escapeHtml(p.created || '-')}</td>
+        <td>
+          <button type="button" class="btn btn-red" style="padding:3px 8px;font-size:12px" onclick="deleteCandidate(${idx})">Delete</button>
+        </td>
       </tr>
     `;
-  }).join('');
+  });
+  tb.innerHTML = html;
+  applyCandidatesPagination();
 }
 
-function exportResultsToCsv(){
-  if(results.length === 0){
-    alert('No results available to export.');
+function selectCourseFolder(fName, btn){
+  currentSelectedFolder = fName;
+  document.querySelectorAll('.cand-folder-pill').forEach(b => b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  applyCandidatesPagination();
+}
+
+function applyCandidatesPagination(){
+  const query = (document.getElementById('candidateSearchInput')?.value || '').toLowerCase().trim();
+  const rows = Array.from(document.querySelectorAll('.candidate-row'));
+  const paginationBar = document.getElementById('candidatesPaginationBar');
+  const toggleBtnText = document.getElementById('btnToggleCandidatesText');
+  const countLabel = document.getElementById('candidatesCountLabel');
+
+  const matchingRows = [];
+  rows.forEach(row => {
+    const rowCourses = (row.getAttribute('data-course') || '').toLowerCase().split('|').map(s => s.trim());
+    const targetFolder = currentSelectedFolder.toLowerCase();
+    const rowName = (row.getAttribute('data-name') || '');
+    const rowRoll = (row.getAttribute('data-roll') || '');
+
+    const matchesFolder = (currentSelectedFolder === 'all' || 
+      rowCourses.includes(targetFolder) || 
+      rowCourses.some(rc => rc.includes(targetFolder) || targetFolder.includes(rc)) ||
+      (targetFolder === 'all assessments' && rowCourses.includes('all assessments')));
+    const matchesQuery = !query || rowName.includes(query) || rowRoll.includes(query);
+
+    if(matchesFolder && matchesQuery){
+      matchingRows.push(row);
+    } else {
+      row.style.display = 'none';
+    }
+  });
+
+  const visibleCount = matchingRows.length;
+  const counter = document.getElementById('candFolderCounterDisplay');
+  if(counter){
+    const folderLabel = currentSelectedFolder === 'all' ? 'All Course Folders' : `Course Folder "${currentSelectedFolder}"`;
+    counter.innerText = `Showing ${visibleCount} student(s) in ${folderLabel}`;
+  }
+
+  if(query || visibleCount <= 10){
+    matchingRows.forEach(r => r.style.display = '');
+    if(paginationBar) paginationBar.style.display = 'none';
     return;
   }
-  let csv = "Rank,Candidate Name,Roll Number,Exam Title,Score,Total,Accuracy %,Time Taken,Violations,Date\n";
-  results.forEach((r, i) => {
-    csv += `"${i+1}","${r.candidateName || r.name || ''}","${r.candidateRoll || r.roll || ''}","${r.examTitle || ''}","${r.score || 0}","${r.total || 0}","${r.accuracy || 0}%","${r.timeTaken || ''}","${r.violations || 0}","${r.timestamp || ''}"\n`;
-  });
-  downloadRawFile("candidate_exam_results.csv", csv, "text/csv");
+
+  if(paginationBar) paginationBar.style.display = 'flex';
+  if(candidatesExpanded){
+    matchingRows.forEach(r => r.style.display = '');
+    if(toggleBtnText) toggleBtnText.innerHTML = `▲ Show Less (Show First 10)`;
+    if(countLabel) countLabel.innerText = `Showing all ${visibleCount} students`;
+  } else {
+    matchingRows.forEach((r, idx) => {
+      r.style.display = idx < 10 ? '' : 'none';
+    });
+    if(toggleBtnText) toggleBtnText.innerHTML = `👁️ Show More Students (Showing 10 of ${visibleCount}) ▼`;
+    if(countLabel) countLabel.innerText = `Remaining ${visibleCount - 10} hidden`;
+  }
 }
 
-// ==================== DOWNLOAD & BACKUP ====================
-function downloadJsonFile(filename, data){
-  const jsonStr = JSON.stringify(data, null, 4);
-  downloadRawFile(filename, jsonStr, "application/json");
+function toggleCandidatesShowMore(){
+  candidatesExpanded = !candidatesExpanded;
+  applyCandidatesPagination();
+}
+
+function filterCandidatesFolder(){
+  applyCandidatesPagination();
+}
+
+function insertSampleStudentData(){
+  const ta = document.getElementById('importStudentTextArea');
+  if(!ta) return;
+  ta.value = "Rahul Sharma, SW101, NEET\n" +
+             "Priya Patel, SW102, TSPSC Groups\n" +
+             "Kavita Reddy, SW103, NEET\n" +
+             "Suresh Kumar, POL-01, Telangana Police\n" +
+             "Anil Varma, CS-501, Computer Science";
+}
+
+function handleStudentFilePick(input){
+  if(input.files && input.files[0]){
+    const reader = new FileReader();
+    reader.onload = function(e){
+      document.getElementById('importStudentTextArea').value = e.target.result;
+    };
+    reader.readAsText(input.files[0]);
+  }
+}
+
+function handleBulkImportStudents(e){
+  e.preventDefault();
+  const text = document.getElementById('importStudentTextArea').value.trim();
+  const defCourse = document.getElementById('importDefaultCourseSelect').value;
+  if(!text) return alert('Please enter student details');
+
+  const lines = text.split('\n');
+  let added = 0;
+  lines.forEach(line => {
+    line = line.trim();
+    if(!line) return;
+    const parts = line.split(/[,\t]/).map(s => s.trim());
+    if(parts.length >= 1){
+      const name = parts[0];
+      const roll = parts[1] || ('SW' + Math.floor(100 + Math.random() * 900));
+      const c = parts[2] || defCourse || 'All Assessments';
+      const pass = Math.random().toString(36).slice(-6).toUpperCase();
+
+      profiles.push({
+        id: 'cand_' + Date.now() + Math.random().toString(36).substr(2, 4),
+        name,
+        roll,
+        username: roll,
+        password: pass,
+        assigned_exam_title: c,
+        assigned_courses: [c],
+        created: new Date().toISOString().replace('T', ' ').substr(0, 19),
+        photo: ''
+      });
+      added++;
+    }
+  });
+
+  saveAllState();
+  renderAll();
+  document.getElementById('importStudentTextArea').value = '';
+  showFlash(`Successfully imported ${added} candidate(s).`);
+}
+
+function handleCreateSingleCandidate(e){
+  e.preventDefault();
+  const name = document.getElementById('candSingleName').value.trim();
+  const roll = document.getElementById('candSingleRoll').value.trim();
+  const pass = document.getElementById('candSinglePass').value.trim();
+  const checked = Array.from(document.querySelectorAll('#candCreateBox input[name="cand_courses[]"]:checked')).map(c => c.value);
+  const assigned = checked.length ? checked : ['All Assessments'];
+
+  profiles.push({
+    id: 'cand_' + Date.now(),
+    name,
+    roll,
+    username: roll,
+    password: pass,
+    assigned_exam_title: assigned.join(', '),
+    assigned_courses: assigned,
+    created: new Date().toISOString().replace('T', ' ').substr(0, 19),
+    photo: ''
+  });
+
+  saveAllState();
+  renderAll();
+  document.getElementById('candSingleName').value = '';
+  document.getElementById('candSingleRoll').value = '';
+  document.getElementById('candSinglePass').value = Math.random().toString(36).slice(-6).toUpperCase();
+  showFlash(`Created candidate credentials for '${name}' (${roll}).`);
+}
+
+function handleBulkGenerateCandidates(e){
+  e.preventDefault();
+  const prefix = document.getElementById('bulkPrefix').value.trim().toUpperCase();
+  const count = parseInt(document.getElementById('bulkCount').value) || 10;
+  const courseVal = document.getElementById('bulkCourseSelect').value;
+  const course = courseVal.startsWith('cat_') ? courseVal.replace('cat_', '') : 'All Assessments';
+
+  for(let i = 1; i <= count; i++){
+    const roll = prefix + String(i).padStart(3, '0');
+    const pass = Math.random().toString(36).slice(-6).toUpperCase();
+    profiles.push({
+      id: 'cand_' + Date.now() + '_' + i,
+      name: prefix + ' Candidate ' + i,
+      roll,
+      username: roll,
+      password: pass,
+      assigned_exam_title: course,
+      assigned_courses: [course],
+      created: new Date().toISOString().replace('T', ' ').substr(0, 19),
+      photo: ''
+    });
+  }
+
+  saveAllState();
+  renderAll();
+  showFlash(`Generated ${count} candidate accounts with prefix '${prefix}'.`);
+}
+
+function deleteCandidate(idx){
+  const p = profiles[idx];
+  if(!p) return;
+  if(confirm(`Delete candidate account ${p.roll || p.name}?`)){
+    profiles.splice(idx, 1);
+    saveAllState();
+    renderAll();
+    showFlash(`Candidate ${p.roll} deleted.`);
+  }
+}
+
+function exportCandidatesCSV(){
+  let csv = "Candidate Name,Username / Roll No,Access Password,Assigned Courses\n";
+  profiles.forEach(p => {
+    const coursesStr = (p.assigned_courses || [p.assigned_exam_title || 'All Assessments']).join('; ');
+    csv += `"${p.name || ''}","${p.roll || p.username || ''}","${p.password || ''}","${coursesStr}"\n`;
+  });
+  downloadRawFile("ServerWorld_Candidate_Passwords.csv", csv, "text/csv");
+}
+
+function printFolderStudentSlips(){
+  let cardsHtml = '';
+  profiles.forEach(p => {
+    const coursesStr = (p.assigned_courses || [p.assigned_exam_title || 'All Assessments']).join(', ');
+    cardsHtml += `
+      <div style="border:1.5px dashed #0284c7;border-radius:8px;padding:14px;background:#fafafa;page-break-inside:avoid;margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;border-bottom:1px solid #e2e8f0;padding-bottom:6px;margin-bottom:8px">
+          <b style="color:#104085;font-size:14px">Server World Online Exam</b>
+          <span style="background:#e0f2fe;color:#0369a1;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:800">${escapeHtml(coursesStr)}</span>
+        </div>
+        <div style="font-size:13px;line-height:1.6">
+          <div>Candidate Name: <b>${escapeHtml(p.name || '')}</b></div>
+          <div>Roll No / Username: <b style="color:#1d4ed8;font-family:monospace">${escapeHtml(p.roll || p.username || '')}</b></div>
+          <div>Access Password: <b style="color:#92400e;background:#fef3c7;padding:1px 6px;border-radius:4px;font-family:monospace">${escapeHtml(p.password || '')}</b></div>
+        </div>
+      </div>
+    `;
+  });
+  const printWin = window.open('', '_blank', 'width=800,height=700');
+  printWin.document.write(`<html><head><title>Candidate Slips</title></head><body style="font-family:Arial,sans-serif;padding:20px">${cardsHtml}<script>window.onload=function(){window.print();}<\/script></body></html>`);
+  printWin.document.close();
+}
+
+// MULTI-COURSE MODAL
+function openAdminEditStudentCoursesModal(u, name, coursesList){
+  document.getElementById('editCandUsernameInput').value = u;
+  document.getElementById('editCandCoursesSub').innerText = 'Student: ' + name + ' (' + u + ')';
+  const box = document.getElementById('candEditBox');
+  if(box){
+    const checks = box.querySelectorAll('input[name="cand_courses[]"]');
+    const isAll = !coursesList || coursesList.length === 0 || coursesList.includes('All Assessments') || coursesList.includes('all');
+    checks.forEach(chk => {
+      if(chk.value === 'All Assessments'){
+        chk.checked = isAll;
+      } else {
+        chk.checked = !isAll && coursesList.includes(chk.value);
+      }
+    });
+  }
+  document.getElementById('adminEditStudentCoursesModal').style.display = 'flex';
+}
+function closeAdminEditStudentCoursesModal(){
+  document.getElementById('adminEditStudentCoursesModal').style.display = 'none';
+}
+function handleSaveCandidateCourses(e){
+  e.preventDefault();
+  const u = document.getElementById('editCandUsernameInput').value;
+  const p = profiles.find(x => x.username === u || x.roll === u);
+  if(!p) return;
+  const checked = Array.from(document.querySelectorAll('#candEditBox input[name="cand_courses[]"]:checked')).map(c => c.value);
+  p.assigned_courses = checked.length ? checked : ['All Assessments'];
+  p.assigned_exam_title = p.assigned_courses.join(', ');
+  saveAllState();
+  renderAll();
+  closeAdminEditStudentCoursesModal();
+  showFlash(`Updated course enrollment for candidate ${u}.`);
+}
+
+function candToggleAllCourses(boxId, selectAll){
+  const box = document.getElementById(boxId);
+  if(!box) return;
+  const checks = box.querySelectorAll('input[name="cand_courses[]"]');
+  checks.forEach(chk => {
+    if(chk.value === 'All Assessments') chk.checked = selectAll;
+    else chk.checked = false;
+  });
+}
+function candHandleAllToggle(allCheck, boxId){
+  const box = document.getElementById(boxId);
+  if(!box) return;
+  const checks = box.querySelectorAll('input[name="cand_courses[]"]');
+  if(allCheck.checked){
+    checks.forEach(chk => { if(chk !== allCheck) chk.checked = false; });
+  }
+}
+function candHandleSingleToggle(singleCheck, boxId){
+  const box = document.getElementById(boxId);
+  if(!box) return;
+  const allCheck = box.querySelector('input[value="All Assessments"]');
+  if(singleCheck.checked && allCheck) allCheck.checked = false;
+  const checked = box.querySelectorAll('input[name="cand_courses[]"]:checked');
+  if(checked.length === 0 && allCheck) allCheck.checked = true;
+}
+
+// WEBCAM & VERIFICATION MODAL
+let avmStream = null;
+function openAdminVerificationModal(roll, name, photo){
+  document.getElementById('avmCandRoll').innerText = roll || 'SW-STUDENT';
+  document.getElementById('avmCandName').innerText = name || 'Student Photo Verification';
+  document.getElementById('avmFormRoll').value = roll || '';
+  document.getElementById('avmFormPhotoData').value = '';
+
+  const photoImg = document.getElementById('avmCapturedPhoto');
+  const placeholder = document.getElementById('avmPlaceholder');
+  const badge = document.getElementById('avmStatusBadge');
+
+  if(photo){
+    photoImg.src = photo;
+    photoImg.style.display = 'block';
+    placeholder.style.display = 'none';
+    badge.innerText = '🟢 Verified';
+    badge.style.background = '#dcfce7';
+    badge.style.color = '#15803d';
+  } else {
+    photoImg.style.display = 'none';
+    placeholder.style.display = 'block';
+    badge.innerText = '⚪ Optional / Pending';
+    badge.style.background = '#f1f5f9';
+    badge.style.color = '#64748b';
+  }
+
+  document.getElementById('avmWebcam').style.display = 'none';
+  document.getElementById('avmFaceGuide').style.display = 'none';
+  document.getElementById('btnAvmStartCam').style.display = 'inline-flex';
+  document.getElementById('btnAvmSnap').style.display = 'none';
+  document.getElementById('btnAvmRetake').style.display = 'none';
+
+  document.getElementById('adminVerificationModal').style.display = 'flex';
+}
+function closeAdminVerificationModal(){
+  stopAdminWebcam();
+  document.getElementById('adminVerificationModal').style.display = 'none';
+}
+async function startAdminWebcam(){
+  const video = document.getElementById('avmWebcam');
+  const photoImg = document.getElementById('avmCapturedPhoto');
+  const placeholder = document.getElementById('avmPlaceholder');
+  const guide = document.getElementById('avmFaceGuide');
+  const btnStart = document.getElementById('btnAvmStartCam');
+  const btnSnap = document.getElementById('btnAvmSnap');
+  const btnRetake = document.getElementById('btnAvmRetake');
+
+  try {
+    if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+      return alert('Camera access is not supported by your browser.');
+    }
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: { width: { ideal: 640 }, height: { ideal: 480 }, facingMode: 'user' },
+      audio: false
+    });
+    avmStream = stream;
+    video.srcObject = stream;
+    video.style.display = 'block';
+    photoImg.style.display = 'none';
+    placeholder.style.display = 'none';
+    guide.style.display = 'block';
+
+    btnStart.style.display = 'none';
+    btnSnap.style.display = 'inline-flex';
+    btnRetake.style.display = 'none';
+  } catch(err){
+    alert('Could not access camera: ' + (err.message || 'Permission denied.'));
+  }
+}
+function captureAdminWebcamPhoto(){
+  const video = document.getElementById('avmWebcam');
+  const photoImg = document.getElementById('avmCapturedPhoto');
+  const guide = document.getElementById('avmFaceGuide');
+  const btnSnap = document.getElementById('btnAvmSnap');
+  const btnRetake = document.getElementById('btnAvmRetake');
+
+  if(!video || !avmStream) return;
+  const canvas = document.createElement('canvas');
+  canvas.width = 320;
+  canvas.height = 320;
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(video, 0, 0, 320, 320);
+  const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+
+  stopAdminWebcam();
+  video.style.display = 'none';
+  guide.style.display = 'none';
+  photoImg.src = dataUrl;
+  photoImg.style.display = 'block';
+
+  document.getElementById('avmFormPhotoData').value = dataUrl;
+  btnSnap.style.display = 'none';
+  btnRetake.style.display = 'inline-flex';
+}
+function retakeAdminWebcam(){
+  document.getElementById('avmFormPhotoData').value = '';
+  startAdminWebcam();
+}
+function stopAdminWebcam(){
+  if(avmStream){
+    try { avmStream.getTracks().forEach(t => t.stop()); } catch(e){}
+    avmStream = null;
+  }
+}
+function previewAdminPhotoFile(input){
+  if(input.files && input.files[0]){
+    const reader = new FileReader();
+    reader.onload = function(e){
+      stopAdminWebcam();
+      document.getElementById('avmWebcam').style.display = 'none';
+      document.getElementById('avmFaceGuide').style.display = 'none';
+      const photoImg = document.getElementById('avmCapturedPhoto');
+      photoImg.src = e.target.result;
+      photoImg.style.display = 'block';
+      document.getElementById('avmPlaceholder').style.display = 'none';
+      document.getElementById('avmFormPhotoData').value = e.target.result;
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+function handleSaveVerificationPhoto(e){
+  e.preventDefault();
+  const roll = document.getElementById('avmFormRoll').value;
+  const photo = document.getElementById('avmFormPhotoData').value;
+  if(!photo) return alert('Please capture or upload a photo first.');
+
+  const p = profiles.find(x => x.roll === roll || x.username === roll);
+  if(p){
+    p.photo = photo;
+    saveAllState();
+    renderAll();
+    closeAdminVerificationModal();
+    showFlash(`Verification photo saved for ${roll}.`);
+  } else {
+    alert('Candidate not found.');
+  }
+}
+
+// LIGHTBOX
+function viewVerificationPhoto(name, roll, photo){
+  if(!photo) return;
+  document.getElementById('vpmTitle').innerText = name || 'Candidate Photo';
+  document.getElementById('vpmSubtitle').innerText = roll || 'Verification';
+  document.getElementById('vpmImage').src = photo;
+  document.getElementById('viewPhotoModal').style.display = 'flex';
+}
+function closeViewPhotoModal(){
+  document.getElementById('viewPhotoModal').style.display = 'none';
+}
+
+// CANDIDATE REVIEW MODAL
+let currentReviewIndex = -1;
+function openCandidateReviewModal(idx){
+  currentReviewIndex = idx;
+  const sub = results[idx];
+  if(!sub) return alert('Result record not found.');
+
+  document.getElementById('crmCandidateTitle').innerText = (sub.name || 'Candidate') + ' • ' + (sub.examTitle || 'Examination');
+  document.getElementById('crmCandidateSubtitle').innerText = 'Submitted on: ' + (sub.timestamp || '-');
+  document.getElementById('crmMetaName').innerText = sub.name || 'Candidate';
+  document.getElementById('crmMetaRoll').innerText = sub.roll || '-';
+
+  const score = parseFloat(sub.score || 0);
+  const total = parseFloat(sub.totalMarks || sub.total || 10);
+  const acc = sub.accuracy !== undefined ? sub.accuracy : (total > 0 ? Math.round((score/total)*100) : 0);
+  document.getElementById('crmMetaScore').innerText = score + ' / ' + total;
+  document.getElementById('crmMetaAccuracy').innerText = acc + '%';
+  document.getElementById('crmMetaTime').innerText = sub.timeTaken || '-';
+  document.getElementById('crmMetaFocus').innerHTML = '<span style="background:#dcfce7;color:#15803d;padding:2px 6px;border-radius:4px;font-size:12px;font-weight:700">✓ Clean (0)</span>';
+
+  const listEl = document.getElementById('crmQuestionsList');
+  const sols = sub.solutions || [];
+  if(sols.length === 0){
+    listEl.innerHTML = '<div style="text-align:center;padding:20px;color:#64748b">No question breakdown recorded for this submission.</div>';
+  } else {
+    let html = '';
+    const letters = ['A','B','C','D'];
+    sols.forEach(s => {
+      html += `
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:14px">
+          <div style="font-weight:800;color:#1e3a8a;margin-bottom:4px">Question ${s.num}</div>
+          <div style="font-size:14px;font-weight:600;margin-bottom:8px">${escapeHtml(s.q)}</div>
+          <div style="font-size:12.5px;margin-bottom:4px"><b>Candidate Answer:</b> <span style="color:${s.isCorrect ? '#15803d' : '#b91c1c'};font-weight:700">${escapeHtml(s.userAns !== null ? letters[s.userAns] || s.userAns : 'Unanswered')}</span></div>
+          <div style="font-size:12.5px;color:#15803d;font-weight:700"><b>Correct Answer Key:</b> ${escapeHtml(s.correctAns || 'A')}</div>
+          ${s.explanation ? `<div style="font-size:12px;color:#64748b;margin-top:6px">💡 ${escapeHtml(s.explanation)}</div>` : ''}
+        </div>
+      `;
+    });
+    listEl.innerHTML = html;
+  }
+
+  document.getElementById('candidateReviewModal').style.display = 'flex';
+}
+function closeCandidateReviewModal(){
+  document.getElementById('candidateReviewModal').style.display = 'none';
+}
+function printCurrentCandidateReview(){
+  window.print();
+}
+
+function printStudentScorecard(idx){
+  const sub = results[idx];
+  if(!sub) return;
+  const score = parseFloat(sub.score || 0);
+  const total = parseFloat(sub.totalMarks || sub.total || 10);
+  const acc = total > 0 ? Math.round((score/total)*100) : 0;
+  const printWin = window.open('', '_blank', 'width=800,height=700');
+  printWin.document.write(`
+    <html>
+    <head><title>Scorecard - ${escapeHtml(sub.name || '')}</title></head>
+    <body style="font-family:Arial,sans-serif;padding:30px;color:#1e293b">
+      <div style="border-bottom:2px solid #2563eb;padding-bottom:12px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <h2 style="margin:0;color:#104085">Server World</h2>
+          <div style="font-size:13px;color:#ea580c;font-weight:700">Official Candidate Examination Scorecard</div>
+        </div>
+        <div style="background:#eff6ff;color:#1d4ed8;padding:6px 14px;border-radius:6px;font-weight:700;font-size:13px">✓ Verified</div>
+      </div>
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;padding:16px;border-radius:8px;margin-bottom:20px;font-size:13px;line-height:1.6">
+        <div>Candidate Name: <b>${escapeHtml(sub.name || '')}</b></div>
+        <div>Roll Number: <b>${escapeHtml(sub.roll || '')}</b></div>
+        <div>Examination: <b>${escapeHtml(sub.examTitle || '')}</b></div>
+        <div>Score Obtained: <b style="color:#0284c7">${score} / ${total}</b></div>
+        <div>Accuracy: <b style="color:#15803d">${acc}%</b></div>
+        <div>Submission Date: <b>${escapeHtml(sub.timestamp || '')}</b></div>
+      </div>
+      <script>window.onload=function(){window.print();}<\/script>
+    </body>
+    </html>
+  `);
+  printWin.document.close();
+}
+
+// UTILITY
+function escapeHtml(str){
+  if(!str) return '';
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 function downloadRawFile(filename, content, mimeType){
@@ -1273,19 +2482,18 @@ function downloadRawFile(filename, content, mimeType){
   URL.revokeObjectURL(url);
 }
 
-function downloadAllBackupJson(){
-  downloadJsonFile("profiles.json", profiles);
-  setTimeout(() => downloadJsonFile("exams.json", exams), 300);
-  setTimeout(() => downloadJsonFile("courses.json", courses), 600);
-  setTimeout(() => downloadJsonFile("results.json", results), 900);
-}
+// WINDOW CLICK DISMISS MODALS
+window.onclick = function(e){
+  const modals = ['addQModal', 'editCodeModal', 'qManagerModal', 'editQModal', 'candidateReviewModal', 'adminVerificationModal', 'viewPhotoModal', 'adminEditStudentCoursesModal'];
+  modals.forEach(mId => {
+    const m = document.getElementById(mId);
+    if(m && e.target === m) m.style.display = 'none';
+  });
+};
 
-// ONLOAD
+// INIT
 window.addEventListener('DOMContentLoaded', () => {
   checkAuth();
-  if(sessionStorage.getItem('sw_admin_authenticated') === 'true'){
-    initAdminData();
-  }
 });
 </script>
 </body>
