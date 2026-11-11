@@ -231,12 +231,13 @@
     .brand-logo {
       display: inline-flex;
       align-items: center;
+      gap: 12px;
       flex-shrink: 0;
       text-decoration: none;
     }
     .brand-logo img {
-      width: 52px;
-      height: 52px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
       object-fit: contain;
       box-shadow: 0 2px 10px rgba(0,0,0,0.08);
@@ -244,7 +245,34 @@
       display: block;
     }
     .brand-logo:hover img {
-      transform: scale(1.06);
+      transform: scale(1.05);
+    }
+    .brand-text-group {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      line-height: 1.15;
+    }
+    .brand-text-title {
+      font-family: var(--font-display);
+      font-size: 21px;
+      font-weight: 800;
+      color: var(--primary-dark);
+      letter-spacing: -0.3px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .brand-text-title span {
+      color: var(--orange);
+    }
+    .brand-text-tagline {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--slate);
+      letter-spacing: 0.2px;
+      white-space: nowrap;
+      margin-top: 2px;
     }
 
     .nav-menu {
@@ -1505,8 +1533,12 @@
   <!-- MAIN HEADER / NAVIGATION -->
   <header class="header">
     <div class="container">
-      <a href="#home" class="brand-logo" title="Server World Examination Services">
+      <a href="#home" class="brand-logo" title="Server World">
         <img src="images/logo_icon.jpg" alt="Server World Logo">
+        <div class="brand-text-group">
+          <div class="brand-text-title">Server <span>World</span></div>
+          <div class="brand-text-tagline">Offline | Online | service provider</div>
+        </div>
       </a>
 
       <nav>
