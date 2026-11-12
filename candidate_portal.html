@@ -3575,6 +3575,9 @@ body{background:var(--bg);color:var(--dark);min-height:100vh;display:flex;flex-d
   </div>
 </div>
 
+<!-- SUPABASE CLOUD SYNC -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase_client.js"></script>
 <script>
 function escapeHtml(str){
   if(str===null || str===undefined) return '';
@@ -3616,6 +3619,15 @@ function getIconSvgByName(name){
 
 async function syncCourses(){
   try{
+    if(typeof dbGetCourses === 'function'){
+      let data = await dbGetCourses();
+      if(data && data.length > 0){
+        coursesList = data;
+        renderHome();
+        loadMocks();
+        return;
+      }
+    }
     let r = await fetch('courses.json?t=' + Date.now());
     if(r.ok){
       let data = await r.json();
@@ -4999,6 +5011,17 @@ function logout(){
 // SYNC LIBRARY
 async function syncExams(notify){
   try{
+    if(typeof dbGetExams === 'function'){
+      let data = await dbGetExams();
+      if(data && data.length > 0){
+        data = data.filter(e => !((e.category || '').toUpperCase().includes('VI CLASS')));
+        exams = data;
+        renderHome();
+        loadMocks();
+        if(notify) alert('Synchronized ' + data.length + ' assessments.');
+        return;
+      }
+    }
     let r = await fetch('exams.json?t=' + Date.now());
     if(r.ok){
       let data = await r.json();
@@ -5021,6 +5044,15 @@ async function syncExams(notify){
 // SYNC RESULTS STORE
 async function syncResults(){
   try{
+    if(typeof dbGetResults === 'function'){
+      let data = await dbGetResults();
+      if(data && data.length > 0){
+        results = data;
+        loadResults();
+        renderHome();
+        return;
+      }
+    }
     let r = await fetch('results.json?t=' + Date.now());
     if(r.ok){
       let data = await r.json();
@@ -6530,6 +6562,10 @@ function fallbackLocalSubmit(){
 
   results.unshift(resultPayload);
   localStorage.setItem('sw_results', JSON.stringify(results));
+
+  if (typeof dbSaveResult === 'function') {
+    dbSaveResult(resultPayload);
+  }
 
   fetch('save_result.php', {
     method: 'POST',

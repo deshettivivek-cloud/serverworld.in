@@ -347,8 +347,18 @@ body{
   </div>
 </footer>
 
+<!-- SUPABASE CLOUD SYNC -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase_client.js"></script>
 <script>
 let profiles = JSON.parse(localStorage.getItem('sw_profiles') || '[]');
+
+// Fetch latest profiles from Supabase cloud on load
+if (typeof dbGetProfiles === 'function') {
+  dbGetProfiles().then(data => {
+    if (data && data.length > 0) profiles = data;
+  }).catch(() => {});
+}
 
 // Set current date in top bar
 try {
@@ -410,10 +420,15 @@ async function login(){
   }
 
   try {
-    let r = await fetch('profiles.json?t=' + Date.now());
-    if(r.ok){
-      let data = await r.json();
-      if(Array.isArray(data)) profiles = data;
+    if (typeof dbGetProfiles === 'function') {
+      let cloudProfiles = await dbGetProfiles();
+      if (cloudProfiles && cloudProfiles.length > 0) profiles = cloudProfiles;
+    } else {
+      let r = await fetch('profiles.json?t=' + Date.now());
+      if(r.ok){
+        let data = await r.json();
+        if(Array.isArray(data)) profiles = data;
+      }
     }
   } catch(e){}
 

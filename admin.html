@@ -918,7 +918,9 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:#1565D8;box-sh
   </div>
 </div>
 
-<!-- ==================== JAVASCRIPT ENGINE ==================== -->
+<!-- ==================== JAVASCRIPT ENGINE & SUPABASE CLOUD ==================== -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase_client.js"></script>
 <script>
 // DEFAULT SEED DATA
 const defaultCourses = [
@@ -1001,6 +1003,27 @@ function showFlash(msg, type='success'){
   setTimeout(() => { b.style.display = 'none'; }, 5000);
 }
 
+// SUPABASE CLOUD SYNC INITIALIZATION
+async function initSupabaseData(){
+  try {
+    if(typeof dbGetCourses === 'function'){
+      const [c, e, p, r] = await Promise.all([
+        dbGetCourses(),
+        dbGetExams(),
+        dbGetProfiles(),
+        dbGetResults()
+      ]);
+      if(c && c.length) courses = c;
+      if(e && e.length) exams = e;
+      if(p && p.length) profiles = p;
+      if(r && r.length) results = r;
+      renderAll();
+    }
+  } catch(err){
+    console.warn('Supabase initial sync warning:', err);
+  }
+}
+
 // AUTH
 function checkAuth(){
   const isAuth = sessionStorage.getItem('sw_admin_auth') === 'true';
@@ -1019,16 +1042,23 @@ function checkAuth(){
   }
 }
 
-function handleAdminLogin(e){
+async function handleAdminLogin(e){
   e.preventDefault();
   const pass = document.getElementById('adminPassInput').value.trim();
   const err = document.getElementById('loginError');
-  const storedPass = localStorage.getItem('sw_admin_pass') || 'admin123';
+  let storedPass = 'admin123';
+  if(typeof dbGetAdminPassword === 'function'){
+    storedPass = await dbGetAdminPassword();
+  } else {
+    storedPass = localStorage.getItem('sw_admin_pass') || 'admin123';
+  }
+
   if(pass === storedPass){
     if(err) err.style.display = 'none';
     sessionStorage.setItem('sw_admin_auth', 'true');
     checkAuth();
     showFlash('Welcome to Server World Administrator Console.');
+    initSupabaseData();
   } else {
     if(err) err.style.display = 'block';
   }
@@ -1051,13 +1081,19 @@ function closeChangePasswordModal(){
   document.getElementById('changePassModal').style.display = 'none';
 }
 
-function handleSaveNewAdminPassword(e){
+async function handleSaveNewAdminPassword(e){
   e.preventDefault();
   const current = document.getElementById('cpCurrentPass').value.trim();
   const newP = document.getElementById('cpNewPass').value.trim();
   const confP = document.getElementById('cpConfirmPass').value.trim();
   const err = document.getElementById('cpError');
-  const stored = localStorage.getItem('sw_admin_pass') || 'admin123';
+  
+  let stored = 'admin123';
+  if(typeof dbGetAdminPassword === 'function'){
+    stored = await dbGetAdminPassword();
+  } else {
+    stored = localStorage.getItem('sw_admin_pass') || 'admin123';
+  }
 
   if(current !== stored){
     err.innerText = 'Current password is incorrect.';
@@ -1074,9 +1110,15 @@ function handleSaveNewAdminPassword(e){
     err.style.display = 'block';
     return;
   }
-  localStorage.setItem('sw_admin_pass', newP);
+
+  if(typeof dbSetAdminPassword === 'function'){
+    await dbSetAdminPassword(newP);
+  } else {
+    localStorage.setItem('sw_admin_pass', newP);
+  }
+
   closeChangePasswordModal();
-  showFlash('Admin password updated successfully!');
+  showFlash('Admin password updated successfully across all devices!');
 }
 
 // RENDER ALL
@@ -1267,14 +1309,16 @@ function handleCreateCourse(e){
   const icon = document.getElementById('newCourseIcon').value;
   if(!name) return;
 
-  courses.push({
+  const newC = {
     id: 'course_' + Date.now(),
     name,
     stream,
     color,
     icon
-  });
+  };
+  courses.push(newC);
   saveAllState();
+  if(typeof dbSaveCourse === 'function') dbSaveCourse(newC);
   renderAll();
   document.getElementById('newCourseName').value = '';
   document.getElementById('newCourseStream').value = '';
@@ -1285,8 +1329,10 @@ function deleteCourse(idx){
   const c = courses[idx];
   if(!c) return;
   if(confirm(`Remove course stream '${c.name}'? Linked exams will remain safe.`)){
+    const cId = c.id;
     courses.splice(idx, 1);
     saveAllState();
+    if(typeof dbDeleteCourse === 'function') dbDeleteCourse(cId);
     renderAll();
     showFlash(`Course '${c.name}' removed.`);
   }
@@ -1430,6 +1476,7 @@ function handleCreateExam(e){
 
   exams.push(newExam);
   saveAllState();
+  if(typeof dbSaveExam === 'function') dbSaveExam(newExam);
   renderAll();
 
   document.getElementById('ceTitle').value = '';
@@ -1476,6 +1523,7 @@ function toggleExamTestType(id){
     ex.accessCode = 'CODE-' + Math.floor(1000 + Math.random() * 9000);
   }
   saveAllState();
+  if(typeof dbSaveExam === 'function') dbSaveExam(ex);
   renderAll();
 }
 
@@ -1484,6 +1532,7 @@ function toggleExamVisibility(id){
   if(!ex) return;
   ex.result_visibility = (ex.result_visibility === 'hidden') ? 'immediate' : 'hidden';
   saveAllState();
+  if(typeof dbSaveExam === 'function') dbSaveExam(ex);
   renderAll();
   showFlash(`Updated visibility for '${ex.title}' to ${ex.result_visibility}.`);
 }
@@ -1492,8 +1541,10 @@ function deleteExam(idx){
   const ex = exams[idx];
   if(!ex) return;
   if(confirm(`Delete assessment '${ex.title}' from library?`)){
+    const exId = ex.id;
     exams.splice(idx, 1);
     saveAllState();
+    if(typeof dbDeleteExam === 'function') dbDeleteExam(exId);
     renderAll();
     showFlash(`Deleted assessment '${ex.title}'.`);
   }
@@ -1522,6 +1573,7 @@ function handleImportQuestionsDirect(e){
   if(!ex.questions) ex.questions = [];
   ex.questions = ex.questions.concat(qs);
   saveAllState();
+  if(typeof dbSaveExam === 'function') dbSaveExam(ex);
   renderAll();
   document.getElementById('importQuestionsTextArea').value = '';
   showFlash(`Imported ${qs.length} question(s) into '${ex.title}'.`);
@@ -1547,6 +1599,7 @@ function handleImportQuestionsFromModal(e){
   if(!ex.questions) ex.questions = [];
   ex.questions = ex.questions.concat(qs);
   saveAllState();
+  if(typeof dbSaveExam === 'function') dbSaveExam(ex);
   renderAll();
   closeAddQuestionsModal();
   showFlash(`Successfully imported ${qs.length} question(s) into '${ex.title}'.`);
@@ -1569,6 +1622,7 @@ function handleSaveAccessCode(e){
   if(!ex) return;
   ex.accessCode = code;
   saveAllState();
+  if(typeof dbSaveExam === 'function') dbSaveExam(ex);
   renderAll();
   closeEditCodeModal();
   showFlash(`Updated access code to ${code} for '${ex.title}'.`);
@@ -1681,6 +1735,7 @@ function handleAddSingleQuestionFromModal(e){
     explanation: exp
   });
   saveAllState();
+  if(typeof dbSaveExam === 'function') dbSaveExam(ex);
   renderAll();
   openQuestionManagerModal(examId);
   document.getElementById('qmAddQText').value = '';
@@ -1692,6 +1747,7 @@ function deleteQmQuestion(examId, qIdx){
   if(confirm(`Delete question Q${qIdx + 1}?`)){
     ex.questions.splice(qIdx, 1);
     saveAllState();
+    if(typeof dbSaveExam === 'function') dbSaveExam(ex);
     renderAll();
     openQuestionManagerModal(examId);
   }
@@ -1740,6 +1796,7 @@ function handleSaveEditQuestion(e){
     explanation: document.getElementById('eqExp').value.trim()
   };
   saveAllState();
+  if(typeof dbSaveExam === 'function') dbSaveExam(ex);
   renderAll();
   closeEditQModal();
   openQuestionManagerModal(examId);
@@ -1854,9 +1911,13 @@ function filterResultsTable(){
 }
 
 function deleteResult(idx){
+  const r = results[idx];
+  if(!r) return;
   if(confirm('Delete this result record?')){
+    const attId = r.attemptId || r.id;
     results.splice(idx, 1);
     saveAllState();
+    if(typeof dbDeleteResult === 'function') dbDeleteResult(attId);
     renderAll();
   }
 }
@@ -2114,7 +2175,7 @@ function handleBulkImportStudents(e){
       const c = parts[2] || defCourse || 'All Assessments';
       const pass = Math.random().toString(36).slice(-6).toUpperCase();
 
-      profiles.push({
+      const newP = {
         id: 'cand_' + Date.now() + Math.random().toString(36).substr(2, 4),
         name,
         roll,
@@ -2124,7 +2185,9 @@ function handleBulkImportStudents(e){
         assigned_courses: [c],
         created: new Date().toISOString().replace('T', ' ').substr(0, 19),
         photo: ''
-      });
+      };
+      profiles.push(newP);
+      if(typeof dbSaveProfile === 'function') dbSaveProfile(newP);
       added++;
     }
   });
@@ -2143,7 +2206,7 @@ function handleCreateSingleCandidate(e){
   const checked = Array.from(document.querySelectorAll('#candCreateBox input[name="cand_courses[]"]:checked')).map(c => c.value);
   const assigned = checked.length ? checked : ['All Assessments'];
 
-  profiles.push({
+  const newCand = {
     id: 'cand_' + Date.now(),
     name,
     roll,
@@ -2153,9 +2216,11 @@ function handleCreateSingleCandidate(e){
     assigned_courses: assigned,
     created: new Date().toISOString().replace('T', ' ').substr(0, 19),
     photo: ''
-  });
+  };
+  profiles.push(newCand);
 
   saveAllState();
+  if(typeof dbSaveProfile === 'function') dbSaveProfile(newCand);
   renderAll();
   document.getElementById('candSingleName').value = '';
   document.getElementById('candSingleRoll').value = '';
@@ -2173,7 +2238,7 @@ function handleBulkGenerateCandidates(e){
   for(let i = 1; i <= count; i++){
     const roll = prefix + String(i).padStart(3, '0');
     const pass = Math.random().toString(36).slice(-6).toUpperCase();
-    profiles.push({
+    const candObj = {
       id: 'cand_' + Date.now() + '_' + i,
       name: prefix + ' Candidate ' + i,
       roll,
@@ -2183,7 +2248,9 @@ function handleBulkGenerateCandidates(e){
       assigned_courses: [course],
       created: new Date().toISOString().replace('T', ' ').substr(0, 19),
       photo: ''
-    });
+    };
+    profiles.push(candObj);
+    if(typeof dbSaveProfile === 'function') dbSaveProfile(candObj);
   }
 
   saveAllState();
@@ -2195,10 +2262,12 @@ function deleteCandidate(idx){
   const p = profiles[idx];
   if(!p) return;
   if(confirm(`Delete candidate account ${p.roll || p.name}?`)){
+    const roll = p.roll;
     profiles.splice(idx, 1);
     saveAllState();
+    if(typeof dbDeleteProfile === 'function') dbDeleteProfile(roll);
     renderAll();
-    showFlash(`Candidate ${p.roll} deleted.`);
+    showFlash(`Candidate ${roll} deleted.`);
   }
 }
 
@@ -2264,6 +2333,7 @@ function handleSaveCandidateCourses(e){
   p.assigned_courses = checked.length ? checked : ['All Assessments'];
   p.assigned_exam_title = p.assigned_courses.join(', ');
   saveAllState();
+  if(typeof dbSaveProfile === 'function') dbSaveProfile(p);
   renderAll();
   closeAdminEditStudentCoursesModal();
   showFlash(`Updated course enrollment for candidate ${u}.`);
@@ -2557,8 +2627,9 @@ window.onclick = function(e){
 };
 
 // INIT
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', async () => {
   checkAuth();
+  await initSupabaseData();
 });
 </script>
 </body>
