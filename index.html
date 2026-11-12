@@ -2762,6 +2762,9 @@
     </div>
   </div>
 
+  <!-- SUPABASE CLOUD SYNC -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase_client.js"></script>
   <script>
     // Mobile navigation toggle
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
@@ -2827,7 +2830,7 @@
     }
 
     // Booking enquiry form submission handler
-    function handleEnquirySubmit(e){
+    async function handleEnquirySubmit(e){
       e.preventDefault();
       const name = document.getElementById('clientName').value.trim();
       const org = document.getElementById('clientOrg').value.trim();
@@ -2842,6 +2845,24 @@
       const successBox = document.getElementById('formSuccessMessage');
       const detailsText = document.getElementById('successDetailsText');
       const waBtn = document.getElementById('btnQuickWhatsApp');
+
+      // Save to Supabase Cloud Database
+      if(typeof dbSaveEnquiry === 'function'){
+        try {
+          dbSaveEnquiry({
+            name: name,
+            organization: org,
+            phone: phone,
+            email: email,
+            service: service,
+            candidate_count: count,
+            target_date: date || 'Immediate',
+            message: message
+          });
+        } catch(err){
+          console.warn('Enquiry save warning:', err);
+        }
+      }
 
       const summaryText = `Enquiry for ${service} (${count}) by ${name} from ${org}. Target Date: ${date || 'Flexible'}. Phone: ${phone}, Email: ${email}.`;
       detailsText.innerText = `We have recorded your booking enquiry for "${service}" for ${org}. Our operations manager will contact you at ${phone} or ${email}.`;

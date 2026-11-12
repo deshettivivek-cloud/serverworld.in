@@ -271,3 +271,42 @@ async function dbDeleteResult(attemptId) {
     console.warn('Error deleting result from cloud:', e);
   }
 }
+
+// ==================== SERVICE ENQUIRIES & LEADS ====================
+async function dbSaveEnquiry(enquiry) {
+  try {
+    if (supabaseClient) {
+      const { data, error } = await supabaseClient.from('enquiries').insert([enquiry]);
+      if (error) console.warn('Error inserting enquiry:', error);
+      return data;
+    }
+  } catch (e) {
+    console.warn('Error saving enquiry to cloud:', e);
+  }
+}
+
+async function dbGetEnquiries() {
+  try {
+    if (supabaseClient) {
+      const { data, error } = await supabaseClient
+        .from('enquiries')
+        .select('*')
+        .order('created_at', { ascending: false });
+      if (data) return data;
+    }
+  } catch (e) {
+    console.warn('Error fetching enquiries from cloud:', e);
+  }
+  return [];
+}
+
+async function dbDeleteEnquiry(id) {
+  try {
+    if (supabaseClient) {
+      await supabaseClient.from('enquiries').delete().eq('id', id);
+    }
+  } catch (e) {
+    console.warn('Error deleting enquiry from cloud:', e);
+  }
+}
+
