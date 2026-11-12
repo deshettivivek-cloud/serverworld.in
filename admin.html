@@ -1637,34 +1637,117 @@ function uint8ArrayToBase64(bytes) {
   return btoa(binary);
 }
 
-function extractJpegStreamsFromPdf(arrayBuffer) {
+function a85DecodeToUint8Array(inputStr) {
+  const out = [];
+  let tuple = 0;
+  let count = 0;
+  const len = inputStr.length;
+  for (let i = 0; i < len; i++) {
+    const c = inputStr[i];
+    if (c === '~' && i + 1 < len && inputStr[i+1] === '>') break;
+    if (/\s/.test(c)) continue;
+    if (c === 'z' && count === 0) {
+      out.push(0, 0, 0, 0);
+      continue;
+    }
+    const val = c.charCodeAt(0) - 33;
+    if (val < 0 || val > 84) continue;
+    tuple = (tuple * 85 + val) >>> 0;
+    count++;
+    if (count === 5) {
+      out.push((tuple >>> 24) & 0xFF, (tuple >>> 16) & 0xFF, (tuple >>> 8) & 0xFF, tuple & 0xFF);
+      tuple = 0;
+      count = 0;
+    }
+  }
+  if (count > 0) {
+    const padding = 5 - count;
+    for (let i = 0; i < padding; i++) {
+      tuple = (tuple * 85 + 84) >>> 0;
+    }
+    const bytes = [(tuple >>> 24) & 0xFF, (tuple >>> 16) & 0xFF, (tuple >>> 8) & 0xFF, tuple & 0xFF];
+    for (let i = 0; i < count - 1; i++) {
+      out.push(bytes[i]);
+    }
+  }
+  return new Uint8Array(out);
+}
+
+function extractImagesFromPdf(arrayBuffer) {
   const images = [];
   const bytes = new Uint8Array(arrayBuffer);
-  const len = bytes.length;
+  let str = '';
+  const chunkSize = 16384;
+  for (let i = 0; i < bytes.length; i += chunkSize) {
+    str += String.fromCharCode.apply(null, bytes.subarray(i, Math.min(i + chunkSize, bytes.length)));
+  }
 
-  for (let i = 0; i < len - 4; i++) {
-    if (bytes[i] === 0xFF && bytes[i + 1] === 0xD8 && bytes[i + 2] === 0xFF) {
-      const start = i;
-      let end = -1;
-      for (let j = start + 3; j < len - 1; j++) {
-        if (bytes[j] === 0xFF && bytes[j + 1] === 0xD9) {
-          end = j + 2;
-          break;
-        }
+  // Pass 1: Parse PDF /Subtype /Image streams (handles ASCII85Decode, Flate, etc.)
+  let pos = 0;
+  while (true) {
+    let p1 = str.indexOf('/Subtype /Image', pos);
+    let p2 = str.indexOf('/Subtype/Image', pos);
+    if (p1 === -1 && p2 === -1) break;
+    let p = (p1 === -1) ? p2 : (p2 === -1 ? p1 : Math.min(p1, p2));
+    let sStart = str.indexOf('stream', p);
+    if (sStart === -1) {
+      pos = p + 14;
+      continue;
+    }
+    sStart += 6;
+    if (str[sStart] === '\r') sStart++;
+    if (str[sStart] === '\n') sStart++;
+    let sEnd = str.indexOf('endstream', sStart);
+    if (sEnd === -1) break;
+
+    let dict = str.substring(Math.max(0, p - 300), sStart);
+    let raw = str.substring(sStart, sEnd).trim();
+
+    let decodedBytes = null;
+    if (dict.includes('/ASCII85Decode') || raw.startsWith('<~')) {
+      decodedBytes = a85DecodeToUint8Array(raw);
+    } else {
+      decodedBytes = bytes.subarray(sStart, sEnd);
+    }
+
+    if (decodedBytes && decodedBytes.length >= 1000) {
+      if (decodedBytes[0] === 0xFF && decodedBytes[1] === 0xD8) {
+        images.push('data:image/jpeg;base64,' + uint8ArrayToBase64(decodedBytes));
+      } else if (decodedBytes[0] === 0x89 && decodedBytes[1] === 0x50 && decodedBytes[2] === 0x4E && decodedBytes[3] === 0x47) {
+        images.push('data:image/png;base64,' + uint8ArrayToBase64(decodedBytes));
       }
-      if (end !== -1) {
-        const size = end - start;
-        if (size >= 1200) {
-          const slice = bytes.subarray(start, end);
-          const b64 = uint8ArrayToBase64(slice);
-          images.push('data:image/jpeg;base64,' + b64);
+    }
+    pos = sEnd + 9;
+  }
+
+  // Pass 2: Binary scan for raw JPEGs (FF D8 FF ... FF D9) if pass 1 didn't find any
+  if (images.length === 0) {
+    const len = bytes.length;
+    for (let i = 0; i < len - 4; i++) {
+      if (bytes[i] === 0xFF && bytes[i + 1] === 0xD8 && bytes[i + 2] === 0xFF) {
+        const start = i;
+        let end = -1;
+        for (let j = start + 3; j < len - 1; j++) {
+          if (bytes[j] === 0xFF && bytes[j + 1] === 0xD9) {
+            end = j + 2;
+            break;
+          }
         }
-        i = end;
+        if (end !== -1) {
+          const size = end - start;
+          if (size >= 1200) {
+            const slice = bytes.subarray(start, end);
+            images.push('data:image/jpeg;base64,' + uint8ArrayToBase64(slice));
+          }
+          i = end;
+        }
       }
     }
   }
+
   return images;
 }
+const extractJpegStreamsFromPdf = extractImagesFromPdf;
 
 async function parsePdfDocument(arrayBuffer) {
   let fullText = '';
@@ -1898,7 +1981,7 @@ function attachImagesToQuestions(questions, images) {
   let imgIdx = 0;
   questions.forEach(q => {
     const text = (q.q || '').toLowerCase();
-    if (/\b(image|diagram|figure|picture|photo|illustration|shown\s+below|refer\s+to|illustrated)\b/i.test(text)) {
+    if (/\b(image|diagram|figure|picture|photo|illustration|shown|illustrated|monument|landform|rock-art|refer\s+to)\b/i.test(text)) {
       if (imgIdx < images.length) {
         q.image = images[imgIdx++];
       }
