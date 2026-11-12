@@ -1765,10 +1765,6 @@ const extractJpegStreamsFromPdf = extractImagesFromPdf;
 async function parsePdfDocument(arrayBuffer) {
   let fullText = '';
   let extractedImages = extractImagesFromPdf(arrayBuffer) || [];
-  const imageSignatures = new Set();
-  extractedImages.forEach(img => {
-    imageSignatures.add(img.length + ':' + img.slice(0, 100));
-  });
 
   if (window.pdfjsLib) {
     try {
@@ -1788,64 +1784,9 @@ async function parsePdfDocument(arrayBuffer) {
           lastY = item.transform[5];
         }
         fullText += pageStr + '\n\n';
-
-        // Extract any image XObjects (PNG, Flate, CMYK, etc.)
-        try {
-          const ops = await page.getOperatorList();
-          for (let k = 0; k < ops.fnArray.length; k++) {
-            if (ops.fnArray[k] === pdfjsLib.OPS.paintImageXObject) {
-              const imgName = ops.argsArray[k][0];
-              let imgObj = null;
-              if (page.objs && page.objs.has && page.objs.has(imgName)) {
-                imgObj = await new Promise(res => page.objs.get(imgName, res));
-              } else if (page.commonObjs && page.commonObjs.has && page.commonObjs.has(imgName)) {
-                imgObj = await new Promise(res => page.commonObjs.get(imgName, res));
-              }
-
-              if (imgObj) {
-                const w = imgObj.width || (imgObj.bitmap ? imgObj.bitmap.width : 0);
-                const h = imgObj.height || (imgObj.bitmap ? imgObj.bitmap.height : 0);
-                if (w >= 40 && h >= 40) {
-                  const canvas = document.createElement('canvas');
-                  canvas.width = w;
-                  canvas.height = h;
-                  const ctx = canvas.getContext('2d');
-                  if (imgObj.bitmap) {
-                    ctx.drawImage(imgObj.bitmap, 0, 0);
-                    const url = canvas.toDataURL('image/png');
-                    const sig = url.length + ':' + url.slice(0, 100);
-                    if (!imageSignatures.has(sig)) {
-                      imageSignatures.add(sig);
-                      extractedImages.push(url);
-                    }
-                  } else if (imgObj.data) {
-                    const imgData = ctx.createImageData(w, h);
-                    if (imgObj.data.length === w * h * 4) {
-                      imgData.data.set(imgObj.data);
-                    } else if (imgObj.data.length === w * h * 3) {
-                      let sI = 0, dI = 0;
-                      for (let p = 0; p < w * h; p++) {
-                        imgData.data[dI++] = imgObj.data[sI++];
-                        imgData.data[dI++] = imgObj.data[sI++];
-                        imgData.data[dI++] = imgObj.data[sI++];
-                        imgData.data[dI++] = 255;
-                      }
-                    }
-                    ctx.putImageData(imgData, 0, 0);
-                    const url = canvas.toDataURL('image/png');
-                    const sig = url.length + ':' + url.slice(0, 100);
-                    if (!imageSignatures.has(sig)) {
-                      imageSignatures.add(sig);
-                      extractedImages.push(url);
-                    }
-                  }
-                }
-              }
-            }
-          }
-        } catch(e) {}
       }
 
+      // If document is a scanned PDF (minimal selectable text and no embedded images), render pages to canvas
       if (fullText.trim().length < 50 && extractedImages.length === 0) {
         for (let pageNum = 1; pageNum <= Math.min(pdf.numPages, 30); pageNum++) {
           const page = await pdf.getPage(pageNum);
@@ -2023,7 +1964,7 @@ function attachImagesToQuestions(questions, images) {
   // Pass 1: Questions with visual keywords (image, diagram, figure, chart, photo, graph, map, etc.)
   questions.forEach(q => {
     const text = (q.q || '').toLowerCase();
-    if (/\b(image|diagram|figure|picture|photo|photograph|illustration|illustrated|chart|graph|map|structure|monument|landform|rock-art|table|equation|formula|circuit|symbol|specimen|shown|following|given\s+below|refer\s+to|observe|identify)\b/i.test(text)) {
+    if (/\b(image|diagram|figure|picture|photo|photograph|illustration|illustrated|chart|graph|map|structure|monument|landform|rock-art|circuit|symbol|specimen|shown\s+in|shown\s+below|refer\s+to)\b/i.test(text)) {
       if (imgIdx < images.length && !q.image) {
         q.image = images[imgIdx++];
       }
