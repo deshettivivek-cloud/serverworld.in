@@ -808,7 +808,7 @@ function formatQuestionStatement(q){
     }
     html += `
       <div class="mtz-q-image-wrap">
-        <img src="${src}" alt="Question Diagram / Image" class="mtz-q-img" onclick="openInExamImageZoom(this.src)" title="Click to enlarge diagram">
+        <img src="${src}" alt="Question Diagram / Image" class="mtz-q-img" onclick="openInExamImageZoom(this.src)" onerror="this.closest('.mtz-q-image-wrap').style.display='none'" title="Click to enlarge diagram">
         <div style="font-size:12.5px;color:#64748b;margin-top:6px">🔍 Click diagram to enlarge (In-Exam Zoom)</div>
       </div>
     `;
