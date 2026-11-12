@@ -218,7 +218,13 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:#1565D8;box-sh
               <input id="ceCertThreshold" type="number" value="85" min="1" max="100" title="Minimum percentage required for Certificate">
             </div>
           </div>
-          <label style="font-size:12px;font-weight:600">Paste Questions (Q|OptA|OptB|OptC|OptD|AnsIndex 0-3|Marks|Expl):</label>
+          <div style="margin:8px 0">
+            <label style="font-size:12px;font-weight:600">Upload Question Paper File (PDF / CSV / TXT):</label>
+            <input type="file" id="ceFileInput" accept=".pdf,.csv,.txt" onchange="handleCeFilePick(this)" style="font-size:12px;padding:6px;border:1px dashed #cbd5e1;border-radius:6px;width:100%;background:#f8fafc">
+            <div id="ceFileStatus" style="display:none;margin-top:4px;font-size:12px;font-weight:700"></div>
+            <div id="ceExtractedImagesBar" style="display:none;margin-top:6px;gap:8px;flex-wrap:wrap;padding:8px;background:#f0f9ff;border:1px solid #bae6fd;border-radius:6px"></div>
+          </div>
+          <label style="font-size:12px;font-weight:600">Or Paste Questions (Q|OptA|OptB|OptC|OptD|AnsIndex 0-3|Marks|Expl or 1. Question format):</label>
           <textarea id="ceQuestionsText" rows="3" placeholder="What is the capital of Telangana?|Hyderabad|Warangal|Nizamabad|Karimnagar|0|1|Hyderabad is capital"></textarea>
           <button type="submit" class="btn btn-blue" style="width:100%;margin-top:10px;justify-content:center">Create Assessment</button>
         </form>
@@ -227,15 +233,17 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:#1565D8;box-sh
       <!-- 2. IMPORT QUESTIONS INTO EXISTING ASSESSMENT -->
       <div class="card" id="uploadFileCard">
         <h4 style="margin-top:0;color:#7c3aed">2. Import Questions into Existing Assessment</h4>
-        <p style="font-size:12px;color:#64748b;margin-bottom:12px">Paste or upload CSV / TXT questions directly into an active assessment.</p>
+        <p style="font-size:12px;color:#64748b;margin-bottom:12px">Upload PDF question paper (with automatic diagram extraction), CSV, or TXT.</p>
         <form onsubmit="handleImportQuestionsDirect(event)">
           <label style="font-size:12px;font-weight:600">Select Target Assessment</label>
           <select id="importTargetExamSelect" required>
             <!-- Populated dynamically -->
           </select>
-          <label style="font-size:12px;font-weight:600">Select CSV / TXT File</label>
-          <input type="file" id="importQuestionsFileInput" accept=".csv,.txt" onchange="handleQuestionFilePick(this)">
-          <label style="font-size:12px;font-weight:600;margin-top:4px">Or Paste Questions (CSV / Pipe-Separated):</label>
+          <label style="font-size:12px;font-weight:600">Select Question File (PDF, CSV, or TXT)</label>
+          <input type="file" id="importQuestionsFileInput" accept=".pdf,.csv,.txt" onchange="handleQuestionFilePick(this)" style="font-size:12px;padding:6px;border:1px dashed #cbd5e1;border-radius:6px;width:100%;background:#f8fafc">
+          <div id="importFileStatus" style="display:none;margin-top:4px;font-size:12px;font-weight:700"></div>
+          <div id="importExtractedImagesBar" style="display:none;margin-top:6px;gap:8px;flex-wrap:wrap;padding:8px;background:#f5f3ff;border:1px solid #ddd6fe;border-radius:6px"></div>
+          <label style="font-size:12px;font-weight:600;margin-top:6px">Or Paste Questions (CSV / Pipe-Separated or Numbered):</label>
           <textarea id="importQuestionsTextArea" rows="4" placeholder="What is the square root of 64?|6|7|8|9|2|1|8x8=64"></textarea>
           <button type="submit" class="btn btn-purple" style="width:100%;margin-top:10px;justify-content:center">Import Questions into Assessment &rarr;</button>
         </form>
@@ -717,6 +725,17 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:#1565D8;box-sh
       </div>
       <label style="font-size:12px;font-weight:600">Explanation</label>
       <input id="eqExp">
+      <div style="margin-top:6px">
+        <label style="font-size:12px;font-weight:600;display:block">Question Diagram / Image</label>
+        <div style="display:flex;gap:6px;align-items:center">
+          <input type="text" id="eqImage" placeholder="data:image/... or URL" style="flex:1;font-size:12px" oninput="updateEqImagePreview(this.value)">
+          <input type="file" id="eqImageFileInput" accept="image/*" style="display:none" onchange="handleEqImageUpload(this)">
+          <button type="button" class="btn btn-blue" onclick="document.getElementById('eqImageFileInput').click()" style="padding:6px 12px;font-size:12px;white-space:nowrap">📷 Pick Image</button>
+        </div>
+        <div id="eqImagePreviewBox" style="display:none;margin-top:6px;text-align:center;padding:8px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:6px">
+          <img id="eqImagePreview" style="max-height:140px;border-radius:4px" alt="Preview">
+        </div>
+      </div>
       <div style="display:flex;gap:8px;margin-top:16px">
         <button type="button" class="btn" style="background:#e2e8f0;color:#1e293b" onclick="closeEditQModal()">Cancel</button>
         <button type="submit" class="btn btn-blue" style="flex:1;justify-content:center">Save Changes</button>
@@ -734,8 +753,12 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:#1565D8;box-sh
     </div>
     <form onsubmit="handleImportQuestionsFromModal(event)">
       <input type="hidden" id="modalExamId">
-      <p style="font-size:12px;color:#64748b;margin-bottom:14px">Select or paste questions to import into this examination.</p>
-      <label style="font-size:12px;font-weight:600">Paste Questions (Pipe separated):</label>
+      <p style="font-size:12px;color:#64748b;margin-bottom:10px">Upload a PDF question paper (diagrams &amp; images auto-extracted), CSV, or TXT file.</p>
+      <label style="font-size:12px;font-weight:600">Select Question File (PDF / CSV / TXT):</label>
+      <input type="file" id="modalFileInput" accept=".pdf,.csv,.txt" onchange="handleModalFilePick(this)" style="font-size:12px;padding:6px;border:1px dashed #cbd5e1;border-radius:6px;width:100%;background:#f8fafc">
+      <div id="modalFileStatus" style="display:none;margin:4px 0;font-size:12px;font-weight:700"></div>
+      <div id="modalExtractedImagesBar" style="display:none;margin:6px 0;padding:8px;background:#f5f3ff;border:1px solid #ddd6fe;border-radius:6px"></div>
+      <label style="font-size:12px;font-weight:600;margin-top:6px">Or Paste Questions (Pipe-separated or Numbered):</label>
       <textarea id="modalQuestionsText" rows="5" placeholder="Question|OptA|OptB|OptC|OptD|AnsIndex 0-3|Marks|Explanation" style="width:100%"></textarea>
       <div style="display:flex;gap:8px;margin-top:12px">
         <button type="button" class="btn" style="background:#e2e8f0;color:#1e293b" onclick="closeAddQuestionsModal()">Cancel</button>
@@ -953,7 +976,13 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:#1565D8;box-sh
   </div>
 </div>
 
-<!-- ==================== JAVASCRIPT ENGINE & SUPABASE CLOUD ==================== -->
+<!-- ==================== JAVASCRIPT ENGINE, PDF.JS & SUPABASE CLOUD ==================== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+  if (window.pdfjsLib) {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  }
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase_client.js"></script>
 <script>
@@ -1553,8 +1582,13 @@ function handleCreateExam(e){
   const vis = document.getElementById('ceResultVis').value;
   const cert = parseInt(document.getElementById('ceCertThreshold').value) || 85;
 
-  const rawQText = document.getElementById('ceQuestionsText').value.trim();
-  const parsedQuestions = parsePipeQuestions(rawQText);
+  let parsedQuestions = [];
+  if (window.tempCeQuestions && window.tempCeQuestions.length > 0) {
+    parsedQuestions = window.tempCeQuestions;
+  } else {
+    const rawQText = document.getElementById('ceQuestionsText').value.trim();
+    parsedQuestions = parseQuestionsFromTextAndImages(rawQText, window.tempCeImages || []);
+  }
 
   const newExam = {
     id: Date.now(),
@@ -1577,40 +1611,379 @@ function handleCreateExam(e){
   if(typeof dbSaveExam === 'function') dbSaveExam(newExam);
   renderAll();
 
+  window.tempCeQuestions = null;
+  window.tempCeImages = null;
   document.getElementById('ceTitle').value = '';
   document.getElementById('ceQuestionsText').value = '';
   document.getElementById('ceAccessCode').value = '';
-  showFlash(`Created assessment '${title}'. Access Code: ${code || 'OPEN'}.`);
+  const ceFile = document.getElementById('ceFileInput');
+  if (ceFile) ceFile.value = '';
+  const ceStatus = document.getElementById('ceFileStatus');
+  if (ceStatus) ceStatus.style.display = 'none';
+  const ceBar = document.getElementById('ceExtractedImagesBar');
+  if (ceBar) ceBar.style.display = 'none';
+  showFlash(`Created assessment '${title}' with ${parsedQuestions.length} questions. Access Code: ${code || 'OPEN'}.`);
+}
+
+// ==================== PDF, CSV, TXT & DIAGRAM EXTRACTION ENGINE ====================
+function uint8ArrayToBase64(bytes) {
+  let binary = '';
+  const len = bytes.byteLength;
+  const chunkSize = 8192;
+  for (let i = 0; i < len; i += chunkSize) {
+    const chunk = bytes.subarray(i, Math.min(i + chunkSize, len));
+    binary += String.fromCharCode.apply(null, chunk);
+  }
+  return btoa(binary);
+}
+
+function extractJpegStreamsFromPdf(arrayBuffer) {
+  const images = [];
+  const bytes = new Uint8Array(arrayBuffer);
+  const len = bytes.length;
+
+  for (let i = 0; i < len - 4; i++) {
+    if (bytes[i] === 0xFF && bytes[i + 1] === 0xD8 && bytes[i + 2] === 0xFF) {
+      const start = i;
+      let end = -1;
+      for (let j = start + 3; j < len - 1; j++) {
+        if (bytes[j] === 0xFF && bytes[j + 1] === 0xD9) {
+          end = j + 2;
+          break;
+        }
+      }
+      if (end !== -1) {
+        const size = end - start;
+        if (size >= 1200) {
+          const slice = bytes.subarray(start, end);
+          const b64 = uint8ArrayToBase64(slice);
+          images.push('data:image/jpeg;base64,' + b64);
+        }
+        i = end;
+      }
+    }
+  }
+  return images;
+}
+
+async function parsePdfDocument(arrayBuffer) {
+  let fullText = '';
+  let extractedImages = extractJpegStreamsFromPdf(arrayBuffer);
+
+  if (window.pdfjsLib) {
+    try {
+      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+        const page = await pdf.getPage(pageNum);
+        const textContent = await page.getTextContent();
+        let lastY = null;
+        let pageStr = '';
+        for (const item of textContent.items) {
+          if (lastY !== null && Math.abs(item.transform[5] - lastY) > 5) {
+            pageStr += '\n';
+          } else if (pageStr.length > 0 && !pageStr.endsWith(' ') && !pageStr.endsWith('\n')) {
+            pageStr += ' ';
+          }
+          pageStr += item.str;
+          lastY = item.transform[5];
+        }
+        fullText += pageStr + '\n\n';
+
+        if (extractedImages.length === 0) {
+          try {
+            const ops = await page.getOperatorList();
+            for (let k = 0; k < ops.fnArray.length; k++) {
+              if (ops.fnArray[k] === pdfjsLib.OPS.paintImageXObject) {
+                const imgName = ops.argsArray[k][0];
+                const imgObj = page.objs.get(imgName);
+                if (imgObj && imgObj.width >= 60 && imgObj.height >= 60) {
+                  const canvas = document.createElement('canvas');
+                  canvas.width = imgObj.width;
+                  canvas.height = imgObj.height;
+                  const ctx = canvas.getContext('2d');
+                  const imgData = ctx.createImageData(imgObj.width, imgObj.height);
+                  if (imgObj.data.length === imgObj.width * imgObj.height * 4) {
+                    imgData.data.set(imgObj.data);
+                  } else if (imgObj.data.length === imgObj.width * imgObj.height * 3) {
+                    let sI = 0, dI = 0;
+                    for (let p = 0; p < imgObj.width * imgObj.height; p++) {
+                      imgData.data[dI++] = imgObj.data[sI++];
+                      imgData.data[dI++] = imgObj.data[sI++];
+                      imgData.data[dI++] = imgObj.data[sI++];
+                      imgData.data[dI++] = 255;
+                    }
+                  }
+                  ctx.putImageData(imgData, 0, 0);
+                  extractedImages.push(canvas.toDataURL('image/png'));
+                }
+              }
+            }
+          } catch(e) {}
+        }
+      }
+
+      if (fullText.trim().length < 50 && extractedImages.length === 0) {
+        for (let pageNum = 1; pageNum <= Math.min(pdf.numPages, 30); pageNum++) {
+          const page = await pdf.getPage(pageNum);
+          const viewport = page.getViewport({ scale: 1.5 });
+          const canvas = document.createElement('canvas');
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          const ctx = canvas.getContext('2d');
+          await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+          extractedImages.push(canvas.toDataURL('image/jpeg', 0.85));
+        }
+      }
+    } catch(err) {
+      console.warn('PDF.js parsing error:', err);
+    }
+  }
+
+  const questions = parseQuestionsFromTextAndImages(fullText, extractedImages);
+  return { text: fullText, images: extractedImages, questions: questions };
+}
+
+function parseQuestionsFromTextAndImages(text, extractedImages = []) {
+  if (!text) return [];
+  text = text.trim();
+
+  const lines = text.split(/\r?\n/);
+  let pipeCount = 0;
+  for (let l of lines) {
+    if (l.trim().split('|').length >= 5) pipeCount++;
+  }
+  if (pipeCount >= 2 || (lines.length <= 6 && pipeCount >= 1)) {
+    const pipeQs = [];
+    lines.forEach((line, i) => {
+      line = line.trim();
+      if (!line) return;
+      const parts = line.split('|');
+      if (parts.length >= 2) {
+        const q = parts[0] ? parts[0].trim() : 'Question ' + (i + 1);
+        const optA = parts[1] ? parts[1].trim() : '';
+        const optB = parts[2] ? parts[2].trim() : '';
+        const optC = parts[3] ? parts[3].trim() : '';
+        const optD = parts[4] ? parts[4].trim() : '';
+        const ans = parseInt(parts[5] || 0) || 0;
+        const marks = parseFloat(parts[6] || 1.0) || 1.0;
+        const exp = parts[7] ? parts[7].trim() : '';
+        pipeQs.push({
+          num: i + 1,
+          q,
+          opts: [optA, optB, optC, optD].filter(Boolean),
+          ans,
+          marks,
+          explanation: exp
+        });
+      }
+    });
+    if (pipeQs.length > 0) {
+      attachImagesToQuestions(pipeQs, extractedImages);
+      return pipeQs;
+    }
+  }
+
+  const questions = [];
+  let currentQ = null;
+  let qCounter = 1;
+  const answerKeyMap = {};
+  let inAnswerKey = false;
+  let currentPassage = '';
+
+  for (let i = 0; i < lines.length; i++) {
+    const rawLine = lines[i].trim();
+    if (!rawLine) continue;
+
+    if (/^Page\s+\d+/i.test(rawLine) || /^SERVER\s+WORLD/i.test(rawLine) || /^_{3,}$/.test(rawLine)) continue;
+
+    if (/^(?:Answer\s*Key|Answers?|Solutions?)\b/i.test(rawLine)) {
+      inAnswerKey = true;
+      if (currentQ) { finalizeQuestion(currentQ, questions); currentQ = null; }
+      continue;
+    }
+    if (inAnswerKey) {
+      const akm = rawLine.match(/(?:Q(?:uestion)?[\.\s]*)?(\d+)[\.\:\-\)]\s*([A-Da-d0-4])/i);
+      if (akm) {
+        const qNum = parseInt(akm[1]);
+        const val = akm[2].toUpperCase();
+        answerKeyMap[qNum] = isNaN(val) ? (val.charCodeAt(0) - 65) : parseInt(val);
+      }
+      continue;
+    }
+
+    const qMatch = rawLine.match(/^(?:Q(?:uestion)?[\.\s]*)?(\d+)[\.\:\)\\\/\-]\s*(.*)$/i);
+    if (qMatch && !/^[A-Da-d][\.\)]/.test(rawLine)) {
+      if (currentQ) { finalizeQuestion(currentQ, questions); currentQ = null; }
+      let qText = qMatch[2] ? qMatch[2].trim() : '';
+      currentQ = {
+        num: qCounter++,
+        q: qText,
+        opts_raw: '',
+        opts: [],
+        ans: 0,
+        marks: 1.0,
+        explanation: '',
+        passage: currentPassage
+      };
+      continue;
+    }
+
+    const ansMatch = rawLine.match(/^(?:Ans(?:wer)?|Correct(?:\s*Answer)?|Key)\s*[\:\-]\s*\(?([A-Da-d0-3])\)?/i);
+    if (ansMatch && currentQ) {
+      const val = ansMatch[1].toUpperCase();
+      currentQ.ans = isNaN(val) ? Math.max(0, val.charCodeAt(0) - 65) : parseInt(val);
+      continue;
+    }
+
+    const expMatch = rawLine.match(/^(?:Explanation|Solution|Expl)\s*[\:\-]\s*(.+)$/i);
+    if (expMatch && currentQ) {
+      currentQ.explanation = expMatch[1].trim();
+      continue;
+    }
+
+    if (currentQ) {
+      if (/(?:^|\s)[A-Da-d][\.\:\)]/.test(rawLine) || currentQ.opts_raw) {
+        currentQ.opts_raw += ' ' + rawLine;
+      } else {
+        currentQ.q += ' ' + rawLine;
+      }
+    }
+  }
+
+  if (currentQ) finalizeQuestion(currentQ, questions);
+
+  questions.forEach(q => {
+    if (answerKeyMap[q.num] !== undefined) {
+      q.ans = answerKeyMap[q.num];
+    }
+  });
+
+  attachImagesToQuestions(questions, extractedImages);
+
+  if (questions.length === 0 && extractedImages.length > 0) {
+    extractedImages.forEach((img, idx) => {
+      const qNum = idx + 1;
+      questions.push({
+        num: qNum,
+        q: `Question ${qNum}: Refer to the examination diagram / paper question shown below and select the correct option.`,
+        image: img,
+        opts: ['Option (A)', 'Option (B)', 'Option (C)', 'Option (D)'],
+        ans: 0,
+        marks: 1.0,
+        explanation: `Question ${qNum} from uploaded examination document.`
+      });
+    });
+  }
+
+  return questions;
+}
+
+function finalizeQuestion(qObj, questionsList) {
+  if (qObj.opts_raw) {
+    const parts = qObj.opts_raw.split(/(?:^|\s)(?:[A-Da-d1-4])[\.\:\)]\s*/).map(s => s.trim()).filter(Boolean);
+    if (parts.length >= 2) {
+      qObj.opts = parts.slice(0, 4);
+    }
+  }
+  if (!qObj.opts || qObj.opts.length === 0) {
+    qObj.opts = ['Option A', 'Option B', 'Option C', 'Option D'];
+  }
+  delete qObj.opts_raw;
+  questionsList.push(qObj);
+}
+
+function attachImagesToQuestions(questions, images) {
+  if (!questions.length || !images.length) return;
+
+  let imgIdx = 0;
+  questions.forEach(q => {
+    const text = (q.q || '').toLowerCase();
+    if (/\b(image|diagram|figure|picture|photo|illustration|shown\s+below|refer\s+to|illustrated)\b/i.test(text)) {
+      if (imgIdx < images.length) {
+        q.image = images[imgIdx++];
+      }
+    }
+  });
+
+  if (imgIdx === 0 && images.length === questions.length) {
+    for (let k = 0; k < questions.length; k++) {
+      questions[k].image = images[k];
+    }
+  } else if (imgIdx === 0 && images.length > 0) {
+    for (let k = 0; k < Math.min(images.length, questions.length); k++) {
+      questions[k].image = images[k];
+    }
+  }
+}
+
+function formatQuestionsAsPipeText(qs) {
+  return qs.map(q => {
+    const opts = q.opts || [];
+    return `${q.q || ''}|${opts[0] || ''}|${opts[1] || ''}|${opts[2] || ''}|${opts[3] || ''}|${q.ans || 0}|${q.marks || 1}|${q.explanation || ''}`;
+  }).join('\n');
+}
+
+function renderExtractedImagesPreview(images, barEl, questions) {
+  if (!barEl) return;
+  if (!images || images.length === 0) {
+    barEl.style.display = 'none';
+    barEl.innerHTML = '';
+    return;
+  }
+  barEl.style.display = 'flex';
+  let html = `<div style="width:100%;font-size:12px;font-weight:700;color:#1e40af;margin-bottom:6px">📷 Extracted Diagrams &amp; Images (${images.length} found):</div>`;
+  images.forEach((img, i) => {
+    const linkedQ = questions && questions.find(q => q.image === img);
+    const badge = linkedQ ? `Linked to Q${linkedQ.num}` : `Image #${i + 1}`;
+    html += `
+      <div style="background:#fff;border:1px solid #cbd5e1;border-radius:6px;padding:4px;text-align:center;max-width:120px">
+        <img src="${img}" style="max-height:60px;max-width:100%;border-radius:4px;cursor:pointer" onclick="window.open(this.src, '_blank')" title="Click to view full image">
+        <div style="font-size:10px;font-weight:700;color:#0284c7;margin-top:2px">${escapeHtml(badge)}</div>
+      </div>
+    `;
+  });
+  barEl.innerHTML = html;
+}
+
+// 4. File Pickers for Card 1, Card 2, and Modal
+async function handleCeFilePick(input) {
+  const file = input.files && input.files[0];
+  if (!file) return;
+  const statusEl = document.getElementById('ceFileStatus');
+  const barEl = document.getElementById('ceExtractedImagesBar');
+  statusEl.style.display = 'block';
+  statusEl.style.color = '#2563eb';
+  statusEl.innerText = `⏳ Processing '${file.name}'...`;
+
+  try {
+    const ext = file.name.split('.').pop().toLowerCase();
+    if (ext === 'pdf') {
+      const buffer = await file.arrayBuffer();
+      const res = await parsePdfDocument(buffer);
+      window.tempCeQuestions = res.questions;
+      window.tempCeImages = res.images;
+      document.getElementById('ceQuestionsText').value = formatQuestionsAsPipeText(res.questions);
+      statusEl.style.color = '#15803d';
+      statusEl.innerText = `✓ Extracted ${res.questions.length} question(s) & ${res.images.length} diagram(s) from '${file.name}'.`;
+      renderExtractedImagesPreview(res.images, barEl, res.questions);
+    } else {
+      const text = await file.text();
+      const qs = parseQuestionsFromTextAndImages(text, []);
+      window.tempCeQuestions = qs;
+      window.tempCeImages = [];
+      document.getElementById('ceQuestionsText').value = formatQuestionsAsPipeText(qs);
+      statusEl.style.color = '#15803d';
+      statusEl.innerText = `✓ Extracted ${qs.length} question(s) from '${file.name}'.`;
+      renderExtractedImagesPreview([], barEl, qs);
+    }
+  } catch(err) {
+    statusEl.style.color = '#dc2626';
+    statusEl.innerText = '❌ Failed to process file: ' + err.message;
+  }
 }
 
 function parsePipeQuestions(text){
-  if(!text) return [];
-  const lines = text.split('\n');
-  const qs = [];
-  lines.forEach((line, i) => {
-    line = line.trim();
-    if(!line) return;
-    const parts = line.split('|');
-    if(parts.length >= 2){
-      const q = parts[0] ? parts[0].trim() : 'Question ' + (i+1);
-      const optA = parts[1] ? parts[1].trim() : '';
-      const optB = parts[2] ? parts[2].trim() : '';
-      const optC = parts[3] ? parts[3].trim() : '';
-      const optD = parts[4] ? parts[4].trim() : '';
-      const ans = parseInt(parts[5] || 0) || 0;
-      const marks = parseFloat(parts[6] || 1.0) || 1.0;
-      const exp = parts[7] ? parts[7].trim() : '';
-      qs.push({
-        num: i + 1,
-        q,
-        opts: [optA, optB, optC, optD].filter(Boolean),
-        ans,
-        marks,
-        explanation: exp
-      });
-    }
-  });
-  return qs;
+  return parseQuestionsFromTextAndImages(text, []);
 }
 
 function toggleExamTestType(id){
@@ -1648,14 +2021,48 @@ function deleteExam(idx){
   }
 }
 
-// IMPORT QUESTIONS
-function handleQuestionFilePick(input){
-  if(input.files && input.files[0]){
-    const reader = new FileReader();
-    reader.onload = function(e){
-      document.getElementById('importQuestionsTextArea').value = e.target.result;
-    };
-    reader.readAsText(input.files[0]);
+// IMPORT QUESTIONS FOR CARD 2
+async function handleQuestionFilePick(input){
+  const file = input.files && input.files[0];
+  if (!file) return;
+  const statusEl = document.getElementById('importFileStatus');
+  const barEl = document.getElementById('importExtractedImagesBar');
+  if (statusEl) {
+    statusEl.style.display = 'block';
+    statusEl.style.color = '#7c3aed';
+    statusEl.innerText = `⏳ Processing '${file.name}'...`;
+  }
+
+  try {
+    const ext = file.name.split('.').pop().toLowerCase();
+    if (ext === 'pdf') {
+      const buffer = await file.arrayBuffer();
+      const res = await parsePdfDocument(buffer);
+      window.tempImportQuestions = res.questions;
+      window.tempImportImages = res.images;
+      document.getElementById('importQuestionsTextArea').value = formatQuestionsAsPipeText(res.questions);
+      if (statusEl) {
+        statusEl.style.color = '#15803d';
+        statusEl.innerText = `✓ Extracted ${res.questions.length} question(s) & ${res.images.length} diagram(s) from '${file.name}'.`;
+      }
+      renderExtractedImagesPreview(res.images, barEl, res.questions);
+    } else {
+      const text = await file.text();
+      const qs = parseQuestionsFromTextAndImages(text, []);
+      window.tempImportQuestions = qs;
+      window.tempImportImages = [];
+      document.getElementById('importQuestionsTextArea').value = formatQuestionsAsPipeText(qs);
+      if (statusEl) {
+        statusEl.style.color = '#15803d';
+        statusEl.innerText = `✓ Extracted ${qs.length} question(s) from '${file.name}'.`;
+      }
+      renderExtractedImagesPreview([], barEl, qs);
+    }
+  } catch(err) {
+    if (statusEl) {
+      statusEl.style.color = '#dc2626';
+      statusEl.innerText = '❌ Failed to process file: ' + err.message;
+    }
   }
 }
 
@@ -1665,15 +2072,32 @@ function handleImportQuestionsDirect(e){
   const text = document.getElementById('importQuestionsTextArea').value.trim();
   const ex = exams.find(x => x.id === examId);
   if(!ex) return alert('Select assessment first');
-  const qs = parsePipeQuestions(text);
-  if(qs.length === 0) return alert('No questions found to import. Format: Q|OptA|OptB|OptC|OptD|AnsIndex|Marks|Expl');
+
+  let qs = [];
+  if (window.tempImportQuestions && window.tempImportQuestions.length > 0) {
+    qs = window.tempImportQuestions;
+  } else {
+    qs = parseQuestionsFromTextAndImages(text, window.tempImportImages || []);
+  }
+
+  if(qs.length === 0) return alert('No questions found to import. Supported: PDF question papers, CSV, and Numbered text (1. Question... A. Opt...)');
 
   if(!ex.questions) ex.questions = [];
   ex.questions = ex.questions.concat(qs);
   saveAllState();
   if(typeof dbSaveExam === 'function') dbSaveExam(ex);
   renderAll();
+
+  window.tempImportQuestions = null;
+  window.tempImportImages = null;
   document.getElementById('importQuestionsTextArea').value = '';
+  const fileInp = document.getElementById('importQuestionsFileInput');
+  if (fileInp) fileInp.value = '';
+  const statusEl = document.getElementById('importFileStatus');
+  if (statusEl) statusEl.style.display = 'none';
+  const barEl = document.getElementById('importExtractedImagesBar');
+  if (barEl) barEl.style.display = 'none';
+
   showFlash(`Imported ${qs.length} question(s) into '${ex.title}'.`);
 }
 
@@ -1681,24 +2105,88 @@ function openAddQuestionsModal(id, title){
   document.getElementById('modalExamId').value = id;
   document.getElementById('modalExamTitle').innerText = 'Import Questions: ' + title;
   document.getElementById('modalQuestionsText').value = '';
+  const modalFile = document.getElementById('modalFileInput');
+  if (modalFile) modalFile.value = '';
+  const statusEl = document.getElementById('modalFileStatus');
+  if (statusEl) statusEl.style.display = 'none';
+  const barEl = document.getElementById('modalExtractedImagesBar');
+  if (barEl) barEl.style.display = 'none';
+  window.tempModalQuestions = null;
+  window.tempModalImages = null;
   document.getElementById('addQModal').style.display = 'flex';
 }
 function closeAddQuestionsModal(){
   document.getElementById('addQModal').style.display = 'none';
 }
+
+async function handleModalFilePick(input){
+  const file = input.files && input.files[0];
+  if (!file) return;
+  const statusEl = document.getElementById('modalFileStatus');
+  const barEl = document.getElementById('modalExtractedImagesBar');
+  if (statusEl) {
+    statusEl.style.display = 'block';
+    statusEl.style.color = '#2563eb';
+    statusEl.innerText = `⏳ Processing '${file.name}'...`;
+  }
+
+  try {
+    const ext = file.name.split('.').pop().toLowerCase();
+    if (ext === 'pdf') {
+      const buffer = await file.arrayBuffer();
+      const res = await parsePdfDocument(buffer);
+      window.tempModalQuestions = res.questions;
+      window.tempModalImages = res.images;
+      document.getElementById('modalQuestionsText').value = formatQuestionsAsPipeText(res.questions);
+      if (statusEl) {
+        statusEl.style.color = '#15803d';
+        statusEl.innerText = `✓ Extracted ${res.questions.length} question(s) & ${res.images.length} diagram(s) from '${file.name}'.`;
+      }
+      renderExtractedImagesPreview(res.images, barEl, res.questions);
+    } else {
+      const text = await file.text();
+      const qs = parseQuestionsFromTextAndImages(text, []);
+      window.tempModalQuestions = qs;
+      window.tempModalImages = [];
+      document.getElementById('modalQuestionsText').value = formatQuestionsAsPipeText(qs);
+      if (statusEl) {
+        statusEl.style.color = '#15803d';
+        statusEl.innerText = `✓ Extracted ${qs.length} question(s) from '${file.name}'.`;
+      }
+      renderExtractedImagesPreview([], barEl, qs);
+    }
+  } catch(err) {
+    if (statusEl) {
+      statusEl.style.color = '#dc2626';
+      statusEl.innerText = '❌ Failed to process file: ' + err.message;
+    }
+  }
+}
+
 function handleImportQuestionsFromModal(e){
   e.preventDefault();
   const id = parseInt(document.getElementById('modalExamId').value);
   const text = document.getElementById('modalQuestionsText').value.trim();
   const ex = exams.find(x => x.id === id);
   if(!ex) return;
-  const qs = parsePipeQuestions(text);
-  if(qs.length === 0) return alert('Please enter at least one question.');
+
+  let qs = [];
+  if (window.tempModalQuestions && window.tempModalQuestions.length > 0) {
+    qs = window.tempModalQuestions;
+  } else {
+    qs = parseQuestionsFromTextAndImages(text, window.tempModalImages || []);
+  }
+
+  if(qs.length === 0) return alert('Please enter or upload at least one question.');
+
   if(!ex.questions) ex.questions = [];
   ex.questions = ex.questions.concat(qs);
   saveAllState();
   if(typeof dbSaveExam === 'function') dbSaveExam(ex);
   renderAll();
+
+  window.tempModalQuestions = null;
+  window.tempModalImages = null;
   closeAddQuestionsModal();
   showFlash(`Successfully imported ${qs.length} question(s) into '${ex.title}'.`);
 }
@@ -1787,6 +2275,10 @@ function renderQmQuestionsList(ex){
             <span style="font-weight:800;color:#1565D8">Q${idx + 1}.</span>
             <span style="font-weight:600;color:#0f172a;margin-left:4px">${escapeHtml(q.q)}</span>
             ${q.passage ? `<div style="background:#f1f5f9;border-left:3px solid #0284c7;padding:6px 10px;border-radius:4px;margin:6px 0;font-size:12px;color:#334155;white-space:pre-wrap"><b>📖 Reference Passage:</b> ${escapeHtml(q.passage)}</div>` : ''}
+            ${q.image ? `<div style="margin:8px 0;background:#f8fafc;padding:6px;border-radius:6px;border:1px solid #e2e8f0;display:inline-block">
+              <div style="font-size:11px;font-weight:700;color:#0369a1;margin-bottom:2px">📷 Attached Diagram:</div>
+              <img src="${escapeHtml((q.image.startsWith('http') || q.image.startsWith('/') || q.image.startsWith('data:')) ? q.image : 'uploads/' + q.image)}" style="max-height:130px;max-width:100%;border-radius:4px;cursor:pointer" onclick="window.open(this.src, '_blank')" title="Click to view full image in a new tab">
+            </div>` : ''}
           </div>
           <div style="display:flex;gap:6px;flex-shrink:0">
             <span style="background:#e0f2fe;color:#0369a1;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:700">+${q.marks || 1} M</span>
@@ -1852,6 +2344,29 @@ function deleteQmQuestion(examId, qIdx){
 }
 
 // EDIT QUESTION MODAL
+function updateEqImagePreview(val) {
+  const box = document.getElementById('eqImagePreviewBox');
+  const img = document.getElementById('eqImagePreview');
+  if (!box || !img) return;
+  if (val && val.trim()) {
+    img.src = val.trim();
+    box.style.display = 'block';
+  } else {
+    box.style.display = 'none';
+  }
+}
+
+function handleEqImageUpload(input) {
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById('eqImage').value = e.target.result;
+      updateEqImagePreview(e.target.result);
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
 function openEditQModal(examId, qIdx){
   const ex = exams.find(e => e.id === examId);
   if(!ex || !ex.questions || !ex.questions[qIdx]) return;
@@ -1867,6 +2382,9 @@ function openEditQModal(examId, qIdx){
   document.getElementById('eqAns').value = q.ans !== undefined ? q.ans : 0;
   document.getElementById('eqMarks').value = q.marks || 1.0;
   document.getElementById('eqExp').value = q.explanation || '';
+  const imgVal = q.image || '';
+  document.getElementById('eqImage').value = imgVal;
+  updateEqImagePreview(imgVal);
   document.getElementById('editQModal').style.display = 'flex';
 }
 function closeEditQModal(){
@@ -1891,7 +2409,8 @@ function handleSaveEditQuestion(e){
     ].filter(Boolean),
     ans: parseInt(document.getElementById('eqAns').value) || 0,
     marks: parseFloat(document.getElementById('eqMarks').value) || 1.0,
-    explanation: document.getElementById('eqExp').value.trim()
+    explanation: document.getElementById('eqExp').value.trim(),
+    image: document.getElementById('eqImage').value.trim()
   };
   saveAllState();
   if(typeof dbSaveExam === 'function') dbSaveExam(ex);
@@ -2646,6 +3165,7 @@ function openCandidateReviewModal(idx){
         <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:14px">
           <div style="font-weight:800;color:#1e3a8a;margin-bottom:4px">Question ${s.num}</div>
           <div style="font-size:14px;font-weight:600;margin-bottom:8px">${escapeHtml(s.q)}</div>
+          ${s.image ? `<div style="margin:8px 0"><img src="${escapeHtml((s.image.startsWith('http') || s.image.startsWith('/') || s.image.startsWith('data:')) ? s.image : 'uploads/' + s.image)}" style="max-height:160px;max-width:100%;border-radius:4px;cursor:pointer" onclick="window.open(this.src, '_blank')" title="Click to view image"></div>` : ''}
           <div style="font-size:12.5px;margin-bottom:4px"><b>Candidate Answer:</b> <span style="color:${s.isCorrect ? '#15803d' : '#b91c1c'};font-weight:700">${escapeHtml(s.userAns !== null ? letters[s.userAns] || s.userAns : 'Unanswered')}</span></div>
           <div style="font-size:12.5px;color:#15803d;font-weight:700"><b>Correct Answer Key:</b> ${escapeHtml(s.correctAns || 'A')}</div>
           ${s.explanation ? `<div style="font-size:12px;color:#64748b;margin-top:6px">💡 ${escapeHtml(s.explanation)}</div>` : ''}

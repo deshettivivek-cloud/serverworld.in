@@ -6534,6 +6534,22 @@ function fallbackLocalSubmit(){
 
   let isClean = (ServerWorldTabSwitchCount === 0 && ServerWorldFullscreenExitCount === 0);
 
+  let solutionsList = ServerWorldQuestions.map((q, idx) => {
+    let uA = ServerWorldAnswers[idx];
+    let cA = q.ans !== undefined ? q.ans : 0;
+    let isCorr = (uA !== undefined && uA !== null && parseInt(uA) === parseInt(cA));
+    return {
+      num: idx + 1,
+      q: q.q || '',
+      opts: q.opts || [],
+      userAns: uA !== undefined ? uA : null,
+      correctAns: (q.opts && q.opts[cA]) ? q.opts[cA] : (['A','B','C','D'][cA] || cA),
+      isCorrect: isCorr,
+      explanation: q.explanation || '',
+      image: q.image || q.img || ''
+    };
+  });
+
   let resultPayload = {
     name: activeProfile.name || 'Candidate',
     roll: activeProfile.roll || 'SW001',
@@ -6552,6 +6568,7 @@ function fallbackLocalSubmit(){
     examId: examId,
     sectionAnalysis: sectionAnalysis,
     userAnswers: ServerWorldAnswers,
+    solutions: solutionsList,
     tabSwitchCount: ServerWorldTabSwitchCount,
     fullscreenExitCount: ServerWorldFullscreenExitCount,
     focusEvents: ServerWorldFocusEvents,
@@ -7144,7 +7161,7 @@ function renderSolutionsContent(){
 
         ${item.image ? `
           <div class="mtz-q-image-wrap" style="margin:10px 0 16px;text-align:center;background:#f8fafc;padding:12px;border-radius:8px;border:1px solid #e2e8f0">
-            <img src="${escapeHtml((item.image.startsWith('http') || item.image.startsWith('/')) ? item.image : (item.image.startsWith('uploads/') ? '' : 'uploads/') + item.image)}" alt="Question Diagram / Image" class="mtz-q-img" style="max-height:260px;cursor:pointer" onclick="window.open(this.src, '_blank')" title="Click to view full image in a new tab">
+            <img src="${escapeHtml((item.image.startsWith('http') || item.image.startsWith('/') || item.image.startsWith('data:')) ? item.image : (item.image.startsWith('uploads/') ? '' : 'uploads/') + item.image)}" alt="Question Diagram / Image" class="mtz-q-img" style="max-height:260px;cursor:pointer" onclick="window.open(this.src, '_blank')" title="Click to view full image in a new tab">
             <div style="font-size:12px;color:#64748b;margin-top:4px">🔍 Click image to enlarge</div>
           </div>
         ` : ''}
