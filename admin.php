@@ -865,6 +865,7 @@ if($isAuth && $_SERVER['REQUEST_METHOD']==='POST'){
     if(isset($_FILES['import_student_file']) && $_FILES['import_student_file']['error'] === UPLOAD_ERR_OK){
       $fileContent = file_get_contents($_FILES['import_student_file']['tmp_name']);
       if(!empty($fileContent)){
+        $fileContent = preg_replace('/^\xEF\xBB\xBF/', '', $fileContent);
         $rawText = $fileContent . "\n" . $rawText;
       }
     }
@@ -1216,7 +1217,8 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:#1565D8;box-sh
     <?php if($isAuth): ?>
       <a href="index.html" target="_blank" style="color:#fdba74;text-decoration:none;font-weight:700;margin-right:16px" title="Visit Company Homepage">🏢 Main Website</a>
       <a href="candidate_portal.html" target="_blank" style="color:#fff;text-decoration:none;font-weight:600;margin-right:16px">Candidate Portal</a>
-      <a href="sample_questions.csv" download style="color:#fde047;text-decoration:none;font-weight:700;margin-right:16px">Download Sample CSV</a>
+      <a href="sample_students_template.xlsx" download="sample_students_template.xlsx" style="color:#86efac;text-decoration:none;font-weight:700;margin-right:16px" title="Download Excel template for Bulk Student import">👥 Students Bulk Sheet (.xlsx)</a>
+      <a href="sample_questions.xlsx" download="sample_questions.xlsx" style="color:#93c5fd;text-decoration:none;font-weight:700;margin-right:16px" title="Download Excel template for Bulk Questions">📝 Questions Bulk Sheet (.xlsx)</a>
       <a href="?logout=1" style="color:#fecaca;text-decoration:none;font-weight:700">Sign Out</a>
     <?php endif; ?>
   </div>
@@ -1376,8 +1378,14 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:#1565D8;box-sh
             <input name="certificateThreshold" type="number" value="85" min="1" max="100" title="Minimum percentage required for Certificate">
           </div>
         </div>
-        <label style="font-size:12px;font-weight:600">Upload Question Paper File (PDF / CSV / TXT):</label>
-        <input type="file" name="examFile" accept=".csv,.txt,.pdf,.docx">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin:6px 0 4px">
+          <label style="font-size:12px;font-weight:600;margin:0">Upload Question Paper File (PDF / Excel / CSV / TXT):</label>
+          <div style="display:flex;gap:8px;font-size:11.5px">
+            <a href="sample_questions.xlsx" download="sample_questions.xlsx" style="color:#15803d;font-weight:700;text-decoration:none">📊 Sample Excel (.xlsx)</a>
+            <a href="sample_questions.csv" download="sample_questions.csv" style="color:#0284c7;font-weight:700;text-decoration:none">📄 Sample CSV</a>
+          </div>
+        </div>
+        <input type="file" name="examFile" accept=".csv,.txt,.pdf,.docx,.xlsx,.xls">
         <label style="font-size:12px;font-weight:600">Or Paste Questions (Q|OptA|OptB|OptC|OptD|AnsIndex 0-3|Marks|Expl):</label>
         <textarea name="questions" rows="3" placeholder="What is the capital of Telangana?|Hyderabad|Warangal|Nizamabad|Karimnagar|0|1|Hyderabad is capital"></textarea>
         <button class="btn btn-blue" style="width:100%;margin-top:10px;justify-content:center">Create Assessment</button>
@@ -1396,7 +1404,13 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:#1565D8;box-sh
             <option value="<?= intval($ex['id']) ?>"><?= htmlspecialchars($ex['title']) ?> (Code: <?= htmlspecialchars($ex['accessCode'] ?? '') ?>)</option>
           <?php endforeach; ?>
         </select>
-        <label style="font-size:12px;font-weight:600">Select Question File (PDF, CSV, or TXT)</label>
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin:6px 0 4px">
+          <label style="font-size:12px;font-weight:600;margin:0">Select Question File (PDF, CSV, or TXT)</label>
+          <div style="display:flex;gap:8px;font-size:11.5px">
+            <a href="sample_questions.xlsx" download="sample_questions.xlsx" style="color:#15803d;font-weight:700;text-decoration:none">📊 Sample Excel (.xlsx)</a>
+            <a href="sample_questions.csv" download="sample_questions.csv" style="color:#0284c7;font-weight:700;text-decoration:none">📄 Sample CSV</a>
+          </div>
+        </div>
         <input type="file" name="csvFile" accept=".csv,.txt,.pdf" required>
         <div style="font-size:12px;color:#64748b;margin:4px 0">Supported: Digital PDF question papers (1. Question, A. Option...), CSV, and text format.</div>
         <button class="btn btn-purple" style="width:100%;margin-top:10px;justify-content:center">Preview Questions &rarr;</button>
@@ -1843,9 +1857,17 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:#1565D8;box-sh
         <input type="hidden" name="action" value="bulk_import_students">
         <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:16px">
           <div>
-            <label style="font-size:12px;font-weight:700;color:#1e293b;display:flex;justify-content:space-between;margin-bottom:4px">
+            <label style="font-size:12px;font-weight:700;color:#1e293b;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;flex-wrap:wrap;gap:8px">
               <span>Paste Student Names, Roll Numbers &amp; Course *</span>
-              <a href="javascript:void(0)" onclick="insertSampleStudentData()" style="color:#2563eb;text-decoration:none;font-weight:600">📋 Paste Sample Format</a>
+              <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+                <a href="sample_students_template.xlsx" download="sample_students_template.xlsx" style="display:inline-flex;align-items:center;gap:4px;color:#15803d;background:#dcfce7;border:1px solid #86efac;padding:3px 8px;border-radius:4px;text-decoration:none;font-weight:700;font-size:11.5px" title="Download Excel (.xlsx) sheet template for Bulk Student import">
+                  📊 Download Bulk Excel Sheet (.xlsx)
+                </a>
+                <a href="sample_students_template.csv" download="sample_students_template.csv" style="display:inline-flex;align-items:center;gap:4px;color:#0284c7;background:#e0f2fe;border:1px solid #7dd3fc;padding:3px 8px;border-radius:4px;text-decoration:none;font-weight:700;font-size:11.5px" title="Download CSV sheet template for Bulk Student import">
+                  📄 Download CSV (.csv)
+                </a>
+                <a href="javascript:void(0)" onclick="insertSampleStudentData()" style="color:#2563eb;text-decoration:none;font-weight:600;font-size:11.5px">📋 Paste Sample</a>
+              </div>
             </label>
             <textarea name="import_student_text" id="importStudentTextArea" rows="6" placeholder="Rahul Sharma, SW101, NEET&#10;Priya Patel, SW102, TSPSC Groups&#10;Suresh Kumar, POL-01, Telangana Police" style="width:100%;padding:10px;font-size:12.5px;font-family:monospace;border:1px solid #cbd5e1;border-radius:6px;resize:vertical"></textarea>
             <div style="font-size:12px;color:#64748b;margin-top:4px;line-height:1.5">

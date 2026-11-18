@@ -109,7 +109,8 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:#1565D8;box-sh
     <a href="index.html" target="_blank" style="color:#fdba74;text-decoration:none;font-weight:700;margin-right:16px" title="Visit Company Homepage">🏢 Main Website</a>
     <a href="candidate_portal.html" target="_blank" style="color:#fff;text-decoration:none;font-weight:600;margin-right:16px">Candidate Portal</a>
     <a href="javascript:void(0)" onclick="openChangePasswordModal()" style="color:#fde047;text-decoration:none;font-weight:700;margin-right:16px">🔑 Change Password</a>
-    <a href="sample_questions.csv" download style="color:#93c5fd;text-decoration:none;font-weight:700;margin-right:16px">Download Sample CSV</a>
+    <a href="sample_students_template.xlsx" download="sample_students_template.xlsx" onclick="downloadStudentsSampleExcel();return false;" style="color:#86efac;text-decoration:none;font-weight:700;margin-right:16px" title="Download Excel template for Bulk Student import">👥 Students Bulk Sheet (.xlsx)</a>
+    <a href="sample_questions.xlsx" download="sample_questions.xlsx" style="color:#93c5fd;text-decoration:none;font-weight:700;margin-right:16px" title="Download Excel template for Question Paper import">📝 Questions Bulk Sheet (.xlsx)</a>
     <a href="javascript:void(0)" onclick="adminLogout()" style="color:#fecaca;text-decoration:none;font-weight:700">Sign Out</a>
   </div>
 </header>
@@ -219,8 +220,14 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:#1565D8;box-sh
             </div>
           </div>
           <div style="margin:8px 0">
-            <label style="font-size:12px;font-weight:600">Upload Question Paper File (PDF / CSV / TXT):</label>
-            <input type="file" id="ceFileInput" accept=".pdf,.csv,.txt" onchange="handleCeFilePick(this)" style="font-size:12px;padding:6px;border:1px dashed #cbd5e1;border-radius:6px;width:100%;background:#f8fafc">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:4px">
+              <label style="font-size:12px;font-weight:600;margin:0">Upload Question Paper File (PDF / Excel / CSV / TXT):</label>
+              <div style="display:flex;gap:8px;font-size:11.5px">
+                <a href="sample_questions.xlsx" download="sample_questions.xlsx" style="color:#15803d;font-weight:700;text-decoration:none">📊 Sample Excel (.xlsx)</a>
+                <a href="sample_questions.csv" download="sample_questions.csv" style="color:#0284c7;font-weight:700;text-decoration:none">📄 Sample CSV</a>
+              </div>
+            </div>
+            <input type="file" id="ceFileInput" accept=".pdf,.csv,.txt,.xlsx,.xls" onchange="handleCeFilePick(this)" style="font-size:12px;padding:6px;border:1px dashed #cbd5e1;border-radius:6px;width:100%;background:#f8fafc">
             <div id="ceFileStatus" style="display:none;margin-top:4px;font-size:12px;font-weight:700"></div>
             <div id="ceExtractedImagesBar" style="display:none;margin-top:6px;gap:8px;flex-wrap:wrap;padding:8px;background:#f0f9ff;border:1px solid #bae6fd;border-radius:6px"></div>
           </div>
@@ -233,14 +240,20 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:#1565D8;box-sh
       <!-- 2. IMPORT QUESTIONS INTO EXISTING ASSESSMENT -->
       <div class="card" id="uploadFileCard">
         <h4 style="margin-top:0;color:#7c3aed">2. Import Questions into Existing Assessment</h4>
-        <p style="font-size:12px;color:#64748b;margin-bottom:12px">Upload PDF question paper (with automatic diagram extraction), CSV, or TXT.</p>
+        <p style="font-size:12px;color:#64748b;margin-bottom:12px">Upload PDF question paper (with automatic diagram extraction), Excel (.xlsx), CSV, or TXT.</p>
         <form onsubmit="handleImportQuestionsDirect(event)">
           <label style="font-size:12px;font-weight:600">Select Target Assessment</label>
           <select id="importTargetExamSelect" required>
             <!-- Populated dynamically -->
           </select>
-          <label style="font-size:12px;font-weight:600">Select Question File (PDF, CSV, or TXT)</label>
-          <input type="file" id="importQuestionsFileInput" accept=".pdf,.csv,.txt" onchange="handleQuestionFilePick(this)" style="font-size:12px;padding:6px;border:1px dashed #cbd5e1;border-radius:6px;width:100%;background:#f8fafc">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin:6px 0 4px">
+            <label style="font-size:12px;font-weight:600;margin:0">Select Question File (PDF, Excel, CSV, or TXT)</label>
+            <div style="display:flex;gap:8px;font-size:11.5px">
+              <a href="sample_questions.xlsx" download="sample_questions.xlsx" style="color:#15803d;font-weight:700;text-decoration:none">📊 Sample Excel (.xlsx)</a>
+              <a href="sample_questions.csv" download="sample_questions.csv" style="color:#0284c7;font-weight:700;text-decoration:none">📄 Sample CSV</a>
+            </div>
+          </div>
+          <input type="file" id="importQuestionsFileInput" accept=".pdf,.csv,.txt,.xlsx,.xls" onchange="handleQuestionFilePick(this)" style="font-size:12px;padding:6px;border:1px dashed #cbd5e1;border-radius:6px;width:100%;background:#f8fafc">
           <div id="importFileStatus" style="display:none;margin-top:4px;font-size:12px;font-weight:700"></div>
           <div id="importExtractedImagesBar" style="display:none;margin-top:6px;gap:8px;flex-wrap:wrap;padding:8px;background:#f5f3ff;border:1px solid #ddd6fe;border-radius:6px"></div>
           <label style="font-size:12px;font-weight:600;margin-top:6px">Or Paste Questions (CSV / Pipe-Separated or Numbered):</label>
@@ -462,18 +475,26 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:#1565D8;box-sh
         <form onsubmit="handleBulkImportStudents(event)">
           <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:16px">
             <div>
-              <label style="font-size:12px;font-weight:700;color:#1e293b;display:flex;justify-content:space-between;margin-bottom:4px">
+              <label style="font-size:12px;font-weight:700;color:#1e293b;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;flex-wrap:wrap;gap:8px">
                 <span>Paste Student Names, Roll Numbers &amp; Course *</span>
-                <a href="javascript:void(0)" onclick="insertSampleStudentData()" style="color:#2563eb;text-decoration:none;font-weight:600">📋 Paste Sample Format</a>
+                <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+                  <a href="sample_students_template.xlsx" download="sample_students_template.xlsx" onclick="downloadStudentsSampleExcel();return false;" style="display:inline-flex;align-items:center;gap:4px;color:#15803d;background:#dcfce7;border:1px solid #86efac;padding:3px 8px;border-radius:4px;text-decoration:none;font-weight:700;font-size:11.5px" title="Download Excel (.xlsx) sheet template for Bulk Student import">
+                    📊 Download Bulk Excel Sheet (.xlsx)
+                  </a>
+                  <a href="sample_students_template.csv" download="sample_students_template.csv" onclick="downloadStudentsSampleCSV();return false;" style="display:inline-flex;align-items:center;gap:4px;color:#0284c7;background:#e0f2fe;border:1px solid #7dd3fc;padding:3px 8px;border-radius:4px;text-decoration:none;font-weight:700;font-size:11.5px" title="Download CSV sheet template for Bulk Student import">
+                    📄 Download CSV (.csv)
+                  </a>
+                  <a href="javascript:void(0)" onclick="insertSampleStudentData()" style="color:#2563eb;text-decoration:none;font-weight:600;font-size:11.5px">📋 Paste Sample</a>
+                </div>
               </label>
               <textarea id="importStudentTextArea" rows="6" placeholder="Rahul Sharma, SW101, NEET&#10;Priya Patel, SW102, TSPSC Groups&#10;Suresh Kumar, POL-01, Telangana Police" style="width:100%;padding:10px;font-size:12.5px;font-family:monospace;border:1px solid #cbd5e1;border-radius:6px;resize:vertical"></textarea>
               <div style="font-size:12px;color:#64748b;margin-top:4px;line-height:1.5">
-                Format: <code>Student Name, Roll Number, Course Name</code> (or tab-separated copied from Excel). Random passwords will be securely generated!
+                Format: <code>Student Name, Roll Number, Course Name</code> (or copy rows from Excel). Random passwords will be securely generated!
               </div>
             </div>
             <div>
-              <label style="font-size:12px;font-weight:700;color:#1e293b;display:block;margin-bottom:4px">Or Upload CSV / Text File</label>
-              <input type="file" id="importStudentFileInput" accept=".csv, .txt" onchange="handleStudentFilePick(this)" style="font-size:12px;padding:8px;border:1px dashed #cbd5e1;border-radius:6px;width:100%;background:#fff">
+              <label style="font-size:12px;font-weight:700;color:#1e293b;display:block;margin-bottom:4px">Or Upload Excel / CSV / Text File</label>
+              <input type="file" id="importStudentFileInput" accept=".xlsx,.xls,.csv,.txt" onchange="handleStudentFilePick(this)" style="font-size:12px;padding:8px;border:1px dashed #cbd5e1;border-radius:6px;width:100%;background:#fff">
               
               <div style="margin-top:10px">
                 <label style="font-size:12px;font-weight:700;color:#64748b;display:block;margin-bottom:3px">Default Course (if not in row)</label>
@@ -753,9 +774,14 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:#1565D8;box-sh
     </div>
     <form onsubmit="handleImportQuestionsFromModal(event)">
       <input type="hidden" id="modalExamId">
-      <p style="font-size:12px;color:#64748b;margin-bottom:10px">Upload a PDF question paper (diagrams &amp; images auto-extracted), CSV, or TXT file.</p>
-      <label style="font-size:12px;font-weight:600">Select Question File (PDF / CSV / TXT):</label>
-      <input type="file" id="modalFileInput" accept=".pdf,.csv,.txt" onchange="handleModalFilePick(this)" style="font-size:12px;padding:6px;border:1px dashed #cbd5e1;border-radius:6px;width:100%;background:#f8fafc">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:6px">
+        <label style="font-size:12px;font-weight:600;margin:0">Select Question File (PDF / Excel / CSV / TXT):</label>
+        <div style="display:flex;gap:8px;font-size:11.5px">
+          <a href="sample_questions.xlsx" download="sample_questions.xlsx" style="color:#15803d;font-weight:700;text-decoration:none">📊 Sample Excel (.xlsx)</a>
+          <a href="sample_questions.csv" download="sample_questions.csv" style="color:#0284c7;font-weight:700;text-decoration:none">📄 Sample CSV</a>
+        </div>
+      </div>
+      <input type="file" id="modalFileInput" accept=".pdf,.csv,.txt,.xlsx,.xls" onchange="handleModalFilePick(this)" style="font-size:12px;padding:6px;border:1px dashed #cbd5e1;border-radius:6px;width:100%;background:#f8fafc">
       <div id="modalFileStatus" style="display:none;margin:4px 0;font-size:12px;font-weight:700"></div>
       <div id="modalExtractedImagesBar" style="display:none;margin:6px 0;padding:8px;background:#f5f3ff;border:1px solid #ddd6fe;border-radius:6px"></div>
       <label style="font-size:12px;font-weight:600;margin-top:6px">Or Paste Questions (Pipe-separated or Numbered):</label>
@@ -976,7 +1002,8 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:#1565D8;box-sh
   </div>
 </div>
 
-<!-- ==================== JAVASCRIPT ENGINE, PDF.JS & SUPABASE CLOUD ==================== -->
+<!-- ==================== JAVASCRIPT ENGINE, PDF.JS, SHEETJS & SUPABASE CLOUD ==================== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
   if (window.pdfjsLib) {
@@ -1848,6 +1875,106 @@ function parseQuestionsFromTextAndImages(text, extractedImages = []) {
     }
   }
 
+  // 1b. Check if CSV-separated (like sample_questions.csv or Excel CSV)
+  function parseCsvRow(rowStr) {
+    const res = [];
+    let current = '';
+    let inQuotes = false;
+    for (let c = 0; c < rowStr.length; c++) {
+      const ch = rowStr[c];
+      if (ch === '"' || ch === "'") {
+        if (inQuotes && c + 1 < rowStr.length && rowStr[c + 1] === ch) {
+          current += ch;
+          c++;
+        } else {
+          inQuotes = !inQuotes;
+        }
+      } else if (ch === ',' && !inQuotes) {
+        res.push(current.trim());
+        current = '';
+      } else {
+        current += ch;
+      }
+    }
+    res.push(current.trim());
+    return res;
+  }
+
+  let csvValidCount = 0;
+  const sampleLines = lines.slice(0, 10);
+  for (let l of sampleLines) {
+    if (parseCsvRow(l).length >= 5) csvValidCount++;
+  }
+  if (csvValidCount >= 1 && pipeCount < 2) {
+    const csvQs = [];
+    let csvNum = 1;
+    for (let r = 0; r < lines.length; r++) {
+      const line = lines[r].trim();
+      if (!line) continue;
+      const cols = parseCsvRow(line);
+      if (cols.length < 5) continue;
+
+      const firstLower = (cols[0] || '').toLowerCase();
+      if (r === 0 && (firstLower.includes('question') || firstLower === 'q' || firstLower === 'sr' || firstLower === 'no' || firstLower === 's.no' || firstLower === 'question_number')) {
+        continue;
+      }
+
+      let qText = '';
+      let optA = '', optB = '', optC = '', optD = '';
+      let ansRaw = 0;
+      let marks = 1.0;
+      let exp = '';
+
+      if (cols.length >= 7 && (!isNaN(parseInt(cols[0])) && cols[0].length < 6)) {
+        qText = cols[1];
+        optA = cols[2] || '';
+        optB = cols[3] || '';
+        optC = cols[4] || '';
+        optD = cols[5] || '';
+        ansRaw = cols[6] || 0;
+        marks = parseFloat(cols[7]) || 1.0;
+        exp = cols[8] || '';
+      } else {
+        qText = cols[0];
+        optA = cols[1] || '';
+        optB = cols[2] || '';
+        optC = cols[3] || '';
+        optD = cols[4] || '';
+        ansRaw = cols[5] || 0;
+        marks = parseFloat(cols[6]) || 1.0;
+        exp = cols[7] || '';
+      }
+
+      if (!qText) continue;
+
+      let ansIndex = 0;
+      if (typeof ansRaw === 'string') {
+        const up = ansRaw.trim().toUpperCase();
+        if (up === 'A' || up === '1') ansIndex = 0;
+        else if (up === 'B' || up === '2') ansIndex = 1;
+        else if (up === 'C' || up === '3') ansIndex = 2;
+        else if (up === 'D' || up === '4') ansIndex = 3;
+        else if (!isNaN(parseInt(up))) ansIndex = Math.max(0, parseInt(up));
+      } else if (typeof ansRaw === 'number') {
+        ansIndex = Math.max(0, ansRaw);
+      }
+
+      csvQs.push({
+        num: csvNum++,
+        q: qText,
+        opts: [optA, optB, optC, optD].filter(Boolean),
+        ans: ansIndex,
+        marks,
+        explanation: exp
+      });
+    }
+
+    if (csvQs.length > 0) {
+      attachImagesToQuestions(csvQs, extractedImages);
+      return csvQs;
+    }
+  }
+
   const questions = [];
   let currentQ = null;
   let qCounter = 1;
@@ -2099,6 +2226,22 @@ async function handleCeFilePick(input) {
       statusEl.style.color = '#15803d';
       statusEl.innerText = `✓ Extracted ${res.questions.length} question(s) & ${res.images.length} diagram(s) from '${file.name}'.`;
       renderExtractedImagesPreview(res.images, barEl, res.questions, 'ce');
+    } else if (ext === 'xlsx' || ext === 'xls') {
+      if (typeof XLSX !== 'undefined') {
+        const buffer = await file.arrayBuffer();
+        const wb = XLSX.read(new Uint8Array(buffer), {type: 'array'});
+        const sheet = wb.Sheets[wb.SheetNames[0]];
+        const csvText = XLSX.utils.sheet_to_csv(sheet);
+        const qs = parseQuestionsFromTextAndImages(csvText, []);
+        window.tempCeQuestions = qs;
+        window.tempCeImages = [];
+        document.getElementById('ceQuestionsText').value = formatQuestionsAsPipeText(qs);
+        statusEl.style.color = '#15803d';
+        statusEl.innerText = `✓ Extracted ${qs.length} question(s) from Excel file '${file.name}'.`;
+        renderExtractedImagesPreview([], barEl, qs, 'ce');
+      } else {
+        throw new Error('Excel parser library loading. Please export as CSV or try again in a few moments.');
+      }
     } else {
       const text = await file.text();
       const qs = parseQuestionsFromTextAndImages(text, []);
@@ -2179,6 +2322,24 @@ async function handleQuestionFilePick(input){
         statusEl.innerText = `✓ Extracted ${res.questions.length} question(s) & ${res.images.length} diagram(s) from '${file.name}'.`;
       }
       renderExtractedImagesPreview(res.images, barEl, res.questions, 'import');
+    } else if (ext === 'xlsx' || ext === 'xls') {
+      if (typeof XLSX !== 'undefined') {
+        const buffer = await file.arrayBuffer();
+        const wb = XLSX.read(new Uint8Array(buffer), {type: 'array'});
+        const sheet = wb.Sheets[wb.SheetNames[0]];
+        const csvText = XLSX.utils.sheet_to_csv(sheet);
+        const qs = parseQuestionsFromTextAndImages(csvText, []);
+        window.tempImportQuestions = qs;
+        window.tempImportImages = [];
+        document.getElementById('importQuestionsTextArea').value = formatQuestionsAsPipeText(qs);
+        if (statusEl) {
+          statusEl.style.color = '#15803d';
+          statusEl.innerText = `✓ Extracted ${qs.length} question(s) from Excel file '${file.name}'.`;
+        }
+        renderExtractedImagesPreview([], barEl, qs, 'import');
+      } else {
+        throw new Error('Excel parser library loading. Please export as CSV or try again in a few moments.');
+      }
     } else {
       const text = await file.text();
       const qs = parseQuestionsFromTextAndImages(text, []);
@@ -2276,6 +2437,24 @@ async function handleModalFilePick(input){
         statusEl.innerText = `✓ Extracted ${res.questions.length} question(s) & ${res.images.length} diagram(s) from '${file.name}'.`;
       }
       renderExtractedImagesPreview(res.images, barEl, res.questions, 'modal');
+    } else if (ext === 'xlsx' || ext === 'xls') {
+      if (typeof XLSX !== 'undefined') {
+        const buffer = await file.arrayBuffer();
+        const wb = XLSX.read(new Uint8Array(buffer), {type: 'array'});
+        const sheet = wb.Sheets[wb.SheetNames[0]];
+        const csvText = XLSX.utils.sheet_to_csv(sheet);
+        const qs = parseQuestionsFromTextAndImages(csvText, []);
+        window.tempModalQuestions = qs;
+        window.tempModalImages = [];
+        document.getElementById('modalQuestionsText').value = formatQuestionsAsPipeText(qs);
+        if (statusEl) {
+          statusEl.style.color = '#15803d';
+          statusEl.innerText = `✓ Extracted ${qs.length} question(s) from Excel file '${file.name}'.`;
+        }
+        renderExtractedImagesPreview([], barEl, qs, 'modal');
+      } else {
+        throw new Error('Excel parser library loading. Please export as CSV or try again in a few moments.');
+      }
     } else {
       const text = await file.text();
       const qs = parseQuestionsFromTextAndImages(text, []);
@@ -2897,13 +3076,82 @@ function insertSampleStudentData(){
              "Anil Varma, CS-501, Computer Science";
 }
 
+function downloadStudentsSampleCSV(){
+  const csv = "Student Name,Roll Number,Course Name,Password\r\n" +
+              "Rahul Sharma,SW101,NEET,Pass@123\r\n" +
+              "Priya Patel,SW102,TSPSC Groups,Pass@456\r\n" +
+              "Suresh Kumar,POL-01,Telangana Police,Police@789\r\n" +
+              "Kavita Reddy,SW103,NEET,Neet@2026\r\n" +
+              "Anil Varma,CS-501,Computer Science,Varma#321\r\n" +
+              "Deepa Nair,SW104,TSPSC Groups,Deepa!654\r\n" +
+              "Mohammed Faizan,POL-02,Telangana Police,Faiz*987\r\n" +
+              "Sneha Kulkarni,CS-502,Computer Science,Sneha&111\r\n";
+  const blob = new Blob(["\uFEFF" + csv], {type: 'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'sample_students_template.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+function downloadStudentsSampleExcel(){
+  if(typeof XLSX !== 'undefined'){
+    const data = [
+      ["Student Name", "Roll Number", "Course Name", "Password"],
+      ["Rahul Sharma", "SW101", "NEET", "Pass@123"],
+      ["Priya Patel", "SW102", "TSPSC Groups", "Pass@456"],
+      ["Suresh Kumar", "POL-01", "Telangana Police", "Police@789"],
+      ["Kavita Reddy", "SW103", "NEET", "Neet@2026"],
+      ["Anil Varma", "CS-501", "Computer Science", "Varma#321"],
+      ["Deepa Nair", "SW104", "TSPSC Groups", "Deepa!654"],
+      ["Mohammed Faizan", "POL-02", "Telangana Police", "Faiz*987"],
+      ["Sneha Kulkarni", "CS-502", "Computer Science", "Sneha&111"]
+    ];
+    const ws = XLSX.utils.aoa_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Students");
+    XLSX.writeFile(wb, "sample_students_template.xlsx");
+  } else {
+    const a = document.createElement('a');
+    a.href = 'sample_students_template.xlsx';
+    a.download = 'sample_students_template.xlsx';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+}
+
 function handleStudentFilePick(input){
   if(input.files && input.files[0]){
-    const reader = new FileReader();
-    reader.onload = function(e){
-      document.getElementById('importStudentTextArea').value = e.target.result;
-    };
-    reader.readAsText(input.files[0]);
+    const file = input.files[0];
+    const ext = file.name.split('.').pop().toLowerCase();
+    if(ext === 'xlsx' || ext === 'xls'){
+      if(typeof XLSX !== 'undefined'){
+        const reader = new FileReader();
+        reader.onload = function(e){
+          try {
+            const data = new Uint8Array(e.target.result);
+            const workbook = XLSX.read(data, {type: 'array'});
+            const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+            const csv = XLSX.utils.sheet_to_csv(firstSheet);
+            document.getElementById('importStudentTextArea').value = csv;
+          } catch(err){
+            alert('Error parsing Excel file: ' + err.message);
+          }
+        };
+        reader.readAsArrayBuffer(file);
+      } else {
+        alert('Excel parser library loading... Please save file as CSV and upload or try again.');
+      }
+    } else {
+      const reader = new FileReader();
+      reader.onload = function(e){
+        document.getElementById('importStudentTextArea').value = e.target.result;
+      };
+      reader.readAsText(file);
+    }
   }
 }
 
@@ -2918,12 +3166,16 @@ function handleBulkImportStudents(e){
   lines.forEach(line => {
     line = line.trim();
     if(!line) return;
-    const parts = line.split(/[,\t]/).map(s => s.trim());
+    const parts = line.split(/[,\t]/).map(s => s.trim().replace(/^["']|["']$/g, ''));
     if(parts.length >= 1){
       const name = parts[0];
+      const firstLower = name.toLowerCase();
+      // Skip header row if present
+      if(firstLower === 'name' || firstLower === 'student name' || firstLower === 'candidate name') return;
+
       const roll = parts[1] || ('SW' + Math.floor(100 + Math.random() * 900));
       const c = parts[2] || defCourse || 'All Assessments';
-      const pass = Math.random().toString(36).slice(-6).toUpperCase();
+      const pass = parts[3] || Math.random().toString(36).slice(-6).toUpperCase();
 
       const newP = {
         id: 'cand_' + Date.now() + Math.random().toString(36).substr(2, 4),
